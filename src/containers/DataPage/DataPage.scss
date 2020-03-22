@@ -1,0 +1,9 @@
+.data-page {
+  margin-top: 10vh;
+  &__filters {
+    height: 10vh;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+}
