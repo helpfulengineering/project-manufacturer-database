@@ -3,7 +3,6 @@ import { MenuItem, InputLabel, Select, FormControl } from "@material-ui/core";
 import "./Filter.scss";
 
 const Filter = ({ label, activeFilter, handler, listOfValues }) => {
-  console.log("activeFilter", activeFilter);
   return (
     <FormControl className="filter">
       <InputLabel>{label}</InputLabel>
@@ -14,7 +13,7 @@ const Filter = ({ label, activeFilter, handler, listOfValues }) => {
         label="Equipment"
       >
         {listOfValues.map(item => (
-          <MenuItem value={item.value}>{item.label}</MenuItem>
+          <MenuItem value={`${label}-${item.value}`} key={item.value}>{item.label}</MenuItem>
         ))}
       </Select>
     </FormControl>

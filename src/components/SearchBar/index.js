@@ -2,8 +2,7 @@ import React from "react";
 import {
   Input,
   InputAdornment,
-  FormControl,
-  InputLabel
+  FormControl
 } from "@material-ui/core";
 import "./SearchBar.scss";
 import SearchIcon from "@material-ui/icons/Search";
