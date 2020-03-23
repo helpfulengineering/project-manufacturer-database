@@ -39,7 +39,7 @@ const DataTable = ({ rows }) => {
           </TableHead>
           <TableBody>
             {rows.map(row => (
-              <TableRow key={`${row.name}-${row.brand}`}>
+              <TableRow key={`${row.name}-${row.brand}-${row.model}`}>
                 <TableCell align="left">{row.name}</TableCell>
                 <TableCell align="left">{row.equipment}</TableCell>
                 <TableCell align="left">{row.brand}</TableCell>

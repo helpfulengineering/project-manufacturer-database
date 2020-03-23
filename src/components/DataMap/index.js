@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, TileLayer, Marker } from 'react-leaflet';
+import {Map, TileLayer, Marker, CircleMarker} from 'react-leaflet';
 
 import DataTable from '../DataTable';
 import './DataMap.scss';
@@ -23,7 +23,7 @@ class DataMap extends Component {
           />
 
           { this.props.rows && this.props.rows.filter(i => i.hasLocation).map(row =>
-              <Marker position={[row.lat, row.lng]} key={row.name}/>
+              <CircleMarker center={[row.lat, row.lng]} radius={2} key={row.name}/>
           )}
         </Map>
       </div>
