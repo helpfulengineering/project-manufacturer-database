@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
+import { Paper, Container } from "@material-ui/core";
+
 import DataTable from "../../components/DataTable";
 import SearchBar from "../../components/SearchBar";
-import { Paper, Container } from "@material-ui/core";
 import "./DataPage.scss";
 import Filter from "../../components/Filter";
+import getData from "../../data/sources/sheet";
 
 const getEquipmentFilterValues = () => {
   const equipmentList = [
@@ -13,26 +15,43 @@ const getEquipmentFilterValues = () => {
   return equipmentList;
 };
 
-function createData(name, equipment, brand, model, city) {
-  return { name, equipment, brand, model, city };
-}
+/**
+ * Convert hierarchical domain based data to flat format usable in table view.
+ * @param dbData
+ */
+const flattenModel = (dbData) => {
+  const flat = [];
+
+  for (const entity of dbData) {
+    const site = entity.sites[0]; // TODO loop
+    const equipment = site.equipments[0]; // TODO loop
+    flat.push({
+      name: entity.name,
+      equipment: '3D printer',
+      brand: equipment.brand,
+      model: equipment.model,
+      city: site.city,
+    });
+  }
+
+  return flat
+};
 
 const requestData = () => {
-  const rows = [
-    createData("Tom", "3D printer", "Prusa", "Mk3s", "London"),
-    createData("Brad", "3D printer", "Prusa", "Mk3s", "London"),
-    createData("Jake", "3D printer", "Prusa", "Mk3s", "London"),
-    createData("Sun", "3D printer", "Prusa", "Mk3s", "London"),
-    createData("Stefanie", "3D printer", "Prusa", "Mk3s", "London"),
-    createData("April", "3D printer", "Prusa", "Mk3s", "London")
-  ];
-  return rows;
+  return getData().then(domainData => {
+    return flattenModel(domainData);
+  });
 };
 
 const DataPage = () => {
   const equipmentFilterValues = getEquipmentFilterValues();
-  const rowsData = requestData();
+  const [rowsData, setRowsData] = useState([]);
   const [type, setEquipmentType] = useState(equipmentFilterValues[0]);
+
+  useEffect(() => {
+    // component mounted
+    requestData().then(data => setRowsData(data));
+  }, []);
 
   function handleSearch(ev) {
     console.log('search: ', ev.target.value);
