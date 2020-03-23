@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import PropTypes from 'prop-types';
 import {
   TableContainer,
   Table,
@@ -60,6 +61,16 @@ const DataTable = ({ rows }) => {
       />
     </>
   );
+};
+
+DataTable.propTypes = {
+  rows: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string,
+    equi: PropTypes.string,
+    bran: PropTypes.string,
+    mode: PropTypes.string,
+    city: PropTypes.string,
+  }))
 };
 
 export default DataTable;

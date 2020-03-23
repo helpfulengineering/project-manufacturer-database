@@ -9,7 +9,9 @@ import csvPath from '../../local/local_copy-of-3dprinter-small-subset.csv';
  * @returns {Promise<unknown>}
  */
 const getData = async () => {
-  // fetch data
+  //
+  // fetch and parse
+  //
   const parseResult = await new Promise((resolve, reject) => {
     Papa.parse(csvPath, {
       download: true,
@@ -20,12 +22,13 @@ const getData = async () => {
   });
   // TODO error handling
 
+  //
   // transform
-
+  //
   const { data: sheetData } = parseResult;
 
-  const header = sheetData[0];
-  console.log('header: ', header);
+  // const header = sheetData[0];
+  // console.log('header: ', header);
 
   const data = [];
 

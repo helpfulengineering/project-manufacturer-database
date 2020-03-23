@@ -1,11 +1,16 @@
 import React, {useEffect, useState} from "react";
 import { Paper, Container } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 
 import DataTable from "../../components/DataTable";
-import SearchBar from "../../components/SearchBar";
-import "./DataPage.scss";
+import DataMap from "../../components/DataMap";
 import Filter from "../../components/Filter";
+import SearchBar from "../../components/SearchBar";
 import getData from "../../data/sources/sheet";
+import "./DataPage.scss";
+
+const VIEW_TABLE = 'TABLE';
+const VIEW_MAP = 'MAP';
 
 const getEquipmentFilterValues = () => {
   const equipmentList = [
@@ -27,10 +32,13 @@ const flattenModel = (dbData) => {
     const equipment = site.equipments[0]; // TODO loop
     flat.push({
       name: entity.name,
-      equipment: '3D printer',
+      equipment: '3D-printer', // TODO dynamic
       brand: equipment.brand,
       model: equipment.model,
       city: site.city,
+      hasLocation: site.lat && site.lng,
+      lat: site.lat,
+      lng: site.lng,
     });
   }
 
@@ -46,6 +54,7 @@ const requestData = () => {
 const DataPage = () => {
   const equipmentFilterValues = getEquipmentFilterValues();
   const [rowsData, setRowsData] = useState([]);
+  const [view, setView] = useState(VIEW_TABLE);
   const [type, setEquipmentType] = useState(equipmentFilterValues[0]);
 
   useEffect(() => {
@@ -63,6 +72,10 @@ const DataPage = () => {
     );
     console.log('equipment filter change: ', item);
     setEquipmentType(item);
+  }
+
+  function switchView() {
+    setView(view === VIEW_TABLE ? VIEW_MAP : VIEW_TABLE);
   }
 
   return (
@@ -88,8 +101,17 @@ const DataPage = () => {
           listOfValues={equipmentFilterValues}
         />
       </div>
-      <div className="data-page__table">
-        <DataTable rows={rowsData} />
+      <Button onClick={switchView} variant="contained" color="secondary">{view === VIEW_TABLE ? 'Show map' : 'Show table'}</Button>
+
+      <div className="data-page__content">
+        { view === VIEW_TABLE &&
+          <div className="data-page__table">
+            <DataTable rows={rowsData} />
+          </div>
+        }
+        { view === VIEW_MAP &&
+          <DataMap rows={rowsData} />
+        }
       </div>
     </Container>
   );
