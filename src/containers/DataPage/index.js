@@ -6,7 +6,7 @@ import DataTable from "../../components/DataTable";
 import DataMap from "../../components/DataMap";
 import Filter from "../../components/Filter";
 import SearchBar from "../../components/SearchBar";
-import getData from "../../data/sources/sheet";
+import getData from "../../data/data";
 import "./DataPage.scss";
 
 const VIEW_TABLE = 'TABLE';
@@ -24,15 +24,15 @@ const getEquipmentFilterValues = () => {
  * Convert hierarchical domain based data to flat format usable in table view.
  * @param dbData
  */
-const flattenModel = (dbData) => {
+const flattenModel = (domainData) => {
   const flat = [];
 
-  for (const entity of dbData) {
+  for (const entity of domainData) {
     const site = entity.sites[0]; // TODO loop
     const equipment = site.equipments[0]; // TODO loop
     flat.push({
       name: entity.name,
-      equipment: '3D-printer', // TODO dynamic
+      equipment: entity.entity_type,
       brand: equipment.brand,
       model: equipment.model,
       city: site.city,

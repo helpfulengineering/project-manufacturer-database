@@ -2,11 +2,10 @@ import Papa from 'papaparse';
 import PropTypes from 'prop-types';
 
 import { EntityPT } from '../domain';
-import csvPath from '../../local/local_copy-of-3dprinter-small-subset.csv';
+import csvPath from '../../local/local_copy-of-3dprinter-small-subset.csv'; // CSV export of google sheet with same name
 
 /**
  * Fetch data and transforms to format used in app
- * @returns {Promise<unknown>}
  */
 const getData = async () => {
   //
@@ -52,6 +51,7 @@ const getData = async () => {
     const entity = {
       name: rowData[2],
       sites: [site],
+      entity_type: '3D-printer',
     };
 
     PropTypes.checkPropTypes(EntityPT, entity);

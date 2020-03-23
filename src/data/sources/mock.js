@@ -1,8 +1,23 @@
-function createData(name, equipment, brand, model, city) {
-  return { name, equipment, brand, model, city };
+function createData(name, equipment_type, brand, model, city) {
+  const equipment = {
+    brand,
+    model,
+    quantity: 1,
+  };
+
+  const site = {
+    equipments: [equipment],
+    city: city
+  };
+
+  return {
+    name,
+    sites: [site],
+    entity_type: equipment_type
+  };
 }
 
-const requestData = () => {
+const getData = async () => {
   const rows = [
     createData("Tom", "3D printer", "Prusa", "Mk3s", "London"),
     createData("Brad", "3D printer", "Prusa", "Mk3s", "London"),
@@ -13,3 +28,5 @@ const requestData = () => {
   ];
   return rows;
 };
+
+export default getData;
