@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "googleapis": "^39.2.0"
+    "google-spreadsheet": "^3.0.10",
+    "googleapis": "^39.2.0",
+    "loglevel": "^1.6.7"
   }
 }

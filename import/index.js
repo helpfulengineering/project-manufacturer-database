@@ -1,94 +1,72 @@
-const fs = require('fs');
-const readline = require('readline');
-const {google} = require('googleapis');
+const { GoogleSpreadsheet } = require('google-spreadsheet');
+const  fs = require('fs');
+const log = require('loglevel');
 
-// If modifying these scopes, delete token.json.
-const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
-// The file token.json stores the user's access and refresh tokens, and is
-// created automatically when the authorization flow completes for the first
-// time.
-const TOKEN_PATH = 'local/token.json';
+const {Copy3DPrinterCrowdsourcingCovid19} = require("./local/sheets");
 
-// Load client secrets from a local file.
-const CREDENTIALS_PATH = 'local/credentials.json';
+const API_KEY_PATH = 'local/api_key';
+const apiKey = fs.readFileSync(API_KEY_PATH, "utf8");
 
-fs.readFile(CREDENTIALS_PATH, (err, content) => {
-  if (err) return console.log('Error loading client secret file:', err);
-  // Authorize a client with credentials, then call the Google Sheets API.
-  authorize(JSON.parse(content), listMajors);
-});
+const spreadsheetId = Copy3DPrinterCrowdsourcingCovid19.spreadsheetId;
+const sheetId = Copy3DPrinterCrowdsourcingCovid19.sheetId;
 
-/**
- * Create an OAuth2 client with the given credentials, and then execute the
- * given callback function.
- * @param {Object} credentials The authorization client credentials.
- * @param {function} callback The callback to call with the authorized client.
- */
-function authorize(credentials, callback) {
-  const {client_secret, client_id, redirect_uris} = credentials.installed;
-  const oAuth2Client = new google.auth.OAuth2(
-    client_id, client_secret, redirect_uris[0]);
+log.setLevel(log.levels.TRACE);
 
-  // Check if we have previously stored a token.
-  fs.readFile(TOKEN_PATH, (err, token) => {
-    if (err) return getNewToken(oAuth2Client, callback);
-    oAuth2Client.setCredentials(JSON.parse(token));
-    callback(oAuth2Client);
-  });
-}
+const uploadData = (entities) => {
+  log.info(`uploading ${entities.length} entities to DB`);
+};
 
-/**
- * Get and store new token after prompting for user authorization, and then
- * execute the given callback with the authorized OAuth2 client.
- * @param {google.auth.OAuth2} oAuth2Client The OAuth2 client to get token for.
- * @param {getEventsCallback} callback The callback for the authorized client.
- */
-function getNewToken(oAuth2Client, callback) {
-  const authUrl = oAuth2Client.generateAuthUrl({
-    access_type: 'offline',
-    scope: SCOPES,
-  });
-  console.log('Authorize this app by visiting this url:', authUrl);
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-  rl.question('Enter the code from that page here: ', (code) => {
-    rl.close();
-    oAuth2Client.getToken(code, (err, token) => {
-      if (err) return console.error('Error while trying to retrieve access token', err);
-      oAuth2Client.setCredentials(token);
-      // Store the token to disk for later program executions
-      fs.writeFile(TOKEN_PATH, JSON.stringify(token), (err) => {
-        if (err) return console.error(err);
-        console.log('Token stored to', TOKEN_PATH);
-      });
-      callback(oAuth2Client);
-    });
-  });
-}
+const parseRow = (row) => {
+  const equipment = {
+    model: row['What.type.of.3D.printer.do.you.have.'],
+    quantity: 1,
+  };
 
-/**
- * Prints the names and majors of students in a sample spreadsheet:
- * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
- * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
- */
-function listMajors(auth) {
-  const sheets = google.sheets({version: 'v4', auth});
-  sheets.spreadsheets.values.get({
-    spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
-    range: 'Class Data!A2:E',
-  }, (err, res) => {
-    if (err) return console.log('The API returned an error: ' + err);
-    const rows = res.data.values;
-    if (rows.length) {
-      console.log('Name, Major:');
-      // Print columns A and E, which correspond to indices 0 and 4.
-      rows.map((row) => {
-        console.log(`${row[0]}, ${row[4]}`);
-      });
-    } else {
-      console.log('No data found.');
-    }
-  });
-}
+  const site = {
+    equipments: [equipment],
+    city: row['City'],
+    country: row['Country'],
+    lat: parseFloat(row['Latitude']),
+    lng: parseFloat(row['Longitude']),
+  };
+
+  const entity = {
+    name: row['Name'],
+    sites: [site],
+    experience: row['What.type.of.3D.printing.experience.do.you.have.'],
+  };
+
+  return entity;
+};
+
+const loadRows = async (sheet, limit=1, offset=0) => {
+  const rows = await sheet.getRows({ limit, offset }); // can pass in { limit, offset }
+
+  const entities = [];
+  for (let i=0; i< rows.length; ++i) {
+    const row = rows[i];
+    log.debug(`loading row ${i}`);
+    const entity = parseRow(row);
+    entities.push(entity);
+  }
+
+  uploadData(entities);
+};
+
+const doImport = async () => {
+  // spreadsheet key is the long id in the sheets URL
+  const doc = new GoogleSpreadsheet(spreadsheetId);
+
+  doc.useApiKey(apiKey);
+
+  await doc.loadInfo(); // loads document properties and worksheets
+  log.info(`document title: ${doc.title}`);
+
+  const sheet = doc.sheetsById[sheetId];
+  log.info(`sheet: ${sheet.title}`);
+  log.info(`rows: ${sheet.rowCount}`);
+
+  await loadRows(sheet,1, 0);
+};
+
+doImport();
