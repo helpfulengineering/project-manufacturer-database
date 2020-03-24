@@ -6,11 +6,16 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "type": "module",
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "apollo-cache-inmemory": "^1.6.5",
+    "apollo-client": "^2.6.8",
+    "apollo-link-http": "^1.5.16",
     "google-spreadsheet": "^3.0.10",
     "googleapis": "^39.2.0",
+    "graphql": "^14.6.0",
     "loglevel": "^1.6.7"
   }
 }

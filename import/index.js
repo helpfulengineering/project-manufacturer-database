@@ -1,8 +1,10 @@
-const { GoogleSpreadsheet } = require('google-spreadsheet');
-const  fs = require('fs');
-const log = require('loglevel');
-
-const {Copy3DPrinterCrowdsourcingCovid19} = require("./local/sheets");
+import google from "google-spreadsheet";
+import log  from "loglevel";
+import fs from 'fs';
+import {createClient, uploadData} from "./uplink/client.js";
+import {Copy3DPrinterCrowdsourcingCovid19} from "./local/sheets.js";
+import {GRAPHQL_URI} from "./local/local_config.js";
+const GoogleSpreadsheet = google.GoogleSpreadsheet;
 
 const API_KEY_PATH = 'local/api_key';
 const apiKey = fs.readFileSync(API_KEY_PATH, "utf8");
@@ -12,9 +14,7 @@ const sheetId = Copy3DPrinterCrowdsourcingCovid19.sheetId;
 
 log.setLevel(log.levels.TRACE);
 
-const uploadData = (entities) => {
-  log.info(`uploading ${entities.length} entities to DB`);
-};
+const client = createClient(GRAPHQL_URI);
 
 const parseRow = (row) => {
   const equipment = {
