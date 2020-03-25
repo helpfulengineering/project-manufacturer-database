@@ -16,7 +16,8 @@ const loadRows = async (sheet, rowParser, limit=1, offset=0) => {
   return entities;
 };
 
-export const loadSheet = async ({apiKey, spreadsheetId, sheetId, rowParser, limit}) => {
+export const loadDocument = async ({apiKey, documentConfig, limit}) => {
+  const {spreadsheetId, sheetId, rowParser} = documentConfig;
   const doc = new GoogleSpreadsheet(spreadsheetId); // spreadsheet key is the long id in the sheets URL
   doc.useApiKey(apiKey);
 

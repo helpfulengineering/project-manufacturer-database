@@ -1,9 +1,15 @@
-import {parseRowType1} from "../parsers.js";
+import {parseRowCrowdSourceDoc, parseRowFabEquipDoc} from "../parsers.js";
 
 export const GRAPHQL_URI = 'graphql-endpoint';
 
-export const Copy3DPrinterCrowdsourcingCovid19 = {
+export const Copy3DPrinterCrowdCovidDoc = {
   spreadsheetId: 'spreadsheetid',
   sheetId: 'sheetid',
-  rowParser: parseRowType1,
+  rowParser: parseRowCrowdSourceDoc,
+};
+
+export const FabricationEquipmentDoc = {
+  spreadsheetId: 'spreadsheetid',
+  sheetId: 'sheetid',
+  rowParser: parseRowFabEquipDoc,
 };
