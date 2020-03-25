@@ -9,12 +9,6 @@ import gql from 'graphql-tag';
 import fetch from 'node-fetch'
 import {InsertQuery} from "./queries.js";
 
-const cache = new inmemory.InMemoryCache();
-const link = new alink.HttpLink({
-  uri: 'http://localhost:4000/',
-  fetch
-});
-
 export const createClient = (uri) => {
   const client = new ApolloClient({
     link: createHttpLink({
@@ -28,30 +22,31 @@ export const createClient = (uri) => {
 };
 
 export const uploadData = async (client, entities) => {
-  log.info(`uploading ${entities.length} entities to DB`);
+  const total = entities.length;
+  log.info(`uploading ${total} entities to DB`);
 
   for (const [i, entity] of entities.entries()) {
-    log.debug(`uploading: ${i}`);
+    log.debug(`uploading: ${i}/${total}`);
     const site = entity.sites[0]; // TODO loop
     const equipment = site.equipments[0]; // TODO loop
     const contact = entity.contacts[0];
     await client
-    .mutate({
-      mutation: gql`${InsertQuery}`,
-      variables: {
-        name: entity.name,
-        certifications: '',
-        experience: entity.experience,
-        email: contact.email,
-        country: site.country,
-        city: site.city,
-        lat: site.lat,
-        lng: site.lng,
-        model: equipment.model,
-        brand: "",
-        quantity: equipment.quantity
-      }
-    })
-    .then(result => console.log(result));
+      .mutate({
+        mutation: gql`${InsertQuery}`,
+        variables: {
+          name: entity.name,
+          certifications: '',
+          experience: entity.experience,
+          email: contact.email,
+          country: site.country,
+          city: site.city,
+          lat: site.lat,
+          lng: site.lng,
+          model: equipment.model,
+          brand: "",
+          quantity: equipment.quantity
+        }
+      })
+    .then(result => log.debug(`upload success ${i}`));
   }
 };

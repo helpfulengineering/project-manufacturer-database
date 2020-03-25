@@ -7,8 +7,8 @@ mutation testInsertMutation(
     $phone: String,
     $country: String!,
     $city: String!,
-    $lat: numeric!,
-    $lng: numeric!,
+    $lat: numeric,
+    $lng: numeric,
     $brand: String,
     $model: String!,
     $quantity: Int
