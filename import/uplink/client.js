@@ -34,6 +34,7 @@ export const uploadData = async (client, entities) => {
     log.debug(`uploading: ${i}`);
     const site = entity.sites[0]; // TODO loop
     const equipment = site.equipments[0]; // TODO loop
+    const contact = entity.contacts[0];
     await client
     .mutate({
       mutation: gql`${InsertQuery}`,
@@ -41,6 +42,7 @@ export const uploadData = async (client, entities) => {
         name: entity.name,
         certifications: '',
         experience: entity.experience,
+        email: contact.email,
         country: site.country,
         city: site.city,
         lat: site.lat,

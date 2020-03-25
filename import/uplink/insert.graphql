@@ -2,6 +2,9 @@ mutation testInsertMutation(
     $name: String!,
     $certifications:String!,
     $experience:String!,
+    $email: String,
+    $slack: String,
+    $phone: String,
     $country: String!,
     $city: String!,
     $lat: numeric!,
@@ -31,6 +34,15 @@ mutation testInsertMutation(
                                 }
                             ]
                         }
+                    }
+                ]
+            },
+            contacts: {
+                data: [
+                    {
+                        phone: $phone,
+                        slack_handle: $slack,
+                        email: $email
                     }
                 ]
             }

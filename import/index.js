@@ -30,9 +30,16 @@ const parseRow = (row) => {
     lng: parseFloat(row['Longitude']),
   };
 
+  const contact = {
+    phone: undefined,
+    slack: undefined,
+    email: row['Email.Address..This.is.public..'],
+  };
+
   const entity = {
     name: row['Name'],
     sites: [site],
+    contacts: [contact],
     experience: row['What.type.of.3D.printing.experience.do.you.have.'],
   };
 
@@ -69,4 +76,4 @@ const doImport = async (limit=1) => {
   await loadRows(sheet, limit, 0);
 };
 
-doImport(100);
+doImport(500);
