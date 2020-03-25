@@ -50,10 +50,10 @@ const loadRows = async (sheet, limit=1, offset=0) => {
     entities.push(entity);
   }
 
-  uploadData(entities);
+  uploadData(client, entities);
 };
 
-const doImport = async () => {
+const doImport = async (limit=1) => {
   // spreadsheet key is the long id in the sheets URL
   const doc = new GoogleSpreadsheet(spreadsheetId);
 
@@ -66,7 +66,7 @@ const doImport = async () => {
   log.info(`sheet: ${sheet.title}`);
   log.info(`rows: ${sheet.rowCount}`);
 
-  await loadRows(sheet,1, 0);
+  await loadRows(sheet, limit, 0);
 };
 
-doImport();
+doImport(100);

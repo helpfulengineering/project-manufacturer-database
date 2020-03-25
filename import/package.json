@@ -16,6 +16,8 @@
     "google-spreadsheet": "^3.0.10",
     "googleapis": "^39.2.0",
     "graphql": "^14.6.0",
+    "graphql-import-node": "0.0.4",
+    "graphql-tag": "^2.10.3",
     "loglevel": "^1.6.7"
   }
 }
