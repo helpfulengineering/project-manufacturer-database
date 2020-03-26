@@ -14,6 +14,6 @@ const doImport = async (documentConfig, limit) => {
   uploadData(client, entities);
 };
 
-doImport(Copy3DPrinterCrowdCovidDoc, 1);
+doImport(Copy3DPrinterCrowdCovidDoc, 5000);
 
-// doImport(FabricationEquipmentDoc, 500);
+doImport(FabricationEquipmentDoc, 1);
