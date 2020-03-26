@@ -11,10 +11,10 @@ import {useQuery} from "urql";
 import DataTable from "../../components/DataTable";
 import DataMap from "../../components/DataMap";
 import SearchBar from "../../components/SearchBar";
-import "./DataPage.scss";
 import {API_KEY} from '../../config';
 import {debounce} from 'debounce';
 import * as queries from "../../data/queries";
+import "./DataPage.scss";
 
 /**
  * Convert hierarchical domain based data to flat format usable in table view.
@@ -102,42 +102,44 @@ const DataPage = () => {
   }
 
   return (
-    <Container maxWidth="lg" className="data-page" component={Paper}>
-      <div className="data-page__filters">
-        <SearchBar
-          onSearch={handleSearch}
-          searchResults={searchResults}
-          coords={searchCoords}
-          setCoords={setSearchCoords}
-          distance={searchDistance}
-          setDistance={setSearchDistance}
-        />
-      </div>
+    <Container maxWidth="lg" className="data-page">
+      <Paper className="data-page__container">
+        <div className="data-page__filters">
+          <SearchBar
+            onSearch={handleSearch}
+            searchResults={searchResults}
+            coords={searchCoords}
+            setCoords={setSearchCoords}
+            distance={searchDistance}
+            setDistance={setSearchDistance}
+          />
+        </div>
 
-      <Tabs
-        value={tabIdx}
-        indicatorColor="primary"
-        textColor="primary"
-        onChange={(e, value) => setTabIdx(value)}
-        aria-label="Search results view tabs"
-        centered
-      >
-        <Tab icon={<TocIcon />} label="Table" />
-        <Tab icon={<MapIcon />} label="Map" />
-      </Tabs>
+        <Tabs
+          value={tabIdx}
+          indicatorColor="primary"
+          textColor="primary"
+          onChange={(e, value) => setTabIdx(value)}
+          aria-label="Search results view tabs"
+          centered
+        >
+          <Tab label={<><TocIcon fontSize="inherit" /><div className="custom-tab-label">Table</div></>} />
+          <Tab label={<><MapIcon fontSize="inherit" /><div className="custom-tab-label">Map</div></>} />
+        </Tabs>
 
-      <div className="data-page__content">
-        <TabPanel value={tabIdx} index={0}>
-          <div className="data-page__table">
-            {fetching && <div>Loading...</div>}
-            {!fetching && <DataTable rows={rowsData}/>}
-            {error && <div>{error}</div>}
-          </div>
-        </TabPanel>
-        <TabPanel value={tabIdx} index={1}>
-          <DataMap rows={rowsData}/>
-        </TabPanel>
-      </div>
+        <div className="data-page__content">
+          <TabPanel value={tabIdx} index={0}>
+            <div className="data-page__table">
+              {fetching && <div>Loading...</div>}
+              {!fetching && <DataTable rows={rowsData}/>}
+              {error && <div>{error}</div>}
+            </div>
+          </TabPanel>
+          <TabPanel value={tabIdx} index={1}>
+            <DataMap rows={rowsData}/>
+          </TabPanel>
+        </div>
+      </Paper>
     </Container>
   );
 };

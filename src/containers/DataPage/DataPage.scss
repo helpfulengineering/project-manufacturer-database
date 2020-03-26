@@ -1,5 +1,4 @@
 .data-page {
-  margin-top: 10vh;
   &__filters {
     height: 10vh;
     display: flex;
@@ -9,7 +8,21 @@
   &__content {
   }
 
+  // Tabs styling
   .MuiTabs-root {
     border-bottom: rgb(230, 224, 224) 1px solid;
+  }
+  .MuiTab-wrapper {
+    flex-direction: row;
+  }
+  .custom-tab-label {
+    padding-left: 0.5em;
+  }
+}
+
+@media (max-width: 600px) {
+  .MuiContainer-root {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
   }
 }
