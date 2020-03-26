@@ -25,6 +25,7 @@ const flattenModel = (domainData) => {
     const firstSite = entity.sites[0];
     const firstEquipment = firstSite.equipments[0];
     return {
+      entity_pk: entity.pk,
       name: entity.name,
       brand: firstEquipment.brand,
       model: firstEquipment.model,
