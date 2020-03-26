@@ -1,45 +1,20 @@
+import PropTypes from 'prop-types';
 import React, {useEffect, useState} from "react";
-import { Paper, Container } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import { useQuery } from "urql";
+import {Paper, Container} from "@material-ui/core";
+import MapIcon from '@material-ui/icons/Map';
+import TocIcon from '@material-ui/icons/Toc';
+import Tab from "@material-ui/core/Tab";
+import Tabs from "@material-ui/core/Tabs";
+import Typography from "@material-ui/core/Typography";
+import {useQuery} from "urql";
 
 import DataTable from "../../components/DataTable";
 import DataMap from "../../components/DataMap";
-import Filter from "../../components/Filter";
 import SearchBar from "../../components/SearchBar";
-// import getData from "../../data/data"; //mock data source
 import "./DataPage.scss";
-
-const VIEW_TABLE = 'TABLE';
-const VIEW_MAP = 'MAP';
-
-// limit 10 until we get pagination working
-const displayQuery = `
-  query {
-    Entity(limit: 10) {
-      name
-      sites {
-        equipments {
-          brand
-          model
-          quantity
-        }
-        city
-        lat
-        lng
-      }
-      experience
-    }
-  }
-`;
-
-const getEquipmentFilterValues = () => {
-  const equipmentList = [
-    { value: "3d-printer", label: "3D printer" },
-    { value: "cnc", label: "CNC" }
-  ];
-  return equipmentList;
-};
+import {API_KEY} from '../../config';
+import {debounce} from 'debounce';
+import * as queries from "../../data/queries";
 
 /**
  * Convert hierarchical domain based data to flat format usable in table view.
@@ -61,13 +36,52 @@ const flattenModel = (domainData) => {
   });
 };
 
+function TabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <Typography
+      component="div"
+      role="tabpanel"
+      hidden={value !== index}
+      {...other}
+    >
+      {value === index && <div>{children}</div>}
+    </Typography>
+  );
+}
+
+TabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.any.isRequired,
+  value: PropTypes.any.isRequired,
+};
+
 const DataPage = () => {
-  const equipmentFilterValues = getEquipmentFilterValues();
   const [rowsData, setRowsData] = useState([]);
-  const [view, setView] = useState(VIEW_TABLE);
-  const [type, setEquipmentType] = useState(equipmentFilterValues[0]);
-  const [{ data: queryResult, fetching, error }] = useQuery({
-    query: displayQuery,
+  const [searchCoords, setSearchCoords] = useState({lat: 0, lng: 0});
+  const [searchDistance, setSearchDistance] = useState(1000 * 1000 * 1000); // bigger than earth circumference, in kilometers
+  const [searchResults, setSearchResults] = useState([]);
+  const [tabIdx, setTabIdx] = React.useState(0);
+
+
+  // TODO: Vary query depending on inputs
+  // const [{data: queryResult, fetching, error}] = useQuery({
+  //   query: queries.displayQuery,
+  //   variables: {
+  //     limit: 10
+  //   }
+  // });
+  const [{data: queryResult, fetching, error}] = useQuery({
+    query: queries.displaySearchQuery,
+    variables: {
+      limit: 100,
+      distance: searchDistance, // in meters
+      point: {
+        type: "Point",
+        coordinates: [searchCoords.lng, searchCoords.lat]
+      }
+    }
   });
 
   useEffect(() => {
@@ -77,58 +91,52 @@ const DataPage = () => {
     }
   }, [queryResult]);
 
+  //TODO: I suggest moving autocomplete logic to SearchBar itself, only passing searchQuery to parent -Ruurd
+  const getLocation = debounce(makeRequest, 2000);
   function handleSearch(ev) {
-    console.log('search: ', ev.target.value);
+    getLocation(ev.target.value);
   }
-
-  function handleEquipmentFilterChange(ev) {
-    const item = equipmentFilterValues.find(
-      item => item.value === ev.target.value
-    );
-    console.log('equipment filter change: ', item);
-    setEquipmentType(item);
-  }
-
-  function switchView() {
-    setView(view === VIEW_TABLE ? VIEW_MAP : VIEW_TABLE);
+  function makeRequest(searchValue) {
+    fetch(`https://maps.googleapis.com/maps/api/geocode/json?component=${searchValue}=${API_KEY}`)
+      .then((response) => console.log(response) || setSearchResults(response.results))
   }
 
   return (
     <Container maxWidth="lg" className="data-page" component={Paper}>
       <div className="data-page__filters">
-        <SearchBar onSearch={handleSearch} />
-        <Filter
-          label={"equipment"}
-          activeFilter={type}
-          handler={handleEquipmentFilterChange}
-          listOfValues={equipmentFilterValues}
-        />
-        <Filter
-          label={"equipment"}
-          activeFilter={type}
-          handler={handleEquipmentFilterChange}
-          listOfValues={equipmentFilterValues}
-        />
-        <Filter
-          label={"equipment"}
-          activeFilter={type}
-          handler={handleEquipmentFilterChange}
-          listOfValues={equipmentFilterValues}
+        <SearchBar
+          onSearch={handleSearch}
+          searchResults={searchResults}
+          coords={searchCoords}
+          setCoords={setSearchCoords}
+          distance={searchDistance}
+          setDistance={setSearchDistance}
         />
       </div>
-      <Button onClick={switchView} variant="contained" color="secondary">{view === VIEW_TABLE ? 'Show map' : 'Show table'}</Button>
+
+      <Tabs
+        value={tabIdx}
+        indicatorColor="primary"
+        textColor="primary"
+        onChange={(e, value) => setTabIdx(value)}
+        aria-label="Search results view tabs"
+        centered
+      >
+        <Tab icon={<TocIcon />} label="Table" />
+        <Tab icon={<MapIcon />} label="Map" />
+      </Tabs>
 
       <div className="data-page__content">
-        { view === VIEW_TABLE &&
-        <div className="data-page__table">
-          {fetching && <div>Loading...</div>}
-          {!fetching && <DataTable rows={rowsData} />}
-          {error && <div>{error}</div>}
-        </div>
-        }
-        { view === VIEW_MAP &&
-          <DataMap rows={rowsData} />
-        }
+        <TabPanel value={tabIdx} index={0}>
+          <div className="data-page__table">
+            {fetching && <div>Loading...</div>}
+            {!fetching && <DataTable rows={rowsData}/>}
+            {error && <div>{error}</div>}
+          </div>
+        </TabPanel>
+        <TabPanel value={tabIdx} index={1}>
+          <DataMap rows={rowsData}/>
+        </TabPanel>
       </div>
     </Container>
   );

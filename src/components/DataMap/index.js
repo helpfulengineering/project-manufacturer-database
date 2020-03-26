@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Map, TileLayer, Marker, CircleMarker} from 'react-leaflet';
+import {Map, TileLayer, CircleMarker} from 'react-leaflet';
 
 import DataTable from '../DataTable';
 import './DataMap.scss';

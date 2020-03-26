@@ -3,9 +3,10 @@ import { createClient, Provider } from 'urql';
 
 import DataPage from "../DataPage";
 import "./App.scss";
+import {GRAPHQL_ENDPOINT} from "../../config";
 
 const client = createClient({
-  url: 'https://hasura-test-manufacturers-db.herokuapp.com/v1/graphql',
+  url: GRAPHQL_ENDPOINT,
 });
 
 function App() {

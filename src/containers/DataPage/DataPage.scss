@@ -7,6 +7,9 @@
     align-items: center;
   }
   &__content {
-    margin-top: 3em;
+  }
+
+  .MuiTabs-root {
+    border-bottom: rgb(230, 224, 224) 1px solid;
   }
 }
