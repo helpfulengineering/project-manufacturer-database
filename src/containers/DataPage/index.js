@@ -103,8 +103,14 @@ const DataPage = () => {
   }
 
   return (
-    <Container maxWidth="lg" className="data-page">
+    <Container maxWidth="xl" className="data-page">
       <Paper className="data-page__container">
+        <p>
+          Work in progress.
+        </p>
+        <p>
+          <b>not all data is imported yet!</b>
+        </p>
         <div className="data-page__filters">
           <SearchBar
             onSearch={handleSearch}
