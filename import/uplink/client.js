@@ -43,6 +43,10 @@ export const uploadData = async (client, entities) => {
           city: site.city,
           lat: site.lat,
           lng: site.lng,
+          location: {
+            type: "Point",
+            coordinates: [site.lng, site.lat]
+          },
           model: equipment.model,
           brand: "",
           quantity: equipment.quantity

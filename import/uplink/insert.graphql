@@ -10,6 +10,7 @@ mutation testInsertMutation(
     $city: String!,
     $lat: numeric,
     $lng: numeric,
+    $location: geography,
     $brand: String,
     $model: String!,
     $quantity: Int
@@ -27,6 +28,7 @@ mutation testInsertMutation(
                         city: $city,
                         lat: $lat,
                         lng: $lng,
+                        location: $location
                         equipments: {
                             data: [
                                 {

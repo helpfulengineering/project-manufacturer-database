@@ -16,4 +16,4 @@ const doImport = async (documentConfig, limit) => {
 
 doImport(Copy3DPrinterCrowdCovidDoc, 1);
 
-doImport(FabricationEquipmentDoc, 1);
+// doImport(FabricationEquipmentDoc, 500);
