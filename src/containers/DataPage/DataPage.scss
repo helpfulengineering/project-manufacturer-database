@@ -1,4 +1,6 @@
 .data-page {
+  margin-top: 1rem;
+
   &__filters {
     height: 10vh;
     display: flex;
@@ -21,6 +23,9 @@
 }
 
 @media (max-width: 600px) {
+  .data-page {
+    margin-top: 0.5rem;
+  }
   .MuiContainer-root {
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
