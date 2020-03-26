@@ -7,14 +7,17 @@ import {
   TableRow,
   TableHead,
   TableBody,
-  TablePagination
+  TablePagination,
+  Typography
 } from "@material-ui/core";
 
 import "./DataTable.scss";
 
+const NO_RESULTS_LABEL = 'No results match your search criteria.'
+
 const DataTable = ({ rows }) => {
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -24,6 +27,10 @@ const DataTable = ({ rows }) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
+
+  const getRows = (rows) => rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+
+  const rowsToDisplay = getRows(rows);
   return (
     <>
       <TableContainer className="table__container">
@@ -37,21 +44,27 @@ const DataTable = ({ rows }) => {
               <TableCell align="left">City</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {rows.map(row => (
-              <TableRow key={row.entity_pk}>
-                <TableCell align="left">{row.name}</TableCell>
-                <TableCell align="left">{row.equipment}</TableCell>
-                <TableCell align="left">{row.brand}</TableCell>
-                <TableCell align="left">{row.model}</TableCell>
-                <TableCell align="left">{row.city}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+          {rowsToDisplay.length > 0
+            ?
+            <TableBody>
+              {
+                rowsToDisplay.map(row => (
+                  <TableRow key={row.entity_pk}>
+                    <TableCell align="left">{row.name}</TableCell>
+                    <TableCell align="left">{row.equipment}</TableCell>
+                    <TableCell align="left">{row.brand}</TableCell>
+                    <TableCell align="left">{row.model}</TableCell>
+                    <TableCell align="left">{row.city}</TableCell>
+                  </TableRow>
+                ))
+              }
+            </TableBody>
+            :
+            <Typography variant='body1' className='table__message'> {NO_RESULTS_LABEL} </Typography>}
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPageOptions={[10, 15, 20]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}
