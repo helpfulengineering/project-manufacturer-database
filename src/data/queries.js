@@ -3,14 +3,16 @@
 export const displayQuery = `
   query ($limit: Int!) {
     Entity(limit: $limit) {
-      pk,
+      pk
       name
+      notes
       sites {
         equipments {
           brand
           model
           quantity
         }
+        country
         city
         lat
         lng
@@ -26,14 +28,16 @@ export const displaySearchQuery = `
       limit: $limit,
       where: {sites: {location: { _st_d_within: { distance: $distance, from: $point}}}}
     ) {
-      pk,
+      pk
       name
+      notes
       sites {
         equipments {
           brand
           model
           quantity
         }
+        country
         city
         lat
         lng
