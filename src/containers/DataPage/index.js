@@ -45,23 +45,20 @@ const getEquipmentFilterValues = () => {
  * Convert hierarchical domain based data to flat format usable in table view.
  * @param dbData
  */
-const flattenModel = (result) => {
-  if (result) {
-    return result.Entity.map((entity) => {
-      const firstSite = entity.sites[0];
-      const firstEquipment = firstSite.equipments[0];
-      return {
-        name: entity.name,
-        brand: firstEquipment.brand,
-        model: firstEquipment.model,
-        city: firstSite.city,
-        hasLocation: firstSite.lat && firstSite.lng,
-        lat: firstSite.lat,
-        lng: firstSite.lng,
-      };
-    });
-  }
-  return [];
+const flattenModel = (domainData) => {
+  return domainData.Entity.map((entity) => {
+    const firstSite = entity.sites[0];
+    const firstEquipment = firstSite.equipments[0];
+    return {
+      name: entity.name,
+      brand: firstEquipment.brand,
+      model: firstEquipment.model,
+      city: firstSite.city,
+      hasLocation: firstSite.lat && firstSite.lng,
+      lat: firstSite.lat,
+      lng: firstSite.lng,
+    };
+  });
 };
 
 const DataPage = () => {
@@ -69,14 +66,16 @@ const DataPage = () => {
   const [rowsData, setRowsData] = useState([]);
   const [view, setView] = useState(VIEW_TABLE);
   const [type, setEquipmentType] = useState(equipmentFilterValues[0]);
-  const [{ data, fetching, error }] = useQuery({
+  const [{ data: queryResult, fetching, error }] = useQuery({
     query: displayQuery,
   });
 
   useEffect(() => {
-    const flattenedData = flattenModel(data);
-    setRowsData(flattenedData);
-  }, [data]);
+    if (queryResult) {
+      const flattenedData = flattenModel(queryResult);
+      setRowsData(flattenedData);
+    }
+  }, [queryResult]);
 
   function handleSearch(ev) {
     console.log('search: ', ev.target.value);
@@ -121,11 +120,11 @@ const DataPage = () => {
 
       <div className="data-page__content">
         { view === VIEW_TABLE &&
-          <div className="data-page__table">
-            {fetching && <div>Loading...</div>}
-            {!fetching && <DataTable rows={rowsData} />}
-            {error && <div>{error}</div>}
-          </div>
+        <div className="data-page__table">
+          {fetching && <div>Loading...</div>}
+          {!fetching && <DataTable rows={rowsData} />}
+          {error && <div>{error}</div>}
+        </div>
         }
         { view === VIEW_MAP &&
           <DataMap rows={rowsData} />
