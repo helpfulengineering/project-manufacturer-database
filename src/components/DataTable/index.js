@@ -66,7 +66,14 @@ const DataTable = ({ rows }) => {
               }
             </TableBody>
             :
-            <Typography variant='body1' className='table__message'> {NO_RESULTS_LABEL} </Typography>}
+            <TableBody>
+              {
+                <TableRow>
+                  <TableCell align="center" colSpan="8">{NO_RESULTS_LABEL}</TableCell>
+                </TableRow>
+              }
+            </TableBody>
+        }
         </Table>
       </TableContainer>
       <TablePagination
