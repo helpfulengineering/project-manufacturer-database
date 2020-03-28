@@ -24,25 +24,24 @@ export const displayQuery = `
 
 export const displaySearchQuery = `
   query ($limit: Int!, $distance: Float!, $point: geography!) {
-    Entity(
+    SiteInfo(
       limit: $limit,
-      where: {sites: {location: { _st_d_within: { distance: $distance, from: $point}}}}
+      where: {location: { _st_d_within: { distance: $distance, from: $point}}}
     ) {
       pk
-      name
-      notes
-      sites {
-        equipments {
-          brand
-          model
-          quantity
-        }
-        country
-        city
-        lat
-        lng
+      city
+      country
+      lat
+      lng
+      entity {
+        name
+        notes
       }
-      experience
+      equipments {
+        brand
+        model
+        quantity
+      }
     }
   }
 `;

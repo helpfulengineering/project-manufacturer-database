@@ -7,38 +7,15 @@ import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
 import Typography from "@material-ui/core/Typography";
 import {useQuery} from "urql";
+import {debounce} from 'debounce';
 
 import DataTable from "../../components/DataTable";
 import DataMap from "../../components/DataMap";
 import SearchBar from "../../components/SearchBar";
 import {API_KEY} from '../../config';
-import {debounce} from 'debounce';
 import * as queries from "../../data/queries";
+import searchQueryDataDisplayAdapter from './searchQueryDataDisplayAdapter';
 import "./DataPage.scss";
-
-/**
- * Convert hierarchical domain based data to flat format usable in table view.
- * @param dbData
- */
-const flattenModel = (domainData) => {
-  return domainData.Entity.map((entity) => {
-    const firstSite = entity.sites[0];
-    const firstEquipment = firstSite.equipments[0];
-    return {
-      entity_pk: entity.pk,
-      name: entity.name,
-      notes: entity.notes,
-      country: firstSite.country,
-      city: firstSite.city,
-      hasLocation: firstSite.lat && firstSite.lng,
-      lat: firstSite.lat,
-      lng: firstSite.lng,
-      brand: firstEquipment.brand,
-      model: firstEquipment.model,
-      quantity: firstEquipment.quantity,
-    };
-  });
-};
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -68,7 +45,6 @@ const DataPage = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [tabIdx, setTabIdx] = React.useState(0);
 
-
   // TODO: Vary query depending on inputs
   // const [{data: queryResult, fetching, error}] = useQuery({
   //   query: queries.displayQuery,
@@ -90,8 +66,8 @@ const DataPage = () => {
 
   useEffect(() => {
     if (queryResult) {
-      const flattenedData = flattenModel(queryResult);
-      setRowsData(flattenedData);
+      const formattedRowsData = searchQueryDataDisplayAdapter(queryResult);
+      setRowsData(formattedRowsData);
     }
   }, [queryResult]);
 

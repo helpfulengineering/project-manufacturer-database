@@ -52,8 +52,7 @@ const DataTable = ({ rows }) => {
             <TableBody>
               {
                 rowsToDisplay.map(row => (
-                  <TableRow key={row.entity_pk}>
-
+                  <TableRow key={row.pk}>
                     <TableCell align="left">{row.name}</TableCell>
                     <TableCell align="left">{row.equipment}</TableCell>
                     <TableCell align="left">{row.brand}</TableCell>
@@ -85,11 +84,17 @@ const DataTable = ({ rows }) => {
 
 DataTable.propTypes = {
   rows: PropTypes.arrayOf(PropTypes.shape({
-    name: PropTypes.string,
-    equi: PropTypes.string,
-    bran: PropTypes.string,
-    mode: PropTypes.string,
+    pk: PropTypes.number.isRequired,
+    country: PropTypes.string,
     city: PropTypes.string,
+    hasLocation: PropTypes.bool,
+    lat: PropTypes.number,
+    lng: PropTypes.number,
+    name: PropTypes.string,
+    notes: PropTypes.string,
+    brand: PropTypes.string,
+    model: PropTypes.string,
+    quantity: PropTypes.number,
   }))
 };
 
