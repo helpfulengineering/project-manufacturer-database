@@ -1,7 +1,18 @@
 .search-bar {
-  padding-top: 2rem;
-  padding-bottom: 1rem;
-  width: 30%;
+  &__filters {
+    height: 15vh; // TODO: get rid of this fixed height
+    display: flex;
+    justify-content: space-around;
+    padding-top: 1rem;
+  }
+
+  &__gps-icon {
+    height: 2rem;
+    width: 2rem;
+    padding: 0;
+  }
+
   &__input {
+    display: flex;
   }
 }

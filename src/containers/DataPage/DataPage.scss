@@ -1,12 +1,6 @@
 .data-page {
   margin-top: 1rem;
 
-  &__filters {
-    height: 10vh;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
   &__content {
   }
 
@@ -30,4 +24,9 @@
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
   }
+}
+
+.map-button {
+  height: 36px;
+  margin-top: 12px;
 }

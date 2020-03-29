@@ -7,8 +7,7 @@ import {
   TableRow,
   TableHead,
   TableBody,
-  TablePagination,
-  Typography
+  TablePagination
 } from "@material-ui/core";
 
 import "./DataTable.scss";
