@@ -20,7 +20,7 @@ const breakUpString = (string, delimiter=';') => {
     const parts = string.split(delimiter);
     return (
       <>
-        {parts.map(part => <div>{part}</div>)}
+        {parts.map(part => <div key={part.substring(0, 8)}>{part}</div>)}
       </>
     );
   }

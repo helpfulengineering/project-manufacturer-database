@@ -13,13 +13,13 @@ import { API_KEY } from '../../config';
 import "./SearchBar.scss";
 import TextField from "@material-ui/core/TextField";
 
-const getEquipmentFilterValues = () => {
-  const equipmentList = [
-    { value: "3d-printer", label: "3D printer" },
-    { value: "cnc", label: "CNC" }
-  ];
-  return equipmentList;
-};
+// const getEquipmentFilterValues = () => {
+//   const equipmentList = [
+//     { value: "3d-printer", label: "3D printer" },
+//     { value: "cnc", label: "CNC" }
+//   ];
+//   return equipmentList;
+// };
 
 function makeReverseGeocodingRequest(lat, lng) {
   return fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_KEY}`)
@@ -27,7 +27,7 @@ function makeReverseGeocodingRequest(lat, lng) {
 }
 
 const SearchBar = ({ coords, setCoords, distance, setDistance }) => {
-  const equipmentFilterValues = getEquipmentFilterValues();
+  // const equipmentFilterValues = getEquipmentFilterValues();
   // const [type, setEquipmentType] = useState(equipmentFilterValues[0]); // Currently disabled because we can't filter on this yet in the database.
   const [address, setAddress] = useState();
   const [usingLocation, setUseLocation]  = useState(false)
