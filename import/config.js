@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import {parseRowCrowdSourceDoc, parseRowFabEquipDoc} from "./parsers.js";
+import exit_codes from "./exit_codes.js";
 
 if (process.env.NODE_ENV !== 'production') {
   //loads environment variables from a .env file into process.env
@@ -12,7 +13,7 @@ if (process.env.NODE_ENV !== 'production') {
 export const DOC_API_KEY = process.env.DOC_API_KEY;
 if (!DOC_API_KEY) {
   console.error('missing API key, set env variable "DOC_API_KEY"');
-  process.exit(1);
+  process.exit(exit_codes.MISSING_API_KEY);
 }
 
 export const Copy3DPrinterCrowdCovidDoc = {
