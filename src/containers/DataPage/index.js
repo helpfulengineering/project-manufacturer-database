@@ -70,12 +70,11 @@ const DataPage = () => {
   return (
     <div className="data-page">
       <SearchBar
+          coords={searchCoords}
           setCoords={setSearchCoords}
           distance={searchDistance}
           setDistance={setSearchDistance}
         />
-
-      <div>Using location: lat: {searchCoords.lat}, lng: {searchCoords.lng}</div>
 
       <Tabs
         value={tabIdx}

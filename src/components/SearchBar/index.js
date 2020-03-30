@@ -1,16 +1,17 @@
+import PropTypes from 'prop-types';
 import React, { useState } from "react";
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import { FormControl } from "@material-ui/core";
+import {FormControl, FormGroup} from "@material-ui/core";
 import { GoogleApiWrapper } from "google-maps-react";
 import IconButton from "@material-ui/core/IconButton";
 import GpsFixedIcon from "@material-ui/icons/GpsFixed";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
-import Filter from "../Filter";
 import AutocompleteField from '../AutocompleteField';
 import { API_KEY } from '../../config';
 import "./SearchBar.scss";
+import TextField from "@material-ui/core/TextField";
 
 const getEquipmentFilterValues = () => {
   const equipmentList = [
@@ -20,16 +21,17 @@ const getEquipmentFilterValues = () => {
   return equipmentList;
 };
 
-const SearchBar = ({ setCoords, distance, setDistance }) => {
-  const equipmentFilterValues = getEquipmentFilterValues();
-  const [type, setEquipmentType] = useState(equipmentFilterValues[0]);
-  const [address, setAddress] = useState();
-  const geolocationSupported = navigator && navigator.geolocation;
+function makeReverseGeocodingRequest(lat, lng) {
+  return fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_KEY}`)
+    .then(response => response.json());
+}
 
-  function makeReverseGeocodingRequest(lat, lng) {
-    return fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_KEY}`)
-      .then(response => response.json());
-  }
+const SearchBar = ({ coords, setCoords, distance, setDistance }) => {
+  const equipmentFilterValues = getEquipmentFilterValues();
+  // const [type, setEquipmentType] = useState(equipmentFilterValues[0]); // Currently disabled because we can't filter on this yet in the database.
+  const [address, setAddress] = useState();
+  const [usingLocation, setUseLocation]  = useState(false)
+  const geolocationSupported = navigator && navigator.geolocation;
 
   function useDeviceLocation() {
     navigator.geolocation.getCurrentPosition((position) => {
@@ -38,6 +40,7 @@ const SearchBar = ({ setCoords, distance, setDistance }) => {
         lat: latitude,
         lng: longitude,
       });
+      setUseLocation(true);
       makeReverseGeocodingRequest(latitude, longitude)
         .then(data => {
           if (data.results.length >= 0 && data.results[0]) {
@@ -55,12 +58,12 @@ const SearchBar = ({ setCoords, distance, setDistance }) => {
     setDistance(e.target.value);
   }
 
-  function handleEquipmentFilterChange(ev) {
-    const item = equipmentFilterValues.find(
-      item => item.value === ev.target.value
-    );
-    setEquipmentType(item);
-  }
+  // function handleEquipmentFilterChange(ev) {
+  //   const item = equipmentFilterValues.find(
+  //     item => item.value === ev.target.value
+  //   );
+  //   setEquipmentType(item);
+  // }
 
   function handleSelectAddress(address) {
     geocodeByAddress(address)
@@ -74,22 +77,25 @@ const SearchBar = ({ setCoords, distance, setDistance }) => {
         setCoords({ lat, lng });
       })
       .catch(error => console.error('Error', error));
-  };
+  }
 
   return (
-    <div className="search-bar__filters">
-      <div className="search-bar__input">
+    <form className="search-bar">
+      <FormGroup row>
         <AutocompleteField geoLocatedAddress={address} handleSelect={handleSelectAddress} />
         {geolocationSupported && (
+
           <IconButton
-            color="secondary" aria-label="use device location"
+            color={usingLocation ? 'secondary' : 'primary' }
+            aria-label="use device location"
+            title="use device location"
             onClick={useDeviceLocation}
             className="search-bar__gps-icon"
           >
             <GpsFixedIcon />
           </IconButton>
         )}
-      </div>
+      </FormGroup>
 
       <FormControl>
         <InputLabel id="range-input-label">Range</InputLabel>
@@ -110,15 +116,28 @@ const SearchBar = ({ setCoords, distance, setDistance }) => {
         </Select>
       </FormControl>
 
-      <Filter
-        label={"equipment"}
-        activeFilter={type}
-        handler={handleEquipmentFilterChange}
-        listOfValues={equipmentFilterValues}
-        disabled
-      />
-    </div>
+      <TextField label="Lat" value={coords.lat} disabled />
+      <TextField label="lng" value={coords.lng} disabled />
+
+      {/*<Filter*/}
+      {/*  label={"equipment"}*/}
+      {/*  activeFilter={type}*/}
+      {/*  handler={handleEquipmentFilterChange}*/}
+      {/*  listOfValues={equipmentFilterValues}*/}
+      {/*  disabled*/}
+      {/*/>*/}
+    </form>
   );
+};
+
+SearchBar.propTypes = {
+  coords: PropTypes.shape({
+    lat: PropTypes.number.isRequired,
+    lng: PropTypes.number.isRequired,
+  }),
+  // setCoords,
+  // distance,
+  // setDistance
 };
 
 const wrapper = GoogleApiWrapper(
