@@ -10,7 +10,11 @@ const loadRows = async (sheet, rowParser, limit=1, offset=0) => {
     const row = rows[i];
     log.debug(`loading row ${i}`);
     const entity = rowParser(row);
-    entities.push(entity);
+    if (entity) {
+      entities.push(entity);
+    } else {
+      console.info(`empty row in sheet at index: ${i}`);
+    }
   }
 
   return entities;

@@ -11,7 +11,6 @@ const client = createClient(GRAPHQL_URI);
 
 const doImport = async (documentConfig, limit) => {
   const entities = await loadDocument({apiKey: DOC_API_KEY, documentConfig, limit});
-
   await uploadData(client, entities);
 };
 
