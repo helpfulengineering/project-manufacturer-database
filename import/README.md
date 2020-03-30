@@ -8,13 +8,13 @@ Programming that moves data from google sheets into database through GraphQL API
 
 ### Config
 
-Set `local/api_key` to a google spreadsheet API key.
+Set environment variables, either directly or through `.env` file:
 
-Create a config file:
+```
+DOC_API_KEY=<GoogleDocApiKey>
+```
 
-    cp local/config_example.js local/config.js
-
-And fill in de `config.js` file.
+Note the `.env` file will not work in production (feature).
     
 ### Run
 
@@ -25,5 +25,7 @@ And fill in de `config.js` file.
 To get the graphql schema use:
 
 ```
-npnx apollo schema:download --endpoint https://my-graphql-engine.com/v1/graphql --header 'X-Hasura-Admin-Secret: adminsecretkey'
+npnx apollo schema:download --endpoint https://hasura-test-manufacturers-db.herokuapp.com/v1/graphql --header 'X-Hasura-Admin-Secret: adminsecretkey'
 ```
+
+Note, don't forget to fill in the `adminsecretkey`.

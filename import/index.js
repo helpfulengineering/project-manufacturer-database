@@ -1,7 +1,7 @@
 import log  from "loglevel";
 import {createClient, uploadData} from "./uplink/client.js";
-import {GRAPHQL_URI, Copy3DPrinterCrowdCovidDoc, FabricationEquipmentDoc} from "./local/config.js";
-import {DOC_API_KEY} from "./local/config.js";
+import {GRAPHQL_URI, Copy3DPrinterCrowdCovidDoc, FabricationEquipmentDoc} from "./config.js";
+import {DOC_API_KEY} from "./config.js";
 import {loadDocument} from "./spreadsheetLoader.js";
 
 log.setLevel(log.levels.TRACE);

@@ -111,3 +111,4 @@ dist
 credentials.json
 token.json
 api_key
+.env
