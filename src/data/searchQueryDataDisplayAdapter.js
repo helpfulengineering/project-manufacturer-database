@@ -1,3 +1,5 @@
+import map from 'lodash/map';
+
 /**
  * Convert hierarchical domain based data to flat format usable in table & map view.
  * @param dbData
@@ -15,8 +17,8 @@ export default (domainData) => {
       name: site.entity.name,
       experience: site.entity.experience,
       notes: site.entity.notes,
-      email: site.entity.contacts[0].email, // TODO: safeguard against no contact. TODO: deal with multiple contacts
-      slack_handle: site.entity.contacts[0].slack_handle, // TODO: safeguard against no contact. TODO: deal with multiple contacts
+      email: map(site.entity.contacts, (contact) => contact.email).join(', '),
+      slack_handle: map(site.entity.contacts, (contact) => contact.slack_handle).join(', '),
     };
     site.equipments.forEach((equipment) => {
       formattedData.push({
