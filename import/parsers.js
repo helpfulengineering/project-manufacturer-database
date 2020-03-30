@@ -41,8 +41,15 @@ export const parseRowFabEquipDoc = (row) => {
   // 'How much material do you have in stock?' e.g.: "Several spools, can order more", "4 spools PLA, 1 Spool PETG", "3 kg"
   // Used poorly at the moment: 'What type of equipment do you have access to?' e.g.: "3D Printer", "3D printer, Laser Cutter, CNC Router/Mill, Soldering equipment"
 
+  const slack_handle = row['What is your Slack Handle?'];
+  const typeEquipment = row['What type of equipment do you have access to?'];
+  if (!slack_handle && !typeEquipment) {
+    // empty row
+    return undefined;
+  }
+
   const equipment = {
-    model: row['What type of equipment do you have access to?'],
+    model: typeEquipment,
     quantity: row['What quantity of this equipment do you have access to?'],
   };
 
@@ -56,12 +63,12 @@ export const parseRowFabEquipDoc = (row) => {
 
   const contact = {
     phone: undefined,
-    slack: row['What is your Slack Handle?'],
+    slack: slack_handle,
     email: row['Email or Contact Info'],
   };
 
   const entity = {
-    name: row['What is your Slack Handle?'],
+    name: slack_handle,
     sites: [site],
     contacts: [contact],
     experience: `certification: ${row['What certification do you have?']}`, // field value examples: "none", "ISO9001"
