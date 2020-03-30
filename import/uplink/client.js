@@ -57,7 +57,7 @@ export const uploadData = async (client, entities) => {
     })
     .then(result => log.debug(`upload success ${i}`))
     .catch(error => {
-      log.error(`promise catch: problem uploading ${i}: ${error}`);
+      log.error(`promise catch: problem uploading ${i}, ${entity.name}: ${error}`);
       errorCount += 1;
       log.error('moving to next item');
     });
