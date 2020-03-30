@@ -14,6 +14,7 @@ export default (domainData) => {
       lng: site.lng,
       name: site.entity.name,
       notes: site.entity.notes,
+      email: site.entity.contacts[0].email, // TODO: safeguard against no contact. TODO: deal with multiple contacts
     };
     site.equipments.forEach((equipment) => {
       formattedData.push({

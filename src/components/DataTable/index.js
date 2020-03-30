@@ -43,6 +43,7 @@ const DataTable = ({ rows }) => {
               <TableCell align="left">Quantity</TableCell>
               <TableCell align="left">Country</TableCell>
               <TableCell align="left">City</TableCell>
+              <TableCell align="left">Email</TableCell>
               <TableCell align="left">Notes</TableCell>
             </TableRow>
           </TableHead>
@@ -59,6 +60,7 @@ const DataTable = ({ rows }) => {
                     <TableCell align="left">{row.quantity}</TableCell>
                     <TableCell align="left">{row.country}</TableCell>
                     <TableCell align="left">{row.city}</TableCell>
+                    <TableCell align="left">{row.email}</TableCell>
                     <TableCell align="left">{row.notes}</TableCell>
                   </TableRow>
                 ))

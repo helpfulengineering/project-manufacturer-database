@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import PropTypes from 'prop-types';
 
 import MapIcon from '@material-ui/icons/Map';
@@ -16,6 +16,8 @@ import searchQueryDataDisplayAdapter from './searchQueryDataDisplayAdapter';
 
 import "./DataPage.scss";
 import {useAuth0} from "../../auth/react-auth0-spa";
+import {RoleContext} from "../App";
+import {ROLES} from "../../config";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -44,9 +46,10 @@ const DataPage = () => {
   const [searchCoords, setSearchCoords] = useState({ lat: 0, lng: 0 });
   const [searchDistance, setSearchDistance] = useState(1000 * 1000 * 1000); // bigger than earth circumference, in kilometers
   const [tabIdx, setTabIdx] = React.useState(0);
+  const role = useContext(RoleContext);
 
   const [{data: queryResult, fetching, error: queryError}] = useQuery({
-    query: isAuthenticated ? queries.displayAuthSearchQuery : queries.displaySearchQuery,
+    query: isAuthenticated && role === ROLES.USER_MANAGER ? queries.displayAuthSearchQuery : queries.displaySearchQuery,
     variables: {
       limit: 100,
       distance: searchDistance, // in meters
