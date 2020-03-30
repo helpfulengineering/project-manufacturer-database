@@ -13,7 +13,7 @@ const loadRows = async (sheet, rowParser, limit=1, offset=0) => {
     if (entity) {
       entities.push(entity);
     } else {
-      console.info('empty row in sheet at index: ${i}');
+      console.info(`empty row in sheet at index: ${i}`);
     }
   }
 
