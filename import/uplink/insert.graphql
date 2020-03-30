@@ -1,0 +1,57 @@
+mutation testInsertMutation(
+    $name: String!,
+    $certifications: String!,
+    $experience: String!,
+    $notes: String,
+    $email: String,
+    $slack: String,
+    $phone: String,
+    $country: String!,
+    $city: String!,
+    $lat: numeric,
+    $lng: numeric,
+    $location: geography,
+    $brand: String,
+    $model: String!,
+    $quantity: Int
+) {
+    insert_Entity(objects: [
+        {
+            name: $name,
+            certifications: $certifications,
+            experience: $experience,
+            notes: $notes,
+            sites: {
+                data: [
+                    {
+                        country: $country,
+                        city: $city,
+                        lat: $lat,
+                        lng: $lng,
+                        location: $location
+                        equipments: {
+                            data: [
+                                {
+                                    model: $model,
+                                    brand: $brand,
+                                    quantity: $quantity
+                                }
+                            ]
+                        }
+                    }
+                ]
+            },
+            contacts: {
+                data: [
+                    {
+                        phone: $phone,
+                        slack_handle: $slack,
+                        email: $email
+                    }
+                ]
+            }
+        }
+    ]) {
+        affected_rows
+    }
+}

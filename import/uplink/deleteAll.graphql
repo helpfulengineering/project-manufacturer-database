@@ -1,0 +1,5 @@
+mutation DeleteEntities {
+    delete_Entity(where: {}) {
+        affected_rows
+    }
+}
