@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Modal from '../Modal';
 import DataTable from '../DataTable';
 import './DataMap.scss';
+import {ADDITIONAL_AUTHORIZATION_LABEL} from "../../labels";
 
 const MAP_CENTER = [30.0, 10.0];
 const MAP_ZOOM = 2;
@@ -47,13 +48,16 @@ function DataMap({rows, searchCoords}) {
         onClose={() => setIsDetailModalOpen(false)}>
           <div className="map-modal-contents">
             <div><strong>Name</strong>: {selectedMarker.name}</div>
-            <div><strong>Equipment</strong>: {selectedMarker.equipment}</div>
-            <div><strong>Brand</strong>: {selectedMarker.brand}</div>
+            {/*<div><strong>Equipment</strong>: {selectedMarker.equipment}</div>*/}
+            {/*<div><strong>Brand</strong>: {selectedMarker.brand}</div>*/}
             <div><strong>Model</strong>: {selectedMarker.model}</div>
             <div><strong>Quantity</strong>: {selectedMarker.quantity}</div>
-            <div><strong>Country</strong>: {selectedMarker.country}</div>
             <div><strong>City</strong>: {selectedMarker.city}</div>
+            <div><strong>Country</strong>: {selectedMarker.country}</div>
+            <div><strong>Experience</strong>: {selectedMarker.experience}</div>
             <div><strong>Notes</strong>: {selectedMarker.notes}</div>
+            <div title={ADDITIONAL_AUTHORIZATION_LABEL}><strong>Slack*</strong>: {selectedMarker.slack_handle}</div>
+            <div title={ADDITIONAL_AUTHORIZATION_LABEL}><strong>Email*</strong>: {selectedMarker.email}</div>
           </div>
           <Button variant="contained"
             color="primary"

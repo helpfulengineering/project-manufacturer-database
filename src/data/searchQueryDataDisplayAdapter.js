@@ -13,8 +13,10 @@ export default (domainData) => {
       lat: site.lat,
       lng: site.lng,
       name: site.entity.name,
+      experience: site.entity.experience,
       notes: site.entity.notes,
       email: site.entity.contacts[0].email, // TODO: safeguard against no contact. TODO: deal with multiple contacts
+      slack_handle: site.entity.contacts[0].slack_handle, // TODO: safeguard against no contact. TODO: deal with multiple contacts
     };
     site.equipments.forEach((equipment) => {
       formattedData.push({

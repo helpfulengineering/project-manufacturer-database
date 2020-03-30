@@ -12,12 +12,12 @@ import DataTable from "../../components/DataTable";
 import DataMap from "../../components/DataMap";
 import SearchBar from "../../components/SearchBar";
 import * as queries from "../../data/queries";
-import searchQueryDataDisplayAdapter from './searchQueryDataDisplayAdapter';
 
 import "./DataPage.scss";
 import {useAuth0} from "../../auth/react-auth0-spa";
 import {RoleContext} from "../App";
 import {ROLES} from "../../config";
+import searchQueryDataDisplayAdapter from "../../data/searchQueryDataDisplayAdapter";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;

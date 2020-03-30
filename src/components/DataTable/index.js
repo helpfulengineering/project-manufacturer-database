@@ -11,8 +11,21 @@ import {
 } from "@material-ui/core";
 
 import "./DataTable.scss";
+import {ADDITIONAL_AUTHORIZATION_LABEL} from "../../labels";
 
-const NO_RESULTS_LABEL = 'No results match your search criteria.'
+const NO_RESULTS_LABEL = 'No results match your search criteria.';
+
+const breakUpString = (string, delimiter=';') => {
+  if (string) {
+    const parts = string.split(delimiter);
+    return (
+      <>
+        {parts.map(part => <div>{part}</div>)}
+      </>
+    );
+  }
+  return '';
+}
 
 const DataTable = ({ rows }) => {
   const [page, setPage] = useState(0);
@@ -37,14 +50,16 @@ const DataTable = ({ rows }) => {
           <TableHead>
             <TableRow>
               <TableCell align="left">Name</TableCell>
-              <TableCell align="left">Equipment</TableCell>
-              <TableCell align="left">Brand</TableCell>
+              {/*<TableCell align="left">Equipment</TableCell>*/}
+              {/*<TableCell align="left">Brand</TableCell>*/}
               <TableCell align="left">Model</TableCell>
               <TableCell align="left">Quantity</TableCell>
-              <TableCell align="left">Country</TableCell>
               <TableCell align="left">City</TableCell>
-              <TableCell align="left">Email</TableCell>
+              <TableCell align="left">Country</TableCell>
+              <TableCell align="left">Experience</TableCell>
               <TableCell align="left">Notes</TableCell>
+              <TableCell align="left" title={ADDITIONAL_AUTHORIZATION_LABEL}>Slack*</TableCell>
+              <TableCell align="left" title={ADDITIONAL_AUTHORIZATION_LABEL}>Email*</TableCell>
             </TableRow>
           </TableHead>
           {rowsToDisplay.length > 0
@@ -54,14 +69,16 @@ const DataTable = ({ rows }) => {
                 rowsToDisplay.map(row => (
                   <TableRow key={row.pk}>
                     <TableCell align="left">{row.name}</TableCell>
-                    <TableCell align="left">{row.equipment}</TableCell>
-                    <TableCell align="left">{row.brand}</TableCell>
+                    {/*<TableCell align="left">{row.equipment}</TableCell>*/}
+                    {/*<TableCell align="left">{row.brand}</TableCell>*/}
                     <TableCell align="left">{row.model}</TableCell>
                     <TableCell align="left">{row.quantity}</TableCell>
-                    <TableCell align="left">{row.country}</TableCell>
                     <TableCell align="left">{row.city}</TableCell>
+                    <TableCell align="left">{row.country}</TableCell>
+                    <TableCell align="left">{breakUpString(row.experience)}</TableCell>
+                    <TableCell align="left">{breakUpString(row.notes)}</TableCell>
+                    <TableCell align="left">{row.slack_handle}</TableCell>
                     <TableCell align="left">{row.email}</TableCell>
-                    <TableCell align="left">{row.notes}</TableCell>
                   </TableRow>
                 ))
               }
