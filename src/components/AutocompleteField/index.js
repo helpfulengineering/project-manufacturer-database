@@ -69,6 +69,7 @@ const AutocompleteField = ({ geoLocatedAddress, handleSelect }) => {
                     <SearchIcon />
                   </InputAdornment>
                 }
+                disabled={true}
               />
 
               <div className="autocomplete-dropdown-container">
