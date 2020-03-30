@@ -21,7 +21,7 @@ const NavBar = () => {
       { authLoading && <div>{AUTH_LOADING_LABEL}</div> }
 
       <div>
-        Work in progress. <b>not all data is imported yet!</b>
+        Work in progress.
       </div>
 
       <div>Is authenticated: {isAuthenticated ? `true with role: ${role}` : 'false'}</div>
