@@ -48,14 +48,16 @@ const AutocompleteField = ({ geoLocatedAddress, handleSelect }) => {
     }
   }
 
+  const debounceMs = 1000;
   return (
     <div className='field-container'>
-      <LightTooltip open={errors.length > 0} title={<div>{errors.map(message => <div>{formatError(message)}</div>)}</div>}>
+      <LightTooltip open={errors.length > 0} title={<div>{errors.map(message => <div key={message}>{formatError(message)}</div>)}</div>}>
         <PlacesAutocomplete
           value={address}
           onChange={handleChange}
           onSelect={handleSelect}
           onError={onError}
+          debounce={debounceMs}
         >
           {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
             <div>
@@ -69,14 +71,13 @@ const AutocompleteField = ({ geoLocatedAddress, handleSelect }) => {
                     <SearchIcon />
                   </InputAdornment>
                 }
-                disabled={true}
               />
 
               <div className="autocomplete-dropdown-container">
                 {loading && <div>Loading...</div>}
                 {suggestions.map(suggestion => {
                   return (
-                    <div {...getSuggestionItemProps(suggestion)}>
+                    <div {...getSuggestionItemProps(suggestion)} key={suggestion.description}>
                       <span>{suggestion.description}</span>
                     </div>
                   );

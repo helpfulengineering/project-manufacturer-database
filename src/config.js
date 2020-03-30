@@ -10,8 +10,14 @@ export const ROLES = {
   USER_MANAGER: 'user-manager',
 };
 
-// Add API KEY for Google Geocode and GeoLocation APIs
-export const API_KEY = '';
+// API KEY for Google Geocode and GeoLocation APIs
+// See README for development usage
+const devKey = window.localStorage && window.localStorage.getItem('HE_DB_SEARCH_DEV_API_KEY');
+if (devKey) {
+  console.log('Development API key found, using that for Google API calls');
+}
+// API key is for production use only.
+export const API_KEY = devKey || 'AIzaSyDnNSecPko3v4LyfYrIjJRxyPLQvRbrbzY'; // DO NOT CHANGE FOR DEVELOPMENT, use localstorage
 export const GRAPHQL_ENDPOINT = 'https://hasura-test-manufacturers-db.herokuapp.com/v1/graphql';
 
 export const PROJECT_SLACK_CHANNEL = '#project-manufacturer-database';
