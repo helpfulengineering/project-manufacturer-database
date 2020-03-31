@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import {
   TableContainer,
@@ -9,9 +9,13 @@ import {
   TableBody,
   TablePagination
 } from "@material-ui/core";
+import {
+  Alert,
+} from '@material-ui/lab';
 
 import "./DataTable.scss";
 import {ADDITIONAL_AUTHORIZATION_LABEL} from "../../labels";
+import {MAX_QUERY_SIZE} from "../../config";
 
 const NO_RESULTS_LABEL = 'No results match your search criteria.';
 
@@ -29,9 +33,18 @@ const breakUpString = (string, delimiter=';') => {
 
 const DataTable = ({ rows }) => {
   const [page, setPage] = useState(0);
+  const [isEndOfQuery, setIsEndOfQuery] = useState(false);
+  const [rowsToDisplay, setRowsToDisplay] = useState([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  const handleChangePage = (event, newPage) => {
+  useEffect(() => {
+    const start = page * rowsPerPage;
+    const end = page * rowsPerPage + rowsPerPage;
+    setIsEndOfQuery(end === MAX_QUERY_SIZE);
+    setRowsToDisplay(rows.slice(start, end));
+  }, [rows, rowsPerPage, page]);
+
+  const handleChangePage = (_, newPage) => {
     setPage(newPage);
   };
 
@@ -40,11 +53,10 @@ const DataTable = ({ rows }) => {
     setPage(0);
   };
 
-  const getRows = (rows) => rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-
-  const rowsToDisplay = getRows(rows);
   return (
     <>
+      {isEndOfQuery && 
+        <Alert severity="info">You have reached the maximum number of records we can show you; however, there is likely more data available.<br />Please refine your search criteria.</Alert>}
       <TableContainer className="table__container">
         <Table aria-label="data table" table-layout="auto">
           <TableHead>

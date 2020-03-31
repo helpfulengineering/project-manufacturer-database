@@ -1,11 +1,9 @@
 import React, {useContext, useEffect, useState} from "react";
-import PropTypes from 'prop-types';
 
 import MapIcon from '@material-ui/icons/Map';
 import TocIcon from '@material-ui/icons/Toc';
 import Tab from "@material-ui/core/Tab";
 import Tabs from "@material-ui/core/Tabs";
-import Typography from "@material-ui/core/Typography";
 import { useQuery } from "urql";
 
 import DataTable from "../../components/DataTable";
@@ -16,29 +14,12 @@ import * as queries from "../../data/queries";
 import "./DataPage.scss";
 import {useAuth0} from "../../auth/react-auth0-spa";
 import {RoleContext} from "../App";
-import {ROLES} from "../../config";
+import {
+  ROLES,
+  MAX_QUERY_SIZE
+} from "../../config";
 import searchQueryDataDisplayAdapter from "../../data/searchQueryDataDisplayAdapter";
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      {...other}
-    >
-      {value === index && <div>{children}</div>}
-    </Typography>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
+import TabPanel from './TabPanel';
 
 const DataPage = () => {
   const { isAuthenticated } = useAuth0();
@@ -49,9 +30,9 @@ const DataPage = () => {
   const role = useContext(RoleContext);
 
   const [{data: queryResult, fetching, error: queryError}] = useQuery({
-    query: isAuthenticated && role === ROLES.USER_MANAGER ? queries.displayAuthSearchQuery : queries.displaySearchQuery,
+    query: queries.displaySearchQuery(isAuthenticated && role === ROLES.USER_MANAGER),
     variables: {
-      limit: 100,
+      limit: MAX_QUERY_SIZE,
       distance: searchDistance, // in meters
       point: {
         type: "Point",
@@ -70,17 +51,17 @@ const DataPage = () => {
   return (
     <div className="data-page">
       <SearchBar
-          coords={searchCoords}
-          setCoords={setSearchCoords}
-          distance={searchDistance}
-          setDistance={setSearchDistance}
-        />
+        coords={searchCoords}
+        setCoords={setSearchCoords}
+        distance={searchDistance}
+        setDistance={setSearchDistance}
+      />
 
       <Tabs
         value={tabIdx}
         indicatorColor="primary"
         textColor="primary"
-        onChange={(e, value) => setTabIdx(value)}
+        onChange={(_, value) => setTabIdx(value)}
         aria-label="Search results view tabs"
         centered
       >

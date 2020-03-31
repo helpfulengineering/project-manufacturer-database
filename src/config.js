@@ -21,3 +21,6 @@ export const API_KEY = devKey || 'AIzaSyDnNSecPko3v4LyfYrIjJRxyPLQvRbrbzY'; // D
 export const GRAPHQL_ENDPOINT = 'https://hasura-test-manufacturers-db.herokuapp.com/v1/graphql';
 
 export const PROJECT_SLACK_CHANNEL = '#project-manufacturer-database';
+
+// Max number of records we will return to a user
+export const MAX_QUERY_SIZE = 100; 

@@ -1,4 +1,5 @@
 import map from 'lodash/map';
+import each from 'lodash/each';
 
 /**
  * Convert hierarchical domain based data to flat format usable in table & map view.
@@ -6,7 +7,7 @@ import map from 'lodash/map';
  */
 export default (domainData) => {
   const formattedData = [];
-  domainData.SiteInfo.forEach((site) => {
+  each(domainData.SiteInfo, (site) => {
     const entityAndSite = {
       pk: site.pk,
       country: site.country,
@@ -20,7 +21,7 @@ export default (domainData) => {
       email: map(site.entity.contacts, (contact) => contact.email).join(', '),
       slack_handle: map(site.entity.contacts, (contact) => contact.slack_handle).join(', '),
     };
-    site.equipments.forEach((equipment) => {
+    each(site.equipments, (equipment) => {
       formattedData.push({
         ...entityAndSite,
         brand: equipment.brand,
