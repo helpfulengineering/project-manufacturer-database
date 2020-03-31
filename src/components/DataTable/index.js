@@ -27,7 +27,7 @@ const breakUpString = (string, delimiter=';') => {
     );
   }
   return '';
-}
+};
 
 const DataTable = ({ rows }) => {
   const [page, setPage] = useState(0);

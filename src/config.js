@@ -23,4 +23,4 @@ export const GRAPHQL_ENDPOINT = 'https://hasura-test-manufacturers-db.herokuapp.
 export const PROJECT_SLACK_CHANNEL = '#project-manufacturer-database';
 
 // Max number of records we will return to a user
-export const MAX_QUERY_SIZE = 100; 
+export const MAX_QUERY_SIZE = 500;
