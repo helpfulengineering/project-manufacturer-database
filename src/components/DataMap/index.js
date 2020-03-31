@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import {Map, TileLayer, CircleMarker} from 'react-leaflet';
 import Button from '@material-ui/core/Button';
+import Control from 'react-leaflet-control';
 
 import Modal from '../Modal';
 import DataTable from '../DataTable';
@@ -9,6 +10,7 @@ import './DataMap.scss';
 import {ADDITIONAL_AUTHORIZATION_LABEL } from "../../labels";
 import {MAX_QUERY_SIZE} from "../../config";
 import {LimitReachedAlert} from "../Alerts";
+
 
 const MAP_CENTER = [30.0, 10.0];
 const MAP_ZOOM = 2;
@@ -48,6 +50,10 @@ function DataMap({rows, searchCoords}) {
               }}
             />
           )}
+
+          <Control position="bottomleft" className="custom-control">
+            <div>{rows.length} {rows.length === 1 ? 'result' : 'results'}</div>
+          </Control>
         </Map>
       </div>
       <Modal open={isDetailModalOpen}

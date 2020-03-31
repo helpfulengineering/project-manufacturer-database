@@ -5,4 +5,16 @@
 .leaflet-container { /* Created by react-leaflet */
   height: 40rem;
   width: 100%;
+
+  .custom-control {
+    // Copied code of existing Leaflet control
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    box-shadow: 0 1px 7px rgba(0, 0, 0, 0.65);
+    cursor: auto;
+    font-size: 1rem;
+    line-height: 26px;
+    padding: .2em .5em;
+  }
 }
+
