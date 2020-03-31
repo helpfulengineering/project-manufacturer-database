@@ -6,7 +6,9 @@ import Button from '@material-ui/core/Button';
 import Modal from '../Modal';
 import DataTable from '../DataTable';
 import './DataMap.scss';
-import {ADDITIONAL_AUTHORIZATION_LABEL} from "../../labels";
+import {ADDITIONAL_AUTHORIZATION_LABEL } from "../../labels";
+import {MAX_QUERY_SIZE} from "../../config";
+import {LimitReachedAlert} from "../Alerts";
 
 const MAP_CENTER = [30.0, 10.0];
 const MAP_ZOOM = 2;
@@ -18,8 +20,12 @@ function DataMap({rows, searchCoords}) {
   useEffect(() => {
     setMarkers(rows.filter(i => i.hasLocation));
   }, [rows]);
+
+  const isLimited = rows.length === MAX_QUERY_SIZE;
+
   return (
     <>
+      {isLimited && <LimitReachedAlert /> }
       <div className="map__container">
         <Map center={MAP_CENTER} zoom={MAP_ZOOM}>
           <TileLayer

@@ -9,13 +9,11 @@ import {
   TableBody,
   TablePagination
 } from "@material-ui/core";
-import {
-  Alert,
-} from '@material-ui/lab';
 
 import "./DataTable.scss";
-import {ADDITIONAL_AUTHORIZATION_LABEL} from "../../labels";
+import {ADDITIONAL_AUTHORIZATION_LABEL } from "../../labels";
 import {MAX_QUERY_SIZE} from "../../config";
+import {LimitReachedAlert} from "../Alerts";
 
 const NO_RESULTS_LABEL = 'No results match your search criteria.';
 
@@ -55,8 +53,9 @@ const DataTable = ({ rows }) => {
 
   return (
     <>
-      {isEndOfQuery && 
-        <Alert severity="info">You have reached the maximum number of records we can show you; however, there is likely more data available.<br />Please refine your search criteria.</Alert>}
+      {isEndOfQuery &&
+        <LimitReachedAlert />
+      }
       <TableContainer className="table__container">
         <Table aria-label="data table" table-layout="auto">
           <TableHead>
@@ -107,7 +106,7 @@ const DataTable = ({ rows }) => {
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[10, 15, 20]}
+        rowsPerPageOptions={[10, 25, 100]}
         component="div"
         count={rows.length}
         rowsPerPage={rowsPerPage}
