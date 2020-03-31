@@ -58,6 +58,7 @@ const AutocompleteField = ({ geoLocatedAddress, handleSelect }) => {
           onSelect={handleSelect}
           onError={onError}
           debounce={debounceMs}
+          highlightFirstSuggestion
         >
           {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
             <div>
@@ -76,8 +77,9 @@ const AutocompleteField = ({ geoLocatedAddress, handleSelect }) => {
               <div className="autocomplete-dropdown-container">
                 {loading && <div>Loading...</div>}
                 {suggestions.map(suggestion => {
+                  const className = suggestion.active ? 'suggestion-item suggestion-item--active' : 'suggestion-item suggestion-item';
                   return (
-                    <div {...getSuggestionItemProps(suggestion)} key={suggestion.description}>
+                    <div {...getSuggestionItemProps(suggestion, {className})} key={suggestion.description}>
                       <span>{suggestion.description}</span>
                     </div>
                   );
