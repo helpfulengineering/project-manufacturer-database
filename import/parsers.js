@@ -13,7 +13,7 @@ export const parseRowCrowdSourceDoc = (row) => {
 
   const equipment = {
     model: row['What.type.of.3D.printer.do.you.have.'],
-    quantity: undefined,
+    quantity: row['Quantity'],
   };
 
   const site = {
