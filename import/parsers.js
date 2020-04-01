@@ -1,9 +1,16 @@
 // Parses spreadsheet to internal data model (closely resembles database model)
+import log  from "loglevel";
 
 export const parseRowCrowdSourceDoc = (row) => {
   // Unused at the moment:
   // 'Do.you.have.a.3D.Printer.': e.g.: "Yes"
   // 'Type', e.g.: "FDM", "SLA,FDM", "unknown", "FDM,SLS,Industrial"
+
+  if (!row['Latitude'] || !row['Longitude']) {
+    log.info('skipping row without coordinate');
+    return undefined;
+  }
+
   const equipment = {
     model: row['What.type.of.3D.printer.do.you.have.'],
     quantity: undefined,
