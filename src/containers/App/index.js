@@ -8,6 +8,8 @@ import {GRAPHQL_ENDPOINT, ROLES} from "../../config";
 import {useAuth0} from "../../auth/react-auth0-spa";
 import NavBar from "../../components/NavBar";
 import {Container, Paper} from "@material-ui/core";
+import HELogo from "../../assets/helpfulengineering_transparent.png";
+import Typography from "@material-ui/core/Typography";
 
 const createUrqlClient = (role, token) => {
   // Adding token to requests, bit of work because we can't use an async function for fetchOptions. The function must be synchronous.
@@ -37,8 +39,6 @@ function App() {
     // updated client with token authorization when authentication is loaded.
     if(authLoading === false && isAuthenticated) {
       getTokenSilently().then(token => {
-        console.log('setting token and role');
-
         // Get user roles for authorization
         const decoded = jwt_decode(token);
         const hasuraClaims = decoded['https://hasura.io/jwt/claims'];
@@ -50,6 +50,7 @@ function App() {
       });
     }
   }, [authLoading, isAuthenticated, getTokenSilently]);
+
   if (authLoading) {
     // Many auth0 calls will fail until loaded, for example getTokenSilently will fail.
     return <div>Loading authentication...</div>;
@@ -59,9 +60,15 @@ function App() {
     <Provider value={urqlClient}>
       <RoleContext.Provider value={role}>
         <Container maxWidth="xl">
-          <Paper>
-            <header>
-              <NavBar />
+          <Paper className="app--body">
+            <header className="app--header">
+              <a href="https://helpfulengineering.odoo.com/" title="Project by Helpful Engineering" className="app--HE-logo">
+                <img src={HELogo} width="177" height="75" alt="Helpful Engineering Logo"/>
+              </a>
+              <Typography variant="h2" className="app--title">
+                Manufacturing volunteer search
+              </Typography>
+              <NavBar className="app--nav"/>
             </header>
             <DataPage />
           </Paper>

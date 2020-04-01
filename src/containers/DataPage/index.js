@@ -20,6 +20,8 @@ import {
 } from "../../config";
 import searchQueryDataDisplayAdapter from "../../data/searchQueryDataDisplayAdapter";
 import TabPanel from './TabPanel';
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 
 const DataPage = () => {
   const { isAuthenticated } = useAuth0();
@@ -50,6 +52,15 @@ const DataPage = () => {
 
   return (
     <div className="data-page">
+      <Box width="80ch">
+        <Typography paragraph={true}>
+          Search through pandemic volunteers who have offered their service for 3D printing, laser cutting and more.
+        </Typography>
+        <Typography paragraph={true}>
+          If you end up using this please let us know in the <em>#project-manufacturer-database</em> slack channel (<a href="https://www.helpfulengineering.org/slack">slack workspace</a>).
+        </Typography>
+      </Box>
+
       <SearchBar
         coords={searchCoords}
         setCoords={setSearchCoords}
