@@ -5,9 +5,10 @@ export const parseRowCrowdSourceDoc = (row) => {
   // Unused at the moment:
   // 'Do.you.have.a.3D.Printer.': e.g.: "Yes"
   // 'Type', e.g.: "FDM", "SLA,FDM", "unknown", "FDM,SLS,Industrial"
+  const name = row['Name'];
 
   if (!row['Latitude'] || !row['Longitude']) {
-    log.info('skipping row without coordinate');
+    log.info(`skipping row without coordinate, name: ${name}`);
     return undefined;
   }
 
@@ -29,9 +30,8 @@ export const parseRowCrowdSourceDoc = (row) => {
     slack: undefined,
     email: row['Email.Address..This.is.public..'], // Note, explicitly stating that it is public
   };
-
   const entity = {
-    name: row['Name'],
+    name: name,
     sites: [site],
     contacts: [contact],
     experience: `experience: ${row['What.type.of.3D.printing.experience.do.you.have.']}; skills: ${row['Do.you.have.any.design.or.engineering.skills.']}`,
@@ -52,6 +52,11 @@ export const parseRowFabEquipDoc = (row) => {
   const typeEquipment = row['What type of equipment do you have access to?'];
   if (!slack_handle && !typeEquipment) {
     // empty row
+    return undefined;
+  }
+
+  if (!row['Latitude'] || !row['Longitude']) {
+    log.info(`skipping row without coordinate, slack handle: ${slack_handle}`);
     return undefined;
   }
 
