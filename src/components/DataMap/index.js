@@ -68,6 +68,7 @@ function DataMap({rows, searchCoords}) {
             <div><strong>Country</strong>: {selectedMarker.country}</div>
             <div><strong>Experience</strong>: {selectedMarker.experience}</div>
             <div><strong>Notes</strong>: {selectedMarker.notes}</div>
+            <div><strong>Scale</strong>: {selectedMarker.scale}</div>
             <div title={ADDITIONAL_AUTHORIZATION_LABEL}><strong>Slack*</strong>: {selectedMarker.slack_handle}</div>
             <div title={ADDITIONAL_AUTHORIZATION_LABEL}><strong>Email*</strong>: {selectedMarker.email}</div>
           </div>

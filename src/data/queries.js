@@ -6,10 +6,15 @@ const contacts = `
 `;
 
 export const displaySearchQuery = (isManager) => `
-  query ($limit: Int!, $distance: Float!, $point: geography!) {
+  query ($limit: Int!, $distance: Float!, $point: geography!, $scale: [String!]!) {
     SiteInfo(
       limit: $limit,
-      where: {location: { _st_d_within: { distance: $distance, from: $point}}}
+      where: {
+        entity:{
+          scale: { _in: $scale }
+        }
+        location: { _st_d_within: { distance: $distance, from: $point}}
+      }
     ) {
       pk
       city
@@ -21,6 +26,7 @@ export const displaySearchQuery = (isManager) => `
         experience
         notes
         ${isManager ? contacts : ''}
+        scale
       }
       equipments {
         brand

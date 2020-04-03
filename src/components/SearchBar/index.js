@@ -12,25 +12,26 @@ import AutocompleteField from '../AutocompleteField';
 import { API_KEY } from '../../config';
 import "./SearchBar.scss";
 import TextField from "@material-ui/core/TextField";
+import Filter from "../Filter";
 
-// const getEquipmentFilterValues = () => {
-//   const equipmentList = [
-//     { value: "3d-printer", label: "3D printer" },
-//     { value: "cnc", label: "CNC" }
-//   ];
-//   return equipmentList;
-// };
+const getScaleFilterValues = () => {
+  const equipmentList = [
+    { value: "Small,Medium,Large", label: "All" },
+    { value: "Medium,Large", label: ">= Medium" },
+    { value: "Large", label: ">= Large" },
+  ];
+  return equipmentList;
+};
 
 function makeReverseGeocodingRequest(lat, lng) {
   return fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_KEY}`)
     .then(response => response.json());
 }
 
-const SearchBar = ({ coords, setCoords, distance, setDistance }) => {
-  // const equipmentFilterValues = getEquipmentFilterValues();
-  // const [type, setEquipmentType] = useState(equipmentFilterValues[0]); // Currently disabled because we can't filter on this yet in the database.
+const SearchBar = ({ coords, setCoords, distance, setDistance, scaleFilter, setScaleFilter }) => {
+  const scaleFilterValues = getScaleFilterValues();
   const [address, setAddress] = useState();
-  const [usingLocation, setUseLocation]  = useState(false)
+  const [usingLocation, setUseLocation]  = useState(false);
   const geolocationSupported = navigator && navigator.geolocation;
 
   function useDeviceLocation() {
@@ -58,12 +59,10 @@ const SearchBar = ({ coords, setCoords, distance, setDistance }) => {
     setDistance(e.target.value);
   }
 
-  // function handleEquipmentFilterChange(ev) {
-  //   const item = equipmentFilterValues.find(
-  //     item => item.value === ev.target.value
-  //   );
-  //   setEquipmentType(item);
-  // }
+  function handleScaleFilterChange(ev) {
+    const item = scaleFilterValues.find(item => item.value === ev.target.value);
+    setScaleFilter(item);
+  }
 
   function handleSelectAddress(address) {
     geocodeByAddress(address)
@@ -120,13 +119,12 @@ const SearchBar = ({ coords, setCoords, distance, setDistance }) => {
       <TextField label="Lat" value={coords.lat} disabled />
       <TextField label="lng" value={coords.lng} disabled />
 
-      {/*<Filter*/}
-      {/*  label={"equipment"}*/}
-      {/*  activeFilter={type}*/}
-      {/*  handler={handleEquipmentFilterChange}*/}
-      {/*  listOfValues={equipmentFilterValues}*/}
-      {/*  disabled*/}
-      {/*/>*/}
+      <Filter
+        label={"scale"}
+        activeFilter={scaleFilter}
+        handler={handleScaleFilterChange}
+        listOfValues={scaleFilterValues}
+      />
     </form>
   );
 };

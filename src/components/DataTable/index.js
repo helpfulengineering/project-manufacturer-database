@@ -16,6 +16,7 @@ import {MAX_QUERY_SIZE} from "../../config";
 import {LimitReachedAlert} from "../Alerts";
 
 const NO_RESULTS_LABEL = 'No results match your search criteria.';
+const DERIVED_FIELD_LABEL = 'This field has been derived from other fields. (Not provided by user directly)';
 
 const breakUpString = (string, delimiter=';') => {
   if (string) {
@@ -65,6 +66,7 @@ const DataTable = ({ rows }) => {
               {/*<TableCell align="left">Brand</TableCell>*/}
               <TableCell align="left">Model</TableCell>
               <TableCell align="left">Quantity</TableCell>
+              <TableCell align="left" title={DERIVED_FIELD_LABEL}>Scale*</TableCell>
               <TableCell align="left">City</TableCell>
               <TableCell align="left">Country</TableCell>
               <TableCell align="left">Experience</TableCell>
@@ -78,12 +80,13 @@ const DataTable = ({ rows }) => {
             <TableBody>
               {
                 rowsToDisplay.map(row => (
-                  <TableRow key={row.pk}>
+                  <TableRow key={row.pk} className={`row-scale-${(row.scale || '').toLowerCase()}`}>
                     <TableCell align="left">{row.name}</TableCell>
                     {/*<TableCell align="left">{row.equipment}</TableCell>*/}
                     {/*<TableCell align="left">{row.brand}</TableCell>*/}
                     <TableCell align="left">{row.model}</TableCell>
                     <TableCell align="left">{row.quantity}</TableCell>
+                    <TableCell align="left">{row.scale}</TableCell>
                     <TableCell align="left">{row.city}</TableCell>
                     <TableCell align="left">{row.country}</TableCell>
                     <TableCell align="left">{breakUpString(row.experience)}</TableCell>

@@ -18,6 +18,7 @@ export default (domainData) => {
       name: site.entity.name,
       experience: site.entity.experience,
       notes: site.entity.notes,
+      scale: site.entity.scale,
       email: map(site.entity.contacts, (contact) => contact.email).join(', '),
       slack_handle: map(site.entity.contacts, (contact) => contact.slack_handle).join(', '),
     };

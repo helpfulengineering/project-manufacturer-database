@@ -28,6 +28,7 @@ const DataPage = () => {
   const [rowsData, setRowsData] = useState([]);
   const [searchCoords, setSearchCoords] = useState({ lat: 0, lng: 0 });
   const [searchDistance, setSearchDistance] = useState(1000 * 1000 * 1000); // bigger than earth circumference, in kilometers
+  const [scaleFilter, setScaleFilter] = useState();
   const [tabIdx, setTabIdx] = React.useState(0);
   const role = useContext(RoleContext);
 
@@ -39,7 +40,8 @@ const DataPage = () => {
       point: {
         type: "Point",
         coordinates: [searchCoords.lng, searchCoords.lat]
-      }
+      },
+      scale: (scaleFilter && scaleFilter.value.split(',')) || ['Small', 'Medium', 'Large']
     }
   });
 
@@ -66,6 +68,8 @@ const DataPage = () => {
         setCoords={setSearchCoords}
         distance={searchDistance}
         setDistance={setSearchDistance}
+        scaleFilter={scaleFilter}
+        setScaleFilter={setScaleFilter}
       />
 
       <Tabs

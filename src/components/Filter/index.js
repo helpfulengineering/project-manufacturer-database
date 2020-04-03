@@ -9,7 +9,7 @@ const Filter = ({ label, activeFilter, handler, listOfValues, ...rest }) => {
       <InputLabel>{label}</InputLabel>
       <Select
         labelId="filter"
-        value={activeFilter.value}
+        value={activeFilter && activeFilter.value}
         onChange={handler}
         label="Equipment"
         {...rest}
