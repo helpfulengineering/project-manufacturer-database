@@ -110,6 +110,7 @@ const SearchBar = ({ coords, setCoords, distance, setDistance }) => {
           <MenuItem value={50 * 1000}>50 km</MenuItem>
           <MenuItem value={100 * 1000}>100 km</MenuItem>
           <MenuItem value={250 * 1000}>250 km</MenuItem>
+          <MenuItem value={500 * 1000}>500 km</MenuItem>
           <MenuItem value={1000 * 1000}>1,000 km</MenuItem>
           <MenuItem value={5 * 1000 * 1000}>5,000 km</MenuItem>
           <MenuItem value={1000 * 1000 * 1000}>Unlimited</MenuItem>
