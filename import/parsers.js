@@ -18,9 +18,17 @@ export const parseRowCrowdSourceDoc = (row) => {
     return undefined;
   }
 
+  const quantityStr = row['Quantity'];
+  let quantity;
+  try {
+    quantity = parseInt(quantityStr, 10);
+  } catch (e) {
+    log.error(`error parsing quantity: ${quantityStr}, for ${name}, skipping field`);
+  }
+
   const equipment = {
     model: row['What.type.of.3D.printer.do.you.have.'],
-    quantity: row['Quantity'],
+    quantity,
   };
 
   const site = {
@@ -72,7 +80,7 @@ export const parseRowFabEquipDoc = (row) => {
   try {
     quantity = parseInt(quantityStr, 10);
   } catch (e) {
-   log.error(`error parsing quantity str: ${quantityStr}, for ${slack_handle}, skipping field`);
+   log.error(`error parsing quantity: ${quantityStr}, for ${slack_handle}, skipping field`);
   }
   let scale;
   if (quantity) {
