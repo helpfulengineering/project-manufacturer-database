@@ -3,6 +3,7 @@ mutation testInsertMutation(
     $certifications: String!,
     $experience: String!,
     $notes: String,
+    $scale: String,
     $email: String,
     $slack: String,
     $phone: String,
@@ -21,6 +22,7 @@ mutation testInsertMutation(
             certifications: $certifications,
             experience: $experience,
             notes: $notes,
+            scale: $scale,
             sites: {
                 data: [
                     {
