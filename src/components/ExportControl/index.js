@@ -13,7 +13,7 @@ const ExportControl = ({data}) => {
     hiddenElement.download = 'export.csv';
     document.body.appendChild(hiddenElement);
     hiddenElement.click();
-    document.removeChild(hiddenElement);
+    document.body.removeChild(hiddenElement);
   }
   return (
     <Button variant="outlined"
