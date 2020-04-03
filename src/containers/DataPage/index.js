@@ -1,27 +1,28 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from 'react';
 
 import MapIcon from '@material-ui/icons/Map';
 import TocIcon from '@material-ui/icons/Toc';
-import Tab from "@material-ui/core/Tab";
-import Tabs from "@material-ui/core/Tabs";
-import { useQuery } from "urql";
+import Tab from '@material-ui/core/Tab';
+import Tabs from '@material-ui/core/Tabs';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import { useQuery } from 'urql';
 
-import DataTable from "../../components/DataTable";
-import DataMap from "../../components/DataMap";
-import SearchBar from "../../components/SearchBar";
-import * as queries from "../../data/queries";
+import DataTable from '../../components/DataTable';
+import DataMap from '../../components/DataMap';
+import SearchBar from '../../components/SearchBar';
+import ExportControl from '../../components/ExportControl';
+import * as queries from '../../data/queries';
 
-import "./DataPage.scss";
-import {useAuth0} from "../../auth/react-auth0-spa";
-import {RoleContext} from "../App";
+import './DataPage.scss';
+import {useAuth0} from '../../auth/react-auth0-spa';
+import {RoleContext} from '../App';
 import {
   ROLES,
   MAX_QUERY_SIZE
-} from "../../config";
-import searchQueryDataDisplayAdapter from "../../data/searchQueryDataDisplayAdapter";
+} from '../../config';
+import searchQueryDataDisplayAdapter from '../../data/searchQueryDataDisplayAdapter';
 import TabPanel from './TabPanel';
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 
 const DataPage = () => {
   const { isAuthenticated } = useAuth0();
@@ -38,7 +39,7 @@ const DataPage = () => {
       limit: MAX_QUERY_SIZE,
       distance: searchDistance, // in meters
       point: {
-        type: "Point",
+        type: 'Point',
         coordinates: [searchCoords.lng, searchCoords.lat]
       },
       scale: (scaleFilter && scaleFilter.value.split(',')) || ['Small', 'Medium', 'Large']
@@ -71,6 +72,7 @@ const DataPage = () => {
         scaleFilter={scaleFilter}
         setScaleFilter={setScaleFilter}
       />
+      <ExportControl data={rowsData} />
 
       <Tabs
         value={tabIdx}
