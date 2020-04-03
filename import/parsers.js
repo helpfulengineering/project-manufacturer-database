@@ -1,6 +1,12 @@
 // Parses spreadsheet to internal data model (closely resembles database model)
 import log  from "loglevel";
 
+const SCALE_LIMITS = {
+  SMALL: 10, // 0 to 10 units
+  MEDIUM: 100, // 11 to 100 units
+  // LARGE:
+};
+
 export const parseRowCrowdSourceDoc = (row) => {
   // Unused at the moment:
   // 'Do.you.have.a.3D.Printer.': e.g.: "Yes"
@@ -35,7 +41,8 @@ export const parseRowCrowdSourceDoc = (row) => {
     sites: [site],
     contacts: [contact],
     experience: `experience: ${row['What.type.of.3D.printing.experience.do.you.have.']}; skills: ${row['Do.you.have.any.design.or.engineering.skills.']}`,
-    notes: row['Do.you.have.any.other.comments.']
+    notes: row['Do.you.have.any.other.comments.'],
+    scale: row['ManufacturingCapacity'],
   };
 
   return entity;
@@ -60,9 +67,27 @@ export const parseRowFabEquipDoc = (row) => {
     return undefined;
   }
 
+  const quantityStr = row['What quantity of this equipment do you have access to?'];
+  let quantity;
+  try {
+    quantity = parseInt(quantityStr, 10);
+  } catch (e) {
+   log.error(`error parsing quantity str: ${quantityStr}, for ${slack_handle}, skipping field`);
+  }
+  let scale;
+  if (quantity) {
+    if (quantity <= SCALE_LIMITS.SMALL) {
+      scale = 'Small';
+    } else if (quantity <= SCALE_LIMITS.MEDIUM) {
+      scale = 'Medium';
+    } else {
+      scale = 'Large';
+    }
+  }
+
   const equipment = {
     model: typeEquipment,
-    quantity: row['What quantity of this equipment do you have access to?'],
+    quantity: quantityStr,
   };
 
   const site = {
@@ -84,7 +109,8 @@ export const parseRowFabEquipDoc = (row) => {
     sites: [site],
     contacts: [contact],
     experience: `certification: ${row['What certification do you have?']}`, // field value examples: "none", "ISO9001"
-    notes: `types: ${row['What type of equipment do you have access to?']}; notes: ${row['Additional notes.  (Optional)']}`
+    notes: `types: ${row['What type of equipment do you have access to?']}; notes: ${row['Additional notes.  (Optional)']}`,
+    scale
   };
 
   return entity;

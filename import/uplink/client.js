@@ -41,6 +41,7 @@ export const uploadData = async (client, entities) => {
         certifications: '',
         experience: entity.experience,
         notes: entity.notes,
+        scale: entity.scale,
         email: contact.email,
         country: site.country,
         city: site.city,
