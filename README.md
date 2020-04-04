@@ -19,12 +19,9 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 ## Configure
 
 To performs searches locally you'll need an API key with access to the Places API for localhost.
-You can use your own, or the one from the team if you are on the team.
-If you want to use the one from the team, ask around for it **and** get your IP whitelisted.
+To use the one from the team, ask around for it **and** get your IP whitelisted.
 
-Set it by running the following in the console on the dev site:
-
-    window.localStorage.setItem('HE_DB_SEARCH_DEV_API_KEY', '<key>');
+To use .env variables you should create a .env.development.local file, that will be used in development environment - this file is always ignored by git. Please don't change .env file unless you need to add a new environment variable, this file is not ignored by git, so no values should be on it.
 
 ## Build
 

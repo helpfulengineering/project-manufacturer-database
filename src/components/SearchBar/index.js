@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { useState } from "react";
 import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
-import {FormControl, FormGroup} from "@material-ui/core";
+import { FormControl, FormGroup } from "@material-ui/core";
 import { GoogleApiWrapper } from "google-maps-react";
 import IconButton from "@material-ui/core/IconButton";
 import GpsFixedIcon from "@material-ui/icons/GpsFixed";
@@ -9,7 +9,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import AutocompleteField from '../AutocompleteField';
-import { API_KEY } from '../../config';
 import "./SearchBar.scss";
 import TextField from "@material-ui/core/TextField";
 import Filter from "../Filter";
@@ -24,14 +23,14 @@ const getScaleFilterValues = () => {
 };
 
 function makeReverseGeocodingRequest(lat, lng) {
-  return fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_KEY}`)
+  return fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.REACT_APP_API_KEY}`)
     .then(response => response.json());
 }
 
 const SearchBar = ({ coords, setCoords, distance, setDistance, scaleFilter, setScaleFilter }) => {
   const scaleFilterValues = getScaleFilterValues();
   const [address, setAddress] = useState();
-  const [usingLocation, setUseLocation]  = useState(false);
+  const [usingLocation, setUseLocation] = useState(false);
   const geolocationSupported = navigator && navigator.geolocation;
 
   function useDeviceLocation() {
@@ -85,7 +84,7 @@ const SearchBar = ({ coords, setCoords, distance, setDistance, scaleFilter, setS
         {geolocationSupported && (
 
           <IconButton
-            color={usingLocation ? 'secondary' : 'primary' }
+            color={usingLocation ? 'secondary' : 'primary'}
             aria-label="use device location"
             title="use device location"
             onClick={useDeviceLocation}
@@ -141,8 +140,8 @@ SearchBar.propTypes = {
 
 const wrapper = GoogleApiWrapper(
   (props) => ({
-      apiKey: API_KEY,
-    }
+    apiKey: process.env.REACT_APP_API_KEY,
+  }
   ))(SearchBar);
 
 wrapper.displayName = 'GoogleApiWrapper';

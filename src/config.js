@@ -17,7 +17,6 @@ if (devKey) {
   console.log('Development API key found, using that for Google API calls');
 }
 // API key is for production use only.
-export const API_KEY = devKey || 'AIzaSyDnNSecPko3v4LyfYrIjJRxyPLQvRbrbzY'; // DO NOT CHANGE FOR DEVELOPMENT, use localstorage
 export const GRAPHQL_ENDPOINT = 'https://hasura-test-manufacturers-db.herokuapp.com/v1/graphql';
 
 export const PROJECT_SLACK_CHANNEL = '#project-manufacturer-database';
