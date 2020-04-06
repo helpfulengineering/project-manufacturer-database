@@ -31,4 +31,4 @@ export const FabricationEquipmentDoc = {
 //
 // GraphQL and Hasura config
 //
-export const GRAPHQL_URI = 'https://hasura-test-manufacturers-db.herokuapp.com/v1/graphql';
+export const GRAPHQL_URI = 'https://he-manufacturers-db-hasura.herokuapp.com/v1/graphql';
