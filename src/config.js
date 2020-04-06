@@ -11,7 +11,7 @@ export const ROLES = {
 };
 
 // API key is for production use only.
-export const GRAPHQL_ENDPOINT = 'https://hasura-test-manufacturers-db.herokuapp.com/v1/graphql';
+export const GRAPHQL_ENDPOINT = 'https://he-manufacturers-db-hasura.herokuapp.com/v1/graphql';
 
 export const PROJECT_SLACK_CHANNEL = '#project-manufacturer-database';
 
