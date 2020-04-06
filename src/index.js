@@ -6,7 +6,7 @@ import history from "./utils/history.js";
 import * as config from './config';
 import App from './containers/App';
 import './index.css';
-import { posthog } from 'posthog-js'; // analytics
+import posthog from 'posthog-js';
 import {POSTHOG_TOKEN, POSTHOG_API_HOST} from "./config";
 
 const onRedirectCallback = appState => {
