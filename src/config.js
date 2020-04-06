@@ -17,3 +17,6 @@ export const PROJECT_SLACK_CHANNEL = '#project-manufacturer-database';
 
 // Max number of records we will return to a user
 export const MAX_QUERY_SIZE = 500;
+
+export const POSTHOG_API_HOST = 'https://he-manufacturers-db-posthog.herokuapp.com';
+export const POSTHOG_TOKEN = "EpakFOux3Zm3hBrw46z3UNgEUJtA-FMbFgCgkCBMEkc";
