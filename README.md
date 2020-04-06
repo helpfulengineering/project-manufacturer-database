@@ -21,7 +21,8 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 To performs searches locally you'll need an API key with access to the Places API for localhost.
 To use the one from the team, ask around for it **and** get your IP whitelisted.
 
-To use .env variables you should create a .env.development.local file, that will be used in development environment - this file is always ignored by git. Please don't change .env file unless you need to add a new environment variable, this file is not ignored by git, so no values should be on it.
+To use .env variables you should create a .env.development.local file, that will be used in development environment - this file is always ignored by git.
+Please don't change .env file unless you need to add a new environment variable, this file is not ignored by git, so no values should be on it.
 
 ## Build
 
