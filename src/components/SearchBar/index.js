@@ -12,6 +12,7 @@ import AutocompleteField from '../AutocompleteField';
 import "./SearchBar.scss";
 import TextField from "@material-ui/core/TextField";
 import Filter from "../Filter";
+import {trackEvent} from "../../analytics";
 
 const getScaleFilterValues = () => {
   const equipmentList = [
@@ -66,10 +67,11 @@ const SearchBar = ({ coords, setCoords, distance, setDistance, scaleFilter, setS
   function handleSelectAddress(address) {
     geocodeByAddress(address)
       .then(results => {
-        setAddress(results[0].formatted_address)
+        const formattedAddress = results[0].formatted_address;
+        setAddress(formattedAddress);
+        trackEvent('query-address', { formattedAddress });
         return getLatLng(results[0])
-      }
-      )
+      })
       .then(latLng => {
         const { lat, lng } = latLng;
         setCoords({ lat, lng });

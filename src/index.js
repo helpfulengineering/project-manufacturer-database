@@ -6,8 +6,7 @@ import history from "./utils/history.js";
 import * as config from './config';
 import App from './containers/App';
 import './index.css';
-import posthog from 'posthog-js';
-import {POSTHOG_TOKEN, POSTHOG_API_HOST} from "./config";
+import {initAnalytics} from "./analytics";
 
 const onRedirectCallback = appState => {
   history.push(
@@ -42,8 +41,4 @@ ReactDOM.render(
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
 
-if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1") {
-  posthog.init(POSTHOG_TOKEN, {api_host: POSTHOG_API_HOST});
-} else {
-  console.log('analytics disabled for localhost');
-}
+initAnalytics()
