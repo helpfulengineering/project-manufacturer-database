@@ -1,3 +1,9 @@
+export const SCALE_FILTERS = {
+  Small: "Small,Medium,Large",
+  Medium: "Medium,Large",
+  Large: "Large",
+};
+
 const contacts = `
   contacts {
     email

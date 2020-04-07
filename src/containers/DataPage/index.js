@@ -24,13 +24,14 @@ import {
 import searchQueryDataDisplayAdapter from '../../data/searchQueryDataDisplayAdapter';
 import TabPanel from './TabPanel';
 import {trackEvent} from "../../analytics";
+import {SCALE_FILTERS} from "../../data/queries";
 
 const DataPage = () => {
   const { isAuthenticated } = useAuth0();
   const [rowsData, setRowsData] = useState([]);
   const [searchCoords, setSearchCoords] = useState({ lat: 0, lng: 0 });
   const [searchDistance, setSearchDistance] = useState(1000 * 1000 * 1000); // bigger than earth circumference, in kilometers
-  const [scaleFilter, setScaleFilter] = useState();
+  const [scaleFilter, setScaleFilter] = useState(SCALE_FILTERS.Small);
   const [tabIdx, setTabIdx] = React.useState(0);
   const role = useContext(RoleContext);
 
@@ -43,7 +44,7 @@ const DataPage = () => {
         type: 'Point',
         coordinates: [searchCoords.lng, searchCoords.lat]
       },
-      scale: (scaleFilter && scaleFilter.value.split(',')) || ['Small', 'Medium', 'Large']
+      scale: scaleFilter.split(',')
     }
   });
 

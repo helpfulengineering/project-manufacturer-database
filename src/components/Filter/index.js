@@ -3,13 +3,13 @@ import PropTypes from "prop-types";
 import { MenuItem, InputLabel, Select, FormControl } from "@material-ui/core";
 import "./Filter.scss";
 
-const Filter = ({ label, activeFilter, handler, listOfValues, ...rest }) => {
+const Filter = ({ label, activeValue, handler, listOfValues, ...rest }) => {
   return (
     <FormControl className="filter">
       <InputLabel>{label}</InputLabel>
       <Select
         labelId="filter"
-        value={activeFilter && activeFilter.value}
+        value={activeValue}
         onChange={handler}
         label="Equipment"
         {...rest}
@@ -24,12 +24,12 @@ const Filter = ({ label, activeFilter, handler, listOfValues, ...rest }) => {
 
 Filter.propTypes = {
   label: PropTypes.string,
-  activeFilter: PropTypes.shape({
-      label: PropTypes.string,
-      value: PropTypes.string
-  }),
+  activeValue: PropTypes.string,
   handler: PropTypes.func,
-  listOfValues: PropTypes.array
+  listOfValues: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string,
+    value: PropTypes.string
+  }))
 };
 
 export default Filter;

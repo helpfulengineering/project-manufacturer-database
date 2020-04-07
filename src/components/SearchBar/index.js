@@ -13,12 +13,13 @@ import "./SearchBar.scss";
 import TextField from "@material-ui/core/TextField";
 import Filter from "../Filter";
 import {trackEvent} from "../../analytics";
+import {SCALE_FILTERS} from "../../data/queries";
 
 const getScaleFilterValues = () => {
   const equipmentList = [
-    { value: "Small,Medium,Large", label: "All" },
-    { value: "Medium,Large", label: ">= Medium" },
-    { value: "Large", label: ">= Large" },
+    { value: SCALE_FILTERS.Small, label: "All" },
+    { value: SCALE_FILTERS.Medium, label: ">= Medium" },
+    { value: SCALE_FILTERS.Large, label: ">= Large" },
   ];
   return equipmentList;
 };
@@ -59,9 +60,8 @@ const SearchBar = ({ coords, setCoords, distance, setDistance, scaleFilter, setS
     setDistance(e.target.value);
   }
 
-  function handleScaleFilterChange(ev) {
-    const item = scaleFilterValues.find(item => item.value === ev.target.value);
-    setScaleFilter(item);
+  function handleScaleFilterChange(event) {
+    setScaleFilter(event.target.value);
   }
 
   function handleSelectAddress(address) {
@@ -122,7 +122,7 @@ const SearchBar = ({ coords, setCoords, distance, setDistance, scaleFilter, setS
 
       <Filter
         label={"scale"}
-        activeFilter={scaleFilter}
+        activeValue={scaleFilter}
         handler={handleScaleFilterChange}
         listOfValues={scaleFilterValues}
       />
