@@ -17,12 +17,14 @@ const ExportControl = ({rows}) => {
     hiddenElement.click();
     document.body.removeChild(hiddenElement);
 
-    trackEvent('export-csv', { rows: rows.length });
+    const containsEmails = rows.some( ({email}) => email && email.length > 0);
+    trackEvent('export-csv', { rows: rows.length, hasContact: containsEmails });
   }
   return (
     <Button variant="outlined"
       onClick={createCSV}
-      size="small">
+      size="small"
+      disabled={!(rows && rows.length > 0)}>
       Export Records
     </Button>
   );
