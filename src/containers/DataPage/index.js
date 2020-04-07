@@ -63,7 +63,7 @@ const DataPage = () => {
         });
       }
     }
-  }, [queryResult, queryError]);
+  }, [queryResult, queryError]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="data-page">
