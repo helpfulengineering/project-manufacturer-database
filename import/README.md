@@ -16,6 +16,8 @@ UPLOAD_CLIENT_CREDENTIAL_DOMAIN=<key>
 UPLOAD_CLIENT_CREDENTIAL_CLIENT_ID=<key>
 UPLOAD_CLIENT_CREDENTIAL_CLIENT_SECRET=<key>
 UPLOAD_CLIENT_CREDENTIAL_API_IDENTIFIER=<key>
+GOOGLE_PRIVATE_KEY="<key_contents_notice_quotes>"
+GOOGLE_SERVICE_ACCOUNT_EMAIL=<service_email>
 ```
 
 Note the `.env` file will not work in production (by design).

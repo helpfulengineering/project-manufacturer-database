@@ -7,14 +7,22 @@ if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
 }
 
+const getEnvVariable = (name) => {
+  const variable = process.env[name];
+  if (!variable) {
+    console.error(`missing env variable: "${name}"`);
+    process.exit(exit_codes.MISSING_ENV_VAR);
+  }
+  return variable;
+};
+
 //
 // Spreadsheet and Google config
 //
-export const DOC_API_KEY = process.env.DOC_API_KEY;
-if (!DOC_API_KEY) {
-  console.error('missing API key, set env variable "DOC_API_KEY"');
-  process.exit(exit_codes.MISSING_API_KEY);
-}
+export const GOOGLE_AUTH = {
+  client_email: getEnvVariable('GOOGLE_SERVICE_ACCOUNT_EMAIL'),
+  private_key: getEnvVariable('GOOGLE_PRIVATE_KEY')
+};
 
 export const Copy3DPrinterCrowdCovidDoc = {
   spreadsheetId: '1Kaz6TiZd4celNXAyz4g9n5q6GEypjGS85nNQL5EjnXg',
