@@ -12,14 +12,14 @@ const contacts = `
 `;
 
 export const displaySearchQuery = (isManager) => `
-  query ($limit: Int!, $distance: Float!, $point: geography!, $scale: [String!]!) {
+  query ($limit: Int!, $radius: Float!, $point: geography!, $scale: [String!]!) {
     SiteInfo(
       limit: $limit,
       where: {
         entity:{
           scale: { _in: $scale }
         }
-        location: { _st_d_within: { distance: $distance, from: $point}}
+        location: { _st_d_within: { distance: $radius, from: $point}}
       }
     ) {
       pk

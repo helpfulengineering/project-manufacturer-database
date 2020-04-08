@@ -30,7 +30,7 @@ const DataPage = () => {
   const { isAuthenticated } = useAuth0();
   const [rowsData, setRowsData] = useState([]);
   const [searchCoords, setSearchCoords] = useState({ lat: 0, lng: 0 });
-  const [searchDistance, setSearchDistance] = useState(1000 * 1000 * 1000); // bigger than earth circumference, in kilometers
+  const [searchRadius, setSearchRadius] = useState(1000 * 1000 * 1000); // bigger than earth circumference, in kilometers
   const [scaleFilter, setScaleFilter] = useState(SCALE_FILTERS.Small);
   const [tabIdx, setTabIdx] = React.useState(0);
   const role = useContext(RoleContext);
@@ -39,7 +39,7 @@ const DataPage = () => {
     query: queries.displaySearchQuery(isAuthenticated && role === ROLES.USER_MANAGER),
     variables: {
       limit: MAX_QUERY_SIZE,
-      distance: searchDistance, // in meters
+      radius: searchRadius, // in meters
       point: {
         type: 'Point',
         coordinates: [searchCoords.lng, searchCoords.lat]
@@ -58,7 +58,7 @@ const DataPage = () => {
           rows: formattedRowsData.length,
           query: {
             scale: scaleFilter,
-            distance: searchDistance,
+            distance: searchRadius,
             coordinates: [searchCoords.lng, searchCoords.lat],
           }
         });
@@ -80,8 +80,8 @@ const DataPage = () => {
       <SearchBar
         coords={searchCoords}
         setCoords={setSearchCoords}
-        distance={searchDistance}
-        setDistance={setSearchDistance}
+        radius={searchRadius}
+        setRadius={setSearchRadius}
         scaleFilter={scaleFilter}
         setScaleFilter={setScaleFilter}
       />
@@ -108,7 +108,7 @@ const DataPage = () => {
           </div>
         </TabPanel>
         <TabPanel value={tabIdx} index={1}>
-          <DataMap rows={rowsData} searchCoords={searchCoords} setCoords={setSearchCoords} />
+          <DataMap rows={rowsData} searchCoords={searchCoords} setCoords={setSearchCoords} searchRadius={searchRadius} />
         </TabPanel>
       </div>
     </div>

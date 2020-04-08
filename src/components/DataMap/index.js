@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, {useState, useEffect } from 'react';
-import {Map, TileLayer, CircleMarker} from 'react-leaflet';
+import {Map, TileLayer, CircleMarker } from 'react-leaflet';
+import GreatCircle from 'react-leaflet-greatcircle'; // distorts correctly near poles
 import Button from '@material-ui/core/Button';
 import Control from 'react-leaflet-control';
 
@@ -47,7 +48,7 @@ const getStyling = ({scale}) => {
   }
 };
 
-function DataMap({rows, searchCoords, setCoords}) {
+function DataMap({rows, searchCoords, setCoords, searchRadius}) {
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState({});
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
@@ -96,6 +97,16 @@ function DataMap({rows, searchCoords, setCoords}) {
               {...getStyling(row)}
             />
           )}
+          {searchRadius && searchRadius < 100 * 1000 * 1000 &&
+            <GreatCircle
+              center={[searchCoords.lat, searchCoords.lng]}
+              radius={searchRadius}
+              color={'#ff0000'}
+              fill={false}
+              weight={2}
+              dashArray={'4'}
+            />
+          }
 
           <Control position="bottomleft" className="custom-control">
             <div>{rows.length} {rows.length === 1 ? 'result' : 'results'}</div>
@@ -136,6 +147,7 @@ DataMap.propTypes = {
     lng: PropTypes.number.isRequired,
   }),
   setCoords: PropTypes.func.isRequired,
+  searchRadius: PropTypes.number
 };
 DataMap.defaultProps = {
   rows: [],

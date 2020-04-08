@@ -25,6 +25,7 @@
     "react-dom": "^16.13.1",
     "react-leaflet": "^2.6.3",
     "react-leaflet-control": "^2.1.2",
+    "react-leaflet-greatcircle": "^1.0.2",
     "react-places-autocomplete": "^7.2.1",
     "react-scripts": "3.4.1",
     "urql": "1.9.5"

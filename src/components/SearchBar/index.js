@@ -29,7 +29,7 @@ function makeReverseGeocodingRequest(lat, lng) {
     .then(response => response.json());
 }
 
-const SearchBar = ({ coords, setCoords, distance, setDistance, scaleFilter, setScaleFilter }) => {
+const SearchBar = ({ coords, setCoords, radius, setRadius, scaleFilter, setScaleFilter }) => {
   const scaleFilterValues = getScaleFilterValues();
   const [address, setAddress] = useState();
   const [usingLocation, setUseLocation] = useState(false);
@@ -57,7 +57,7 @@ const SearchBar = ({ coords, setCoords, distance, setDistance, scaleFilter, setS
   }
 
   function searchDistanceChange(e) {
-    setDistance(e.target.value);
+    setRadius(e.target.value);
   }
 
   function handleScaleFilterChange(event) {
@@ -102,7 +102,7 @@ const SearchBar = ({ coords, setCoords, distance, setDistance, scaleFilter, setS
         <Select
           labelId="range-input-label"
           id="range-input"
-          value={distance}
+          value={radius}
           onChange={searchDistanceChange}
         >
           <MenuItem value={10 * 1000}>10 km</MenuItem>
@@ -135,9 +135,9 @@ SearchBar.propTypes = {
     lat: PropTypes.number.isRequired,
     lng: PropTypes.number.isRequired,
   }),
-  // setCoords,
-  // distance,
-  // setDistance
+  setCoords: PropTypes.func.isRequired,
+  radius: PropTypes.number,
+  setRadius: PropTypes.func.isRequired,
 };
 
 const wrapper = GoogleApiWrapper(
