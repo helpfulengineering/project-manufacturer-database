@@ -20,10 +20,11 @@ const loadRows = async (sheet, rowParser, limit=1, offset=0) => {
   return entities;
 };
 
-export const loadDocument = async ({apiKey, documentConfig, limit}) => {
+export const loadDocument = async (accountConfig, documentConfig, limit) => {
   const {spreadsheetId, sheetId, rowParser} = documentConfig;
   const doc = new GoogleSpreadsheet(spreadsheetId); // spreadsheet key is the long id in the sheets URL
-  doc.useApiKey(apiKey);
+
+  await doc.useServiceAccountAuth(accountConfig);
 
   await doc.loadInfo(); // loads document properties and worksheets
   log.info(`document title: ${doc.title}`);

@@ -1,22 +1,20 @@
 import log  from "loglevel";
 import {createClient, uploadData} from "./uplink/client.js";
 import {GRAPHQL_URI, Copy3DPrinterCrowdCovidDoc, FabricationEquipmentDoc} from "./config.js";
-import {DOC_API_KEY} from "./config.js";
+import {GOOGLE_AUTH} from "./config.js";
 import {loadDocument} from "./spreadsheetLoader.js";
 import exit_codes from "./exit_codes.js";
 import { getUploadToken } from "./auth/uploadAuth.js";
 
 log.setLevel(log.levels.TRACE);
 
-
 const doImport = async (uploadClient, documentConfig, limit) => {
-  const entities = await loadDocument({apiKey: DOC_API_KEY, documentConfig, limit});
+  const entities = await loadDocument(GOOGLE_AUTH, documentConfig, limit);
   await uploadData(uploadClient, entities);
 };
 
 const main = async (limit1, limit2) => {
   const uploadToken = await getUploadToken();
-
   const uploadClient = createClient(GRAPHQL_URI, uploadToken);
 
   await doImport(uploadClient, Copy3DPrinterCrowdCovidDoc, limit1);
