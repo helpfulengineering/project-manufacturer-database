@@ -12,6 +12,7 @@
   "dependencies": {
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-client": "^2.6.8",
+    "apollo-link-context": "^1.0.19",
     "apollo-link-http": "^1.5.16",
     "dotenv": "^8.2.0",
     "google-spreadsheet": "^3.0.10",
@@ -19,6 +20,8 @@
     "graphql": "^14.6.0",
     "graphql-import-node": "0.0.4",
     "graphql-tag": "^2.10.3",
-    "loglevel": "^1.6.7"
+    "loglevel": "^1.6.7",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.5"
   }
 }

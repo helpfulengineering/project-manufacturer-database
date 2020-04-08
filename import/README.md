@@ -12,9 +12,13 @@ Set environment variables, either directly or through `.env` file:
 
 ```
 DOC_API_KEY=<GoogleDocApiKey>
+UPLOAD_CLIENT_CREDENTIAL_DOMAIN=<key>
+UPLOAD_CLIENT_CREDENTIAL_CLIENT_ID=<key>
+UPLOAD_CLIENT_CREDENTIAL_CLIENT_SECRET=<key>
+UPLOAD_CLIENT_CREDENTIAL_API_IDENTIFIER=<key>
 ```
 
-Note the `.env` file will not work in production (feature).
+Note the `.env` file will not work in production (by design).
     
 ### Run
 

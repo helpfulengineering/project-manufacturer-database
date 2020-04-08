@@ -6,19 +6,33 @@ import inmemory from 'apollo-cache-inmemory';
 
 const {InMemoryCache} = inmemory;
 import alink from "apollo-link-http";
-
 const {createHttpLink} = alink;
+import alinkcontext from 'apollo-link-context';
+const{ setContext } = alinkcontext;
+
 import gql from 'graphql-tag';
 import fetch from 'node-fetch'
 import {InsertQuery} from "./queries.js";
 
-export const createClient = (uri) => {
+export const createClient = (uri, token) => {
+  const httpLink = createHttpLink({
+    uri,
+    fetch,
+    name: 'Sheet importer'
+  });
+
+  const authLink = setContext((_, { headers }) => {
+    // return the headers to the context so httpLink can read them
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : "",
+      }
+    }
+  });
+
   const client = new ApolloClient({
-    link: createHttpLink({
-      uri,
-      fetch,
-      name: 'Sheet importer'
-    }),
+    link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
   });
   return client;
