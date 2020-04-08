@@ -78,12 +78,6 @@ function DataMap({rows, searchCoords, setCoords, searchRadius}) {
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {searchCoords &&
-            <CircleMarker center={[searchCoords.lat, searchCoords.lng]}
-                          radius={4}
-                          color={'#ff0000'}
-            />
-          }
           {markers.map(row =>
             <CircleMarker
               center={[row.lat, row.lng]}
@@ -97,6 +91,15 @@ function DataMap({rows, searchCoords, setCoords, searchRadius}) {
               {...getStyling(row)}
             />
           )}
+          {searchCoords &&
+          <CircleMarker
+            center={[searchCoords.lat, searchCoords.lng]}
+            radius={4}
+            fillColor={'#ff0000'}
+            fillOpacity={1.0}
+            stroke={false}
+          />
+          }
           {searchRadius && searchRadius < 100 * 1000 * 1000 &&
             <GreatCircle
               center={[searchCoords.lat, searchCoords.lng]}
