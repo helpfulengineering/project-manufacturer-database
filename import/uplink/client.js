@@ -13,7 +13,7 @@ import gql from 'graphql-tag';
 import fetch from 'node-fetch'
 import {InsertQuery} from "./queries.js";
 
-const concurrency = 3; // The number of concurrent uploads
+const concurrency = 10; // The number of concurrent uploads
 
 export const createClient = (uri) => {
   const client = new ApolloClient({
