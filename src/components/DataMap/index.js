@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect } from 'react';
 import {Map, TileLayer, CircleMarker} from 'react-leaflet';
 import Button from '@material-ui/core/Button';
 import Control from 'react-leaflet-control';
@@ -15,21 +15,36 @@ import {LimitReachedAlert} from "../Alerts";
 const MAP_CENTER = [30.0, 10.0];
 const MAP_ZOOM = 2;
 
-function DataMap({rows, searchCoords}) {
+// Part of hack to prevent marker click to also trigger map click.
+const DEBOUNCE_MARKER_MAP_CLICK = 1000; //ms
+let lastMarkerClick = 0;
+
+function DataMap({rows, searchCoords, setCoords}) {
   const [markers, setMarkers] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState({});
   const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+
   useEffect(() => {
     setMarkers(rows.filter(i => i.hasLocation));
   }, [rows]);
 
   const isLimited = rows.length === MAX_QUERY_SIZE;
 
+  const handleClick = (event) => {
+    if (performance.now() - lastMarkerClick > DEBOUNCE_MARKER_MAP_CLICK) {
+      setCoords(event.latlng);
+    }
+  };
+
   return (
     <>
       {isLimited && <LimitReachedAlert /> }
       <div className="map__container">
-        <Map center={MAP_CENTER} zoom={MAP_ZOOM}>
+        <Map
+          center={MAP_CENTER}
+          zoom={MAP_ZOOM}
+          onClick={handleClick}
+        >
           <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -44,9 +59,10 @@ function DataMap({rows, searchCoords}) {
             <CircleMarker center={[row.lat, row.lng]}
               radius={6}
               key={row.pk}
-              onClick={() => {
+              onClick={(event) => {
+                lastMarkerClick = performance.now(); // note: event.originalEvent.stopPropagation() did not stop propagation
                 setSelectedMarker(row);
-                setIsDetailModalOpen(true)
+                setIsDetailModalOpen(true);
               }}
             />
           )}
@@ -88,7 +104,8 @@ DataMap.propTypes = {
   searchCoords: PropTypes.shape({
     lat: PropTypes.number.isRequired,
     lng: PropTypes.number.isRequired,
-  })
+  }),
+  setCoords: PropTypes.func.isRequired,
 };
 DataMap.defaultProps = {
   rows: [],
