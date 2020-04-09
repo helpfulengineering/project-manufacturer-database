@@ -60,15 +60,15 @@ function App() {
     <Provider value={urqlClient}>
       <RoleContext.Provider value={role}>
         <Container maxWidth="xl">
-          <Paper className="app--body">
-            <header className="app--header">
-              <a href="https://helpfulengineering.odoo.com/" title="Project by Helpful Engineering" className="app--HE-logo">
+          <Paper className="app__body">
+            <header className="app__header">
+              <a href="https://helpfulengineering.odoo.com/" title="Project by Helpful Engineering" className="app__HE-logo">
                 <img src={HELogo} width="177" height="75" alt="Helpful Engineering Logo"/>
               </a>
-              <Typography variant="h2" className="app--title">
+              <Typography variant="h3" component="h1" className="app__title">
                 Manufacturing volunteer search
               </Typography>
-              <NavBar className="app--nav"/>
+              <NavBar className="app__nav"/>
             </header>
             <DataPage />
           </Paper>

@@ -117,9 +117,6 @@ const SearchBar = ({ coords, setCoords, radius, setRadius, scaleFilter, setScale
         </Select>
       </FormControl>
 
-      <TextField label="Lat" value={coords.lat} disabled />
-      <TextField label="lng" value={coords.lng} disabled />
-
       <Filter
         label={"scale"}
         activeValue={scaleFilter}
