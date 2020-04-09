@@ -107,7 +107,7 @@ dist
 #
 # Project specific
 #
-/import/local/
+local/
 credentials.json
 token.json
 api_key
