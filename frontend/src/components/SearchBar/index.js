@@ -10,7 +10,6 @@ import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import AutocompleteField from '../AutocompleteField';
 import "./SearchBar.scss";
-import TextField from "@material-ui/core/TextField";
 import Filter from "../Filter";
 import {trackEvent} from "../../analytics";
 import {SCALE_FILTERS} from "../../data/queries";
@@ -116,9 +115,6 @@ const SearchBar = ({ coords, setCoords, radius, setRadius, scaleFilter, setScale
           <MenuItem value={1000 * 1000 * 1000}>Unlimited</MenuItem>
         </Select>
       </FormControl>
-
-      <TextField label="Lat" value={coords.lat} disabled />
-      <TextField label="lng" value={coords.lng} disabled />
 
       <Filter
         label={"scale"}

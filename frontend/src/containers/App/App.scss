@@ -1,26 +1,38 @@
-.app--body {
+.app__body {
   padding: 0 .5rem;
 }
 
-.app--header {
+.app__header {
   display: flex;
   align-items: flex-end;
+  max-width: 100%;
 }
 
-.app--title {
+.app__title {
   flex-grow: 1;
   text-align: center;
 }
 
-.app--nav-bar {
+.app__nav-bar {
 
 }
 
-.app--HE-logo {
+.app__HE-logo {
   height: 4.75rem;
   & > img {
-    height: 100%;
-    width: auto;
+    min-width: 100px;
+    max-width: 100%;
+    height: auto;
   }
   margin-bottom: -.5rem;
+}
+
+@media(max-width: 750px) {
+  .app__title {
+    font-size: 2rem;
+    text-align: left;
+  }
+  .app__HE-logo {
+    display: none;
+  }
 }

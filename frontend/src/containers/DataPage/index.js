@@ -68,7 +68,7 @@ const DataPage = () => {
 
   return (
     <div className="data-page">
-      <Box width="80ch">
+      <Box width="80ch" maxWidth="100%">
         <Typography paragraph={true}>
           Search through pandemic volunteers who have offered their service for 3D printing, laser cutting and more.
         </Typography>
