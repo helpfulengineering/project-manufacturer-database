@@ -31,12 +31,13 @@ const DataPage = () => {
   const [rowsData, setRowsData] = useState([]);
   const [searchCoords, setSearchCoords] = useState({ lat: 0, lng: 0 });
   const [searchRadius, setSearchRadius] = useState(1000 * 1000 * 1000); // bigger than earth circumference, in kilometers
+  const [textQuery, setTextQuery] = useState('');
   const [scaleFilter, setScaleFilter] = useState(SCALE_FILTERS.Small);
   const [tabIdx, setTabIdx] = React.useState(0);
   const role = useContext(RoleContext);
 
   const [{data: queryResult, fetching, error: queryError}] = useQuery({
-    query: queries.displaySearchQuery(isAuthenticated && role === ROLES.USER_MANAGER),
+    query: queries.displaySearchQuery(textQuery, isAuthenticated && role === ROLES.USER_MANAGER),
     variables: {
       limit: MAX_QUERY_SIZE,
       radius: searchRadius, // in meters
@@ -44,16 +45,19 @@ const DataPage = () => {
         type: 'Point',
         coordinates: [searchCoords.lng, searchCoords.lat]
       },
-      scale: scaleFilter.split(',')
+      scale: scaleFilter.split(','),
+      textQuery,
     }
   });
 
   useEffect(() => {
     if (queryResult && !queryError) {
-      const formattedRowsData = searchQueryDataDisplayAdapter(queryResult);
+      const sites = queryResult.search_sites || queryResult.SiteInfo;
+      const formattedRowsData = searchQueryDataDisplayAdapter(sites);
       setRowsData(formattedRowsData);
 
       if (searchCoords.lng !== 0 || searchCoords.lat !== 0) {
+        // Result for location search different from start position (0, 0)
         trackEvent('query-results', {
           rows: formattedRowsData.length,
           query: {
@@ -84,6 +88,8 @@ const DataPage = () => {
         setRadius={setSearchRadius}
         scaleFilter={scaleFilter}
         setScaleFilter={setScaleFilter}
+        textQuery={textQuery}
+        setTextQuery={setTextQuery}
       />
       <ExportControl rows={rowsData} />
 

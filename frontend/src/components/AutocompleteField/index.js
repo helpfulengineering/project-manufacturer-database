@@ -64,7 +64,7 @@ const AutocompleteField = ({ geoLocatedAddress, handleSelect }) => {
             <div>
               <Input
                 {...getInputProps({
-                  placeholder: 'Search Places ...',
+                  placeholder: 'Search address ...',
                   className: 'location-search-input',
                 })}
                 startAdornment={

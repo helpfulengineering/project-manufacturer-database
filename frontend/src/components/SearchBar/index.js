@@ -8,6 +8,7 @@ import GpsFixedIcon from "@material-ui/icons/GpsFixed";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
 import AutocompleteField from '../AutocompleteField';
 import "./SearchBar.scss";
 import Filter from "../Filter";
@@ -28,7 +29,7 @@ function makeReverseGeocodingRequest(lat, lng) {
     .then(response => response.json());
 }
 
-const SearchBar = ({ coords, setCoords, radius, setRadius, scaleFilter, setScaleFilter }) => {
+const SearchBar = ({ coords, setCoords, radius, setRadius, scaleFilter, setScaleFilter, textQuery, setTextQuery }) => {
   const scaleFilterValues = getScaleFilterValues();
   const [address, setAddress] = useState();
   const [usingLocation, setUseLocation] = useState(false);
@@ -80,6 +81,12 @@ const SearchBar = ({ coords, setCoords, radius, setRadius, scaleFilter, setScale
 
   return (
     <form className="search-bar">
+      <TextField
+        label="Text search"
+        onChange={(e) => setTextQuery(e.target.value)}
+        value={textQuery}
+      />
+
       <FormGroup row>
         <AutocompleteField geoLocatedAddress={address} handleSelect={handleSelectAddress} />
         {geolocationSupported && (
@@ -134,6 +141,8 @@ SearchBar.propTypes = {
   setCoords: PropTypes.func.isRequired,
   radius: PropTypes.number,
   setRadius: PropTypes.func.isRequired,
+  textQuery: PropTypes.string,
+  setTextQuery: PropTypes.func.isRequired,
 };
 
 const wrapper = GoogleApiWrapper(
