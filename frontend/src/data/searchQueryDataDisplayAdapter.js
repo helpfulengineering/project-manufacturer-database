@@ -5,9 +5,9 @@ import each from 'lodash/each';
  * Convert hierarchical domain based data to flat format usable in table & map view.
  * @param dbData
  */
-export default (domainData) => {
+export default (sites) => {
   const formattedData = [];
-  each(domainData.SiteInfo, (site) => {
+  each(sites, (site) => {
     const entityAndSite = {
       pk: site.pk,
       country: site.country,

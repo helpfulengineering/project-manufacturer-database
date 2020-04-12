@@ -11,10 +11,50 @@ const contacts = `
   }
 `;
 
-export const displaySearchQuery = (isManager) => `
-  query ($limit: Int!, $radius: Float!, $point: geography!, $scale: [String!]!) {
-    SiteInfo(
-      limit: $limit,
+const getSiteFragment = (isManager) => `
+  fragment siteFields on SiteInfo {
+    pk
+    city
+    country
+    lat
+    lng
+    
+    entity {
+      name
+      experience
+      notes
+      ${isManager ? contacts : ''}
+      scale
+    }
+    equipments {
+      brand
+      model
+      quantity
+    }
+  }
+`;
+
+const basicSearch = `
+query ($limit: Int!, $radius: Float!, $point: geography!, $scale: [String!]!, $textQuery: String) {
+  SiteInfo(
+    limit: $limit,
+    where: {
+      entity:{
+        scale: { _in: $scale }
+      }
+      location: { _st_d_within: { distance: $radius, from: $point}}
+    }
+  ) {
+      ...siteFields
+  }
+}
+`;
+
+const textSearch = `
+query ($limit: Int!, $point: geography!, $radius: Float!, $scale: [String!]!, $textQuery: String) {
+    search_sites(
+      args: {search: $textQuery}
+      limit: $limit
       where: {
         entity:{
           scale: { _in: $scale }
@@ -22,23 +62,14 @@ export const displaySearchQuery = (isManager) => `
         location: { _st_d_within: { distance: $radius, from: $point}}
       }
     ) {
-      pk
-      city
-      country
-      lat
-      lng
-      entity {
-        name
-        experience
-        notes
-        ${isManager ? contacts : ''}
-        scale
-      }
-      equipments {
-        brand
-        model
-        quantity
-      }
+      ...siteFields
     }
   }
 `;
+
+export const displaySearchQuery = (textQuery, isManager) => `
+  ${getSiteFragment(isManager)}
+  
+  ${textQuery ? textSearch : basicSearch}
+`;
+
