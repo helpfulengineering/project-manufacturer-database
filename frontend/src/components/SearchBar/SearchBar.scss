@@ -12,3 +12,9 @@
     padding-bottom: 0.1em;
   }
 }
+
+@media (min-width: 600px) {
+  .search-bar__text-search {
+    min-width: 30ch !important;
+  }
+}
