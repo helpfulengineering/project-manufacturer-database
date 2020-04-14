@@ -83,8 +83,12 @@ const SearchBar = ({ coords, setCoords, radius, setRadius, scaleFilter, setScale
     <form className="search-bar">
       <TextField
         label="Text search"
+        helperText="e.g.: 'Injection', 'laser', 'professional'"
         onChange={(e) => setTextQuery(e.target.value)}
         value={textQuery}
+        width={"100%"}
+        autoFocus={true}
+        className="search-bar__text-search"
       />
 
       <FormGroup row>
