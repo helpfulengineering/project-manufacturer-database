@@ -19,6 +19,7 @@ export default (sites) => {
       experience: site.entity.experience,
       notes: site.entity.notes,
       scale: site.entity.scale,
+      entity_pk: site.entity.pk,
       email: map(site.entity.contacts, (contact) => contact.email).join(', '),
       slack_handle: map(site.entity.contacts, (contact) => contact.slack_handle).join(', '),
     };

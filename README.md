@@ -9,6 +9,7 @@ The project contains the following file/folder structure:
 
 * frontend: Database search/display frontend SPA. [readme](frontend/README.md)
 * import: Process to import code from various sources into database. [readme](import/README.md)
+* netlify-functions: Serverless functions for sending emails to volunteers [readme](netlify-functions/README.md)
 * misc: Miscellaneous items
 
 ## Contributing

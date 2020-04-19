@@ -5,11 +5,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "netlify-lambda build src",
-    "start": "netlify-lambda serve src"
+    "build": "netlify-lambda build src/lambda",
+    "start": "netlify-lambda serve src/lambda"
   },
   "private": true,
   "dependencies": {
-    "netlify-lambda": "^1.6.3"
+    "dotenv": "^8.2.0",
+    "graphql.js": "^0.6.6",
+    "loglevel": "^1.6.8",
+    "netlify-lambda": "^1.6.3",
+    "request-promise": "^4.2.5"
+  },
+  "devDependencies": {
+    "jest": "^25.3.0"
   }
 }
