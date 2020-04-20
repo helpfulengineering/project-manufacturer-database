@@ -19,10 +19,11 @@ For instance a default webpack/babel config is used, see: https://github.com/net
 Set environment variables, either directly or through `.env` file:
 
 ```
-UPLOAD_CLIENT_CREDENTIAL_DOMAIN=<key>
-UPLOAD_CLIENT_CREDENTIAL_CLIENT_ID=<key>
-UPLOAD_CLIENT_CREDENTIAL_CLIENT_SECRET=<key>
-UPLOAD_CLIENT_CREDENTIAL_API_IDENTIFIER=<key>
+AUTH0_DOMAIN=<key>
+AUTH0_CLIENT_ID=<key>
+AUTH0_CLIENT_SECRET=<key>
+AUTH0_API_IDENTIFIER=<key>
+AUTH0_PEM="raw text from https://${AUTH0_DOMAIN}/pem" (note the quotes!)
 ```
 
 Note the `.env` file will not work in production (by design).
