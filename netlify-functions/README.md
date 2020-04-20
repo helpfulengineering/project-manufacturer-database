@@ -30,6 +30,8 @@ Note the `.env` file will not work in production (by design).
 
 ## Run
 
+To test Netlify functions:
+
     npm start
     
 Functions are served on http://localhost:9000/
@@ -38,6 +40,10 @@ e.g.:
 
 http://localhost:9000/.netlify/functions/your-function-name
 
+### Try it out code directly
+
+The various `src/index-*.js` files will run modules in isolation.
+Run them from the project root with the necessary environment variables set. 
 
 ## Notes
 

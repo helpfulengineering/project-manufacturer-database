@@ -7,7 +7,12 @@ if (process.env.NODE_ENV !== 'production') {
 
 const GRAPHQL_ENDPOINT = 'https://he-manufacturers-db-hasura.herokuapp.com/v1/graphql';
 
+const EMAIL_RATE_LIMIT = {
+  DEFAULT: 5 // PER_USER_PER_24H
+};
+
 module.exports = {
+  EMAIL_RATE_LIMIT,
   GRAPHQL_ENDPOINT,
   AUTH0_DOMAIN: process.env.AUTH0_DOMAIN,
   AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
