@@ -1,5 +1,10 @@
 const log = require('loglevel');
 const config = require("../config");
+const {sendEmail} = require("../email/adapter");
+const {validateEmail} = require("../input/form_validation");
+const {FormError} = require("../errors");
+const {removeCount} = require("../email/rate-limiter");
+const {getContactInfo} = require("../db/database-adapter");
 const {validateFormParams} = require("../input/form_validation");
 const {createClient} = require("../db/database-adapter");
 const {getWriteToken} = require("../auth/upload");
@@ -91,6 +96,9 @@ export async function handler(event, context) {
     }
   }
   const fromName = params.from_name;
+  const fromEmail = params.from_email;
+  const entityPk = params.to_entity_pk;
+  const message = params.message;
 
   // Get user id
   const claims = decoded['https://hasura.io/jwt/claims'];
@@ -100,6 +108,7 @@ export async function handler(event, context) {
   // Get GraphQL client
   log.info('initializing graphQl client');
   const client = await getClient();
+
   let countPk;
   try {
     countPk = await tryIncreaseCount(client, userId, config.EMAIL_RATE_LIMIT.DEFAULT);
@@ -113,12 +122,44 @@ export async function handler(event, context) {
       throw e;
     }
   }
+  log.info('increased counter on rate limit');
+
+  try {
+    log.info('getting contact info...');
+    const targetInfo = await getContactInfo(client, entityPk);
+    log.info(`contact info fetched: ${JSON.stringify(targetInfo)}`);
+
+    validateEmail(targetInfo.email);
+
+    log.info('sending mail...');
+    sendEmail({
+      fromEmail,
+      fromName,
+      toEmail: targetInfo.email,
+      toName: targetInfo.name,
+      message
+    });
+    log.info('mail send!');
+  } catch (e) {
+    log.error('unexpected error after counting towards rate limit, removing count');
+    await removeCount(client, countPk);
+    log.info('rate limit count removed');
+
+    if (e instanceof FormError) {
+      log.error('Entity does not have valid email');
+      return {
+        statusCode: 501,
+        body: 'Entity does not have valid email'
+      };
+    } else {
+      throw e;
+    }
+  }
 
   return {
     statusCode: 200,
     body: JSON.stringify({
-      fromName,
-      message: `Hello world ${Math.floor(Math.random() * 10)}`
+      status: 'success',
     })
   };
 }

@@ -1,5 +1,7 @@
-const sendEmail = ({ replyTo, to, message }) => {
+const sendEmail = ({ fromEmail, fromName, toEmail, toName, message }) => {
 
 };
 
-module.exports = sendEmail;
+module.exports = {
+  sendEmail
+};

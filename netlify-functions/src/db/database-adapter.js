@@ -29,6 +29,14 @@ const getContactInfo = async (client, entity_pk) => {
 
   return doQuery({
     entity_pk
+  }).then(result => {
+    if (result.Entity.length == 0) {
+      throw new Error('entity not found');
+    }
+    return {
+      name: result.Entity[0].name,
+      email: result.Entity[0].contacts[0].email
+    }
   }).catch(function (error) { // response is originally response.errors of query result
     log.error(`doQuery error: ${error}`);
     throw error;

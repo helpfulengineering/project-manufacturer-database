@@ -55,5 +55,6 @@ const removeCount = async (graphQLclient, countPk) => {
 };
 
 module.exports = {
+  removeCount,
   tryIncreaseCount
 };

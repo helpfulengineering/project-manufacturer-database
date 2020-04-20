@@ -16,6 +16,10 @@ const constraints = {
     numericality: {
       onlyInteger: true
     }
+  },
+  message: {
+    presence: true,
+    length: { minimum: 120 }
   }
 };
 
@@ -26,6 +30,14 @@ const validateFormParams = (params) => {
   }
 };
 
+const validateEmail = email => {
+  const result = validate.single(email, {presence: true, email: true});
+  if (result) {
+    throw new FormError(`email not valid: ${JSON.stringify(result)}`);
+  }
+};
+
 module.exports = {
+  validateEmail,
   validateFormParams
 };
