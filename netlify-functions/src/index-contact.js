@@ -2,14 +2,14 @@
 const log = require('loglevel');
 const config = require("./config");
 const {createClient, getContactInfo} = require("./db/database-adapter");
-const {getUploadToken} = require("./auth/upload");
+const {getWriteToken} = require("./auth/upload");
 
 log.setLevel(log.levels.TRACE);
 
 const main = async () => {
   const entity_pk = 56065;
 
-  const authToken = await getUploadToken(
+  const authToken = await getWriteToken(
     config.AUTH0_DOMAIN,
     config.AUTH0_CLIENT_ID,
     config.AUTH0_CLIENT_SECRET,

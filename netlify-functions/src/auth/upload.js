@@ -1,6 +1,6 @@
 const rp = require('request-promise');
 
-const getUploadToken = async (domain, client_id, client_secret, audience) => {
+const getWriteToken = async (domain, client_id, client_secret, audience) => {
   const url = `https://${domain}/oauth/token`;
   const options = {
     method: 'POST',
@@ -20,5 +20,5 @@ const getUploadToken = async (domain, client_id, client_secret, audience) => {
 };
 
 module.exports = {
-  getUploadToken
+  getWriteToken
 };

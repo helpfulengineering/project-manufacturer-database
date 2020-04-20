@@ -1,5 +1,9 @@
 const log = require('loglevel');
 const config = require("../config");
+const {createClient} = require("../db/database-adapter");
+const {getWriteToken} = require("../auth/upload");
+const {RateError} = require("../errors");
+const {tryIncreaseCount} = require("../email/rate-limiter");
 const {verifyJwt} = require("../auth/check-jwt");
 const {extractToken} = require("../auth/check-jwt");
 const {AuthError} = require("../errors");
@@ -22,9 +26,24 @@ const checkVarDefined = (value, name) => {
   }
 };
 
+const getClient = async () => {
+  const writeToken = await getWriteToken(
+    config.AUTH0_DOMAIN,
+    config.AUTH0_CLIENT_ID,
+    config.AUTH0_CLIENT_SECRET,
+    config.AUTH0_API_IDENTIFIER
+  );
+  log.info('GraphQL auth token retrieved');
+
+  return createClient(writeToken);
+};
+
 export async function handler(event, context) {
   checkVarDefined(PEM, 'AUTH0_PEM');
   checkVarDefined(auth0Domain, 'AUTH0_DOMAIN');
+  checkVarDefined(auth0Domain, 'AUTH0_CLIENT_ID');
+  checkVarDefined(auth0Domain, 'AUTH0_CLIENT_SECRET');
+  checkVarDefined(auth0Domain, 'AUTH0_API_IDENTIFIER');
 
   if (event.httpMethod !== "POST") {
     // Only allow POST
@@ -32,6 +51,7 @@ export async function handler(event, context) {
   }
 
   // Check authorization
+  log.info('checking authorization');
   const { authorization } = event.headers;
   let decoded;
   try {
@@ -47,24 +67,36 @@ export async function handler(event, context) {
       throw e;
     }
   }
-  console.log(decoded);
+
+  // Get user id
+
+  const claims = decoded['https://hasura.io/jwt/claims'];
+  const userId = claims['x-hasura-user-id'];
+  log.info(`user id: ${userId}`);
 
   const params = querystring.parse(event.body);
   const fromName = params.from_name;
-
-  console.log(event);
-
-  const token = event.authorizationToken;
-  console.log(`token: ${token}`);
+  // TODO validate form fields
 
   console.log(params);
   console.log(fromName);
 
-  // TODO: throw unauthenticated
-  // TODO: throw unauthorized
-  // TODO: throw rate limit
-
-  // const payload = JSON.parse(event)
+  // Get GraphQL client
+  log.info('initializing graphQl client');
+  const client = await getClient();
+  let countPk;
+  try {
+    countPk = await tryIncreaseCount(client, userId, config.EMAIL_RATE_LIMIT.DEFAULT);
+  } catch (e) {
+    if (e instanceof RateError) {
+      return {
+        statusCode: StatusCodes.rate_limit,
+        body: e.message
+      };
+    } else {
+      throw e;
+    }
+  }
 
   return {
     statusCode: 200,

@@ -1,4 +1,4 @@
-const formatISO = require('date-fns/formatISO');
+const { formatISO } = require('date-fns'); // Note, direct module reference somehow does not work for lambda version.
 const log = require('loglevel');
 const graphql = require('graphql.js'); // https://github.com/f/graphql.js/
 const {GRAPHQL_ENDPOINT} = require("../config");
