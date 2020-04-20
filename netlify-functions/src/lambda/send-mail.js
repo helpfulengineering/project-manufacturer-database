@@ -1,5 +1,6 @@
 const log = require('loglevel');
 const config = require("../config");
+const {validateFormParams} = require("../input/form_validation");
 const {createClient} = require("../db/database-adapter");
 const {getWriteToken} = require("../auth/upload");
 const {RateError} = require("../errors");
@@ -15,6 +16,7 @@ const PEM = config.AUTH0_PEM;
 const auth0Domain = config.AUTH0_DOMAIN;
 
 const StatusCodes = {
+  bad: 400,
   unauthorized: 401,
   rate_limit: 429, // The response representations SHOULD include details explaining the condition
 };
@@ -68,18 +70,32 @@ export async function handler(event, context) {
     }
   }
 
-  // Get user id
+  //Form validation
+  const params = querystring.parse(event.body);
+  if (params.do_not_fill) { // Hidden field in front-end, low hanging fruit bot prevention.
+    return {
+      statusCode: StatusCodes.unauthorized,
+      body: 'do not fill'
+    };
+  }
+  try {
+    validateFormParams(params);
+  } catch (e) {
+    if (e instanceof FormError) {
+      return {
+        statusCode: StatusCodes.bad,
+        body: e.message
+      };
+    } else {
+      throw e;
+    }
+  }
+  const fromName = params.from_name;
 
+  // Get user id
   const claims = decoded['https://hasura.io/jwt/claims'];
   const userId = claims['x-hasura-user-id'];
   log.info(`user id: ${userId}`);
-
-  const params = querystring.parse(event.body);
-  const fromName = params.from_name;
-  // TODO validate form fields
-
-  console.log(params);
-  console.log(fromName);
 
   // Get GraphQL client
   log.info('initializing graphQl client');
