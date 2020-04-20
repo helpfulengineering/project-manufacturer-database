@@ -1,4 +1,4 @@
-// Demo code how to obtain JWT token
+// Demo code how to verify user JWT token
 const config = require("./config");
 const {verifyJwt} = require("./auth/check-jwt");
 
@@ -13,12 +13,7 @@ const main = async () => {
 
   const pem = config.AUTH0_PEM;
   const auth0Domain = config.AUTH0_DOMAIN;
-
-  const decoded = await verifyJwt(token, pem, {
-    audience: 'HasuraLink',
-    issuer: `https://${auth0Domain}/`,
-    algorithms: ['RS256']
-  });
+  const decoded = await verifyJwt(token, auth0Domain, pem);
 
   console.log(decoded);
 };

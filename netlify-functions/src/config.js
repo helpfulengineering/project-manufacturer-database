@@ -1,8 +1,14 @@
 const dotenv = require("dotenv");
 
+
 if (process.env.NODE_ENV !== 'production') {
   //loads environment variables from a .env file into process.env
-  dotenv.config();
+  if (process.env.NODE_ENV == 'dev') {
+    // when run through netlify-lambda the cwd is <project_root>/netlify-functions/
+    dotenv.config('../.env');
+  } else {
+    dotenv.config(); // use default: '<cwd>/.env'
+  }
 }
 
 const GRAPHQL_ENDPOINT = 'https://he-manufacturers-db-hasura.herokuapp.com/v1/graphql';
