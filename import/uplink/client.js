@@ -1,23 +1,16 @@
-import log from "loglevel";
-import aclient from "apollo-client";
-import PromisePool from 'es6-promise-pool';
-
-const {ApolloClient} = aclient;
-import inmemory from 'apollo-cache-inmemory';
-
-const {InMemoryCache} = inmemory;
-import alink from "apollo-link-http";
-const {createHttpLink} = alink;
-import alinkcontext from 'apollo-link-context';
-const{ setContext } = alinkcontext;
-
-import gql from 'graphql-tag';
-import fetch from 'node-fetch'
-import {InsertQuery} from "./queries.js";
+const log = require('loglevel');
+const PromisePool =  require('es6-promise-pool');
+const  {ApolloClient} = require('apollo-client');
+const {InMemoryCache} = require('apollo-cache-inmemory');
+const {createHttpLink} = require('apollo-link-http');
+const{ setContext } = require('apollo-link-context');
+const gql = require('graphql-tag');
+const fetch = require('node-fetch');
+const {InsertQuery} = require('./queries.js');
 
 const concurrentUploads = 10; // The number of concurrent uploads
 
-export const createClient = (uri, token) => {
+const createClient = (uri, token) => {
   const httpLink = createHttpLink({
     uri,
     fetch,
@@ -55,6 +48,7 @@ const mutateSingleEntity = (client, entity) => {
       notes: entity.notes,
       scale: entity.scale,
       email: contact.email,
+      is_valid_email: contact.is_valid_email,
       country: site.country,
       city: site.city,
       lat: site.lat,
@@ -70,7 +64,7 @@ const mutateSingleEntity = (client, entity) => {
   });
 };
 
-export const uploadData = async (client, entities) => {
+const uploadData = async (client, entities) => {
   const total = entities.length;
   log.info(`uploading ${total} entities to DB`);
   let errorCount = 0;
@@ -104,4 +98,9 @@ export const uploadData = async (client, entities) => {
   } else {
     log.info('no errors uploading!');
   }
+};
+
+module.exports = {
+  createClient,
+  uploadData
 };

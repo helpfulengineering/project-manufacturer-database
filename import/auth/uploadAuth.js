@@ -1,6 +1,6 @@
-import rp from 'request-promise';
+const rp = require('request-promise');
 
-export const getUploadToken = async () => {
+const getUploadToken = async () => {
   const url = `https://${process.env.UPLOAD_CLIENT_CREDENTIAL_DOMAIN}/oauth/token`;
   const options = {
     method: 'POST',
@@ -17,4 +17,8 @@ export const getUploadToken = async () => {
 
   return rp(options)
     .then(response => response.access_token);
+};
+
+module.exports = {
+  getUploadToken
 };

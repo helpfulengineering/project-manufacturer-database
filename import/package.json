@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
-  "type": "module",
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -21,8 +20,10 @@
     "graphql": "^14.6.0",
     "graphql-import-node": "0.0.4",
     "graphql-tag": "^2.10.3",
+    "jest": "^25.4.0",
     "loglevel": "^1.6.7",
     "request": "^2.88.2",
-    "request-promise": "^4.2.5"
+    "request-promise": "^4.2.5",
+    "validate.js": "^0.13.1"
   }
 }

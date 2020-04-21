@@ -1,5 +1,5 @@
-import log from "loglevel";
-import google from "google-spreadsheet";
+const log = require('loglevel');
+const google = require('google-spreadsheet');
 const GoogleSpreadsheet = google.GoogleSpreadsheet;
 
 const loadRows = async (sheet, rowParser, limit=1, offset=0) => {
@@ -20,7 +20,7 @@ const loadRows = async (sheet, rowParser, limit=1, offset=0) => {
   return entities;
 };
 
-export const loadDocument = async (accountConfig, documentConfig, limit) => {
+const loadDocument = async (accountConfig, documentConfig, limit) => {
   const {spreadsheetId, sheetId, rowParser} = documentConfig;
   const doc = new GoogleSpreadsheet(spreadsheetId); // spreadsheet key is the long id in the sheets URL
 
@@ -34,4 +34,8 @@ export const loadDocument = async (accountConfig, documentConfig, limit) => {
   log.info(`rows: ${sheet.rowCount}`);
 
   return loadRows(sheet, rowParser, limit, 0);
+};
+
+module.exports = {
+  loadDocument
 };
