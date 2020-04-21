@@ -1,6 +1,12 @@
-// Hack to import a file as plaintext... https://stackoverflow.com/a/60849354
-import {createRequire} from 'module';
-const require = createRequire(import.meta.url);
-require('graphql-import-node/register');
+const fs = require('fs');
 
-export const InsertQuery = require('./insert.graphql');
+require.extensions['.graphql'] = function (module, filename) {
+  module.exports = fs.readFileSync(filename, 'utf8');
+};
+
+const InsertQuery = require('./insert.graphql');
+
+module.exports = {
+  InsertQuery
+};
+

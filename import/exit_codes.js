@@ -1,7 +1,7 @@
-export const MISSING_ENV_VAR = 1;
-export const ARG_ERROR = 2;
+const MISSING_ENV_VAR = 1;
+const ARG_ERROR = 2;
 
-export default {
+module.exports = {
   MISSING_ENV_VAR,
   ARG_ERROR
 };

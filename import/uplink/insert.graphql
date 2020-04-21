@@ -5,6 +5,7 @@ mutation testInsertMutation(
     $notes: String,
     $scale: String,
     $email: String,
+    $is_valid_email: Boolean!,
     $slack: String,
     $phone: String,
     $country: String!,
@@ -49,6 +50,7 @@ mutation testInsertMutation(
                         phone: $phone,
                         slack_handle: $slack,
                         email: $email
+                        is_valid_email: $is_valid_email
                     }
                 ]
             }

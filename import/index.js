@@ -1,10 +1,13 @@
-import log  from "loglevel";
-import {createClient, uploadData} from "./uplink/client.js";
-import {GRAPHQL_URI, Copy3DPrinterCrowdCovidDoc, FabricationEquipmentDoc} from "./config.js";
-import {GOOGLE_AUTH} from "./config.js";
-import {loadDocument} from "./spreadsheetLoader.js";
-import exit_codes from "./exit_codes.js";
-import { getUploadToken } from "./auth/uploadAuth.js";
+const log = require('loglevel');
+const {FabricationEquipmentDoc} = require("./config");
+const {Copy3DPrinterCrowdCovidDoc} = require("./config");
+const {createClient} = require("./uplink/client");
+const {getUploadToken} = require("./auth/uploadAuth");
+const {loadDocument} = require("./spreadsheetLoader");
+const exit_codes = require('./exit_codes');
+const {uploadData} = require("./uplink/client");
+const {GOOGLE_AUTH} = require("./config");
+const {GRAPHQL_URI} = require("./config");
 
 log.setLevel(log.levels.TRACE);
 

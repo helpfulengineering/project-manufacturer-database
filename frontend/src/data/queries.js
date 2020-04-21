@@ -8,6 +8,7 @@ const contacts = `
   contacts {
     email
     slack_handle
+    is_valid_email
   }
 `;
 

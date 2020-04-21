@@ -1,5 +1,6 @@
 // Parses spreadsheet to internal data model (closely resembles database model)
-import log  from "loglevel";
+const log = require('loglevel');
+const {isEmail} = require("./check");
 
 const SCALE_LIMITS = {
   SMALL: 10, // 0 to 10 units
@@ -7,7 +8,7 @@ const SCALE_LIMITS = {
   // LARGE:
 };
 
-export const parseRowCrowdSourceDoc = (row) => {
+const parseRowCrowdSourceDoc = (row) => {
   // Unused at the moment:
   // 'Do.you.have.a.3D.Printer.': e.g.: "Yes"
   // 'Type', e.g.: "FDM", "SLA,FDM", "unknown", "FDM,SLS,Industrial"
@@ -39,10 +40,12 @@ export const parseRowCrowdSourceDoc = (row) => {
     lng: parseFloat(row['Longitude']),
   };
 
+  const email = row['Email.Address..This.is.public..'] // Note, explicitly stating that it is public,
   const contact = {
     phone: undefined,
     slack: undefined,
-    email: row['Email.Address..This.is.public..'], // Note, explicitly stating that it is public
+    email,
+    is_valid_email: isEmail(email)
   };
   const entity = {
     name: name,
@@ -56,7 +59,7 @@ export const parseRowCrowdSourceDoc = (row) => {
   return entity;
 };
 
-export const parseRowFabEquipDoc = (row) => {
+const parseRowFabEquipDoc = (row) => {
   // Unused at the moment:
   // 'What type of technology is this equipment?' e.g.: "FDM", "SLA/DLP", "PLA, ABS, PET, Flexfill (98A)"
   // 'What types of materials can you use?' e.g.: "Aluminum, Foam, Plastics, Brass", "PLA", "objects that can have stickers affixed for scanning"
@@ -106,10 +109,12 @@ export const parseRowFabEquipDoc = (row) => {
     lng: parseFloat(row['Longitude']),
   };
 
+  const email = row['Email or Contact Info'];
   const contact = {
     phone: undefined,
     slack: slack_handle,
-    email: row['Email or Contact Info'],
+    email,
+    is_valid_email: isEmail(email)
   };
 
   const entity = {
@@ -122,4 +127,9 @@ export const parseRowFabEquipDoc = (row) => {
   };
 
   return entity;
+};
+
+module.exports = {
+  parseRowCrowdSourceDoc,
+  parseRowFabEquipDoc
 };
