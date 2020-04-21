@@ -2,8 +2,6 @@
 
 Web app to search for nearby production facilities offered by volunteers.
 
-The backend for this project is: https://github.com/felix19350/hw-local-manufacturer-search-backend
-
 ## Install
 
     npm install
