@@ -20,6 +20,7 @@ const getSiteFragment = (isManager) => `
     lng
     
     entity {
+      pk
       name
       experience
       notes
