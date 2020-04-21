@@ -26,7 +26,7 @@ module.exports = {
   AUTH0_CLIENT_ID: process.env.AUTH0_CLIENT_ID,
   AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
   AUTH0_API_IDENTIFIER: process.env.AUTH0_API_IDENTIFIER,
-  AUTH0_PEM: process.env.AUTH0_PEM,
+  AUTH0_PEM: process.env.AUTH0_PEM.replace(/\\n/g, '\n'), // https://stackoverflow.com/a/36439803
   MAILGUN_DOMAIN: process.env.MAILGUN_DOMAIN,
   MAILGUN_API_KEY: process.env.MAILGUN_API_KEY,
 };

@@ -1,8 +1,6 @@
 // Demo code that sends an email
 const log = require('loglevel');
 const config = require("./config");
-const {MAILGUN_DOMAIN} = require("./config");
-const {MAILGUN_API_KEY} = require("./config");
 const {createMailgun} = require("./email/adapter");
 const {sendEmail} = require("./email/adapter");
 
@@ -17,7 +15,7 @@ const main = async () => {
   const toEmail = process.argv[2];
   console.log(`toEmail: `, toEmail);
 
-  const mg = createMailgun(MAILGUN_API_KEY, MAILGUN_DOMAIN);
+  const mg = createMailgun(config.MAILGUN_API_KEY, config.MAILGUN_DOMAIN);
   await sendEmail(mg, {
     fromName: 'John Doe',
     fromEmail: 'john@example.com',
