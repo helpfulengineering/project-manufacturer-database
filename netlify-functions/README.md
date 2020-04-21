@@ -24,6 +24,8 @@ AUTH0_CLIENT_ID=<key>
 AUTH0_CLIENT_SECRET=<key>
 AUTH0_API_IDENTIFIER=<key>
 AUTH0_PEM="raw text from https://${AUTH0_DOMAIN}/pem" (note the quotes!)
+MAILGUN_DOMAIN=<domain, the p.s.: sandbox one is for testing only>
+MAILGUN_API_KEY=<private key>
 ```
 
 Note the `.env` file will not work in production (by design).
@@ -39,6 +41,10 @@ Functions are served on http://localhost:9000/
 e.g.: 
 
 http://localhost:9000/.netlify/functions/your-function-name
+
+## Test
+
+    npm test
 
 ### Try it out code directly
 

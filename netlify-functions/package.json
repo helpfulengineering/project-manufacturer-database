@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "build": "netlify-lambda build src/lambda",
     "start": "NODE_ENV=dev netlify-lambda serve src/lambda"
   },
@@ -15,9 +15,11 @@
     "graphql.js": "^0.6.6",
     "jsonwebtoken": "^8.5.1",
     "loglevel": "^1.6.8",
+    "mailgun-js": "^0.22.0",
     "netlify-lambda": "^1.6.3",
     "node-fetch": "^2.6.0",
     "request-promise": "^4.2.5",
+    "sanitize-html": "^1.23.0",
     "validate.js": "^0.13.1"
   },
   "devDependencies": {

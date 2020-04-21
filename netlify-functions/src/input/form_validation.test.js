@@ -6,7 +6,8 @@ describe('form validation', () => {
   const params ={
     from_name: 'name',
     from_email: 'e@mail.com',
-    to_entity_pk: 1
+    to_entity_pk: 1,
+    message: 'Hi there, this is me from hospital. I would like some help producing X, Y and Z. Can you help?'
   };
 
   it('should check all fields', () => {
@@ -27,6 +28,10 @@ describe('form validation', () => {
   it('fails when on bad entity pk', () => {
     expect(() => validateFormParams({...params, to_entity_pk: '2.3'})).toThrowError(FormError);
     expect(() => validateFormParams({...params, to_entity_pk: 'abc'})).toThrowError(FormError);
+  });
+
+  it('fails on bad name', () => {
+    expect(() => validateFormParams({...params, from_name: 'this is way to long for a name we accept'})).toThrowError(FormError);
   });
 
   it('email validation method', () => {

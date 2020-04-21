@@ -1,5 +1,9 @@
 const log = require('loglevel');
+const {createMailgun} = require("../email/adapter");
+import querystring from "querystring";
+
 const config = require("../config");
+const {sanitizeInputs} = require("../input/sanitize");
 const {sendEmail} = require("../email/adapter");
 const {validateEmail} = require("../input/form_validation");
 const {FormError} = require("../errors");
@@ -13,12 +17,8 @@ const {tryIncreaseCount} = require("../email/rate-limiter");
 const {verifyJwt} = require("../auth/check-jwt");
 const {extractToken} = require("../auth/check-jwt");
 const {AuthError} = require("../errors");
-import querystring from "querystring";
 
 log.setLevel(log.levels.TRACE);
-
-const PEM = config.AUTH0_PEM;
-const auth0Domain = config.AUTH0_DOMAIN;
 
 const StatusCodes = {
   bad: 400,
@@ -46,11 +46,13 @@ const getClient = async () => {
 };
 
 export async function handler(event, context) {
-  checkVarDefined(PEM, 'AUTH0_PEM');
-  checkVarDefined(auth0Domain, 'AUTH0_DOMAIN');
-  checkVarDefined(auth0Domain, 'AUTH0_CLIENT_ID');
-  checkVarDefined(auth0Domain, 'AUTH0_CLIENT_SECRET');
-  checkVarDefined(auth0Domain, 'AUTH0_API_IDENTIFIER');
+  checkVarDefined(config.AUTH0_PEM, 'AUTH0_PEM');
+  checkVarDefined(config.AUTH0_DOMAIN, 'AUTH0_DOMAIN');
+  checkVarDefined(config.AUTH0_CLIENT_ID, 'AUTH0_CLIENT_ID');
+  checkVarDefined(config.AUTH0_CLIENT_SECRET, 'AUTH0_CLIENT_SECRET');
+  checkVarDefined(config.AUTH0_API_IDENTIFIER, 'AUTH0_API_IDENTIFIER');
+  checkVarDefined(config.MAILGUN_API_KEY, 'MAILGUN_API_KEY');
+  checkVarDefined(config.MAILGUN_DOMAIN, 'MAILGUN_DOMAIN');
 
   if (event.httpMethod !== "POST") {
     // Only allow POST
@@ -63,7 +65,7 @@ export async function handler(event, context) {
   let decoded;
   try {
     const token = extractToken(authorization);
-    decoded = await verifyJwt(token, auth0Domain, PEM);
+    decoded = await verifyJwt(token, config.AUTH0_DOMAIN, config.AUTH0_PEM);
   } catch (e) {
     if (e instanceof AuthError) {
       return {
@@ -95,10 +97,13 @@ export async function handler(event, context) {
       throw e;
     }
   }
-  const fromName = params.from_name;
-  const fromEmail = params.from_email;
-  const entityPk = params.to_entity_pk;
-  const message = params.message;
+
+  const {
+    fromName,
+    fromEmail,
+    entityPk,
+    message
+  } = sanitizeInputs(params);
 
   // Get user id
   const claims = decoded['https://hasura.io/jwt/claims'];
@@ -131,15 +136,16 @@ export async function handler(event, context) {
 
     validateEmail(targetInfo.email);
 
-    log.info('sending mail...');
-    sendEmail({
-      fromEmail,
+    log.info(`sending mail to ${targetInfo.email}...`);
+    const mg = createMailgun(config.MAILGUN_API_KEY, config.MAILGUN_DOMAIN);
+    await sendEmail(mg, {
       fromName,
+      fromEmail,
       toEmail: targetInfo.email,
       toName: targetInfo.name,
       message
     });
-    log.info('mail send!');
+    log.info('mail sent through adapter!');
   } catch (e) {
     log.error('unexpected error after counting towards rate limit, removing count');
     await removeCount(client, countPk);

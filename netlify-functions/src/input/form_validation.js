@@ -5,7 +5,7 @@ const {FormError} = require("../errors");
 const constraints = {
   from_name: {
     presence: true,
-    length: {minimum: 1}
+    length: {minimum: 1, maximum: 24}
   },
   from_email: {
     presence: true,
@@ -19,7 +19,7 @@ const constraints = {
   },
   message: {
     presence: true,
-    length: { minimum: 120 }
+    length: { minimum: 80, maximum: 2000 }
   }
 };
 
