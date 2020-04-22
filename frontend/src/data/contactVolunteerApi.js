@@ -1,8 +1,11 @@
 import { CONTACT_USER_API_URL } from '../config';
+import {trackEvent} from "../analytics";
+import {getUserId} from "../auth/util";
 
 export default class ContactVolunteerApi {
   constructor(token) {
     this.token = token;
+    this.userId = getUserId(token);
   }
   sendMessage({
     userName,
@@ -10,6 +13,7 @@ export default class ContactVolunteerApi {
     message,
     entityUserId,
   }) {
+
     const body = {
       from_name: userName,
       from_email: userEmail,
@@ -26,8 +30,11 @@ export default class ContactVolunteerApi {
     }).then(response => {
       const status = response.status;
       if (status === 200) {
+
+        trackEvent('mail-sent', { fromUserId: this.userId, toEntityPk: entityUserId });
         return response.json();
       }
+      trackEvent('mail-error', { fromUserId: this.userId, toEntityPk: entityUserId, status });
       return response.text().then(text => Promise.reject(text));
     });
   }
