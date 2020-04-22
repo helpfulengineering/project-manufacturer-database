@@ -147,15 +147,19 @@ export async function handler(event, context) {
     validateEmail(targetInfo.email);
 
     log.info(`sending mail to ${targetInfo.email}...`);
-    const mg = createMailgun(config.MAILGUN_API_KEY, config.MAILGUN_DOMAIN);
-    await sendEmail(mg, {
-      fromName,
-      fromEmail,
-      toEmail: targetInfo.email,
-      toName: targetInfo.name,
-      message
-    });
-    log.info('mail sent through adapter!');
+    if (config.MOCK_EMAIL) {
+      log.info('not actually sending email because MOCK_EMAIL is set');
+    } else {
+      const mg = createMailgun(config.MAILGUN_API_KEY, config.MAILGUN_DOMAIN);
+      await sendEmail(mg, {
+        fromName,
+        fromEmail,
+        toEmail: targetInfo.email,
+        toName: targetInfo.name,
+        message
+      });
+      log.info('mail sent through adapter!');
+    }
   } catch (e) {
     log.error(`unexpected error: ${e}`);
     log.info('removing count');
