@@ -7,8 +7,7 @@ const {getWriteToken} = require("./auth/upload");
 log.setLevel(log.levels.TRACE);
 
 const main = async () => {
-  const entity_pk = 58622; // valid email
-  // const entity_pk = 58017; // invalid email
+  const entity_pk = 65218; // valid email
 
   const authToken = await getWriteToken(
     config.AUTH0_DOMAIN,

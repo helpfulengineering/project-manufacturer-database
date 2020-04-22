@@ -8,13 +8,13 @@ export default class ContactVolunteerApi {
     userName,
     userEmail,
     message,
-    contactUserId,
+    entityUserId,
   }) {
     const body = {
       from_name: userName,
       from_email: userEmail,
       message,
-      to_entity_pk: contactUserId,
+      to_entity_pk: entityUserId,
       do_not_fill: null, // I don't think this will be very effective even with hidden input, perhaps silent recaptcha instead?
     };
     return fetch(CONTACT_USER_API_URL,{
@@ -24,6 +24,12 @@ export default class ContactVolunteerApi {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
+    }).then(response => {
+      const status = response.status;
+      if (status === 200) {
+        return response.json();
+      }
+      return response.text().then(text => Promise.reject(text));
     });
   }
 }

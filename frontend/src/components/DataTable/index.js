@@ -38,7 +38,7 @@ const DataTable = ({ rows }) => {
   const [page, setPage] = useState(0);
   const [isEndOfQuery, setIsEndOfQuery] = useState(false);
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
-  const [selectedContactId, setSelectedContactId] = useState(0);
+  const [selectedEntityId, setSelectedEntityId] = useState(0);
   const [rowsToDisplay, setRowsToDisplay] = useState([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -58,10 +58,22 @@ const DataTable = ({ rows }) => {
     setPage(0);
   };
 
-  const openContactForm = (selectedContactId) => {
-    setSelectedContactId(selectedContactId);
+  const openContactForm = (selectedEntityId) => {
+    setSelectedEntityId(selectedEntityId);
     setIsContactFormOpen(true)
-  }
+  };
+
+  const getContactButtonText = (isAuthenticated, isValidEmail) => {
+    if (isValidEmail) {
+      if (isAuthenticated) {
+        return 'send email';
+      } else {
+        return 'login required';
+      }
+    } else {
+        return 'no email for volunteer';
+    }
+  };
 
   return (
     <>
@@ -106,11 +118,13 @@ const DataTable = ({ rows }) => {
                     <TableCell align="left">{row.slack_handle}</TableCell>
                     <TableCell align="left">{row.email}</TableCell>
                     <TableCell align="left">
-                      <Button disabled={!isAuthenticated}
+                      <Button
+                        disabled={!row.is_valid_email || !isAuthenticated}
+                        title={getContactButtonText(isAuthenticated, row.is_valid_email)}
                         variant="outlined"
                         color="primary"
                         size="small"
-                        onClick={() => openContactForm(row.pk)}>
+                        onClick={() => openContactForm(row.entity_pk)}>
                           Contact
                       </Button>
                     </TableCell>
@@ -140,7 +154,7 @@ const DataTable = ({ rows }) => {
       />
       <ContactFormModal open={isContactFormOpen}
         onClose={() => setIsContactFormOpen(false)}
-        selectedContactId={selectedContactId} />
+        selectedEntityId={selectedEntityId} />
     </>
   );
 };
