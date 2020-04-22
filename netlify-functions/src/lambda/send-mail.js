@@ -1,6 +1,5 @@
 const log = require('loglevel');
 const {createMailgun} = require("../email/adapter");
-import querystring from "querystring";
 
 const config = require("../config");
 const {sanitizeInputs} = require("../input/sanitize");
@@ -24,6 +23,14 @@ const StatusCodes = {
   bad: 400,
   unauthorized: 401,
   rate_limit: 429, // The response representations SHOULD include details explaining the condition
+};
+
+const headers = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+  'Access-Control-Allow-Methods': '*',
+  'Access-Control-Max-Age': '2592000',
+  'Access-Control-Allow-Credentials': 'true',
 };
 
 const checkVarDefined = (value, name) => {
@@ -54,9 +61,14 @@ export async function handler(event, context) {
   checkVarDefined(config.MAILGUN_API_KEY, 'MAILGUN_API_KEY');
   checkVarDefined(config.MAILGUN_DOMAIN, 'MAILGUN_DOMAIN');
 
+  if (event.httpMethod === 'OPTIONS') {
+    log.info('responding to preflight');
+    return { statusCode: 200, body: 'options response', headers };
+  }
+
   if (event.httpMethod !== "POST") {
     // Only allow POST
-    return { statusCode: 405, body: "Method Not Allowed" };
+    return { statusCode: 405, body: "Method Not Allowed", headers };
   }
 
   // Check authorization
@@ -70,7 +82,8 @@ export async function handler(event, context) {
     if (e instanceof AuthError) {
       return {
         statusCode: StatusCodes.unauthorized,
-        body: e.message
+        body: e.message,
+        headers
       };
     } else {
       throw e;
@@ -78,20 +91,16 @@ export async function handler(event, context) {
   }
 
   //Form validation
-  const params = querystring.parse(event.body);
-  if (params.do_not_fill) { // Hidden field in front-end, low hanging fruit bot prevention.
-    return {
-      statusCode: StatusCodes.unauthorized,
-      body: 'do not fill'
-    };
-  }
+  const params = JSON.parse(event.body);
   try {
     validateFormParams(params);
   } catch (e) {
+    log.error('form validation failed');
     if (e instanceof FormError) {
       return {
         statusCode: StatusCodes.bad,
-        body: e.message
+        body: e.message,
+        headers
       };
     } else {
       throw e;
@@ -121,7 +130,8 @@ export async function handler(event, context) {
     if (e instanceof RateError) {
       return {
         statusCode: StatusCodes.rate_limit,
-        body: e.message
+        body: e.message,
+        headers
       };
     } else {
       throw e;
@@ -137,17 +147,22 @@ export async function handler(event, context) {
     validateEmail(targetInfo.email);
 
     log.info(`sending mail to ${targetInfo.email}...`);
-    const mg = createMailgun(config.MAILGUN_API_KEY, config.MAILGUN_DOMAIN);
-    await sendEmail(mg, {
-      fromName,
-      fromEmail,
-      toEmail: targetInfo.email,
-      toName: targetInfo.name,
-      message
-    });
-    log.info('mail sent through adapter!');
+    if (config.MOCK_EMAIL) {
+      log.info('not actually sending email because MOCK_EMAIL is set');
+    } else {
+      const mg = createMailgun(config.MAILGUN_API_KEY, config.MAILGUN_DOMAIN);
+      await sendEmail(mg, {
+        fromName,
+        fromEmail,
+        toEmail: targetInfo.email,
+        toName: targetInfo.name,
+        message
+      });
+      log.info('mail sent through adapter!');
+    }
   } catch (e) {
-    log.error('unexpected error after counting towards rate limit, removing count');
+    log.error(`unexpected error: ${e}`);
+    log.info('removing count');
     await removeCount(client, countPk);
     log.info('rate limit count removed');
 
@@ -155,17 +170,26 @@ export async function handler(event, context) {
       log.error('Entity does not have valid email');
       return {
         statusCode: 501,
-        body: 'Entity does not have valid email'
+        body: 'Entity does not have valid email',
+        headers
       };
     } else {
-      throw e;
+      return {
+        statusCode: 500,
+        body: `Server error: ${e}`,
+        headers
+      };
     }
   }
 
   return {
     statusCode: 200,
     body: JSON.stringify({
-      status: 'success',
-    })
+      status: 'success'
+    }),
+    headers: {
+      ...headers,
+      'Content-Type': 'application/json',
+    }
   };
 }

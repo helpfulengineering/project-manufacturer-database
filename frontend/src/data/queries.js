@@ -4,14 +4,6 @@ export const SCALE_FILTERS = {
   Large: "Large",
 };
 
-const contacts = `
-  contacts {
-    email
-    slack_handle
-    is_valid_email
-  }
-`;
-
 const getSiteFragment = (isManager) => `
   fragment siteFields on SiteInfo {
     pk
@@ -25,8 +17,13 @@ const getSiteFragment = (isManager) => `
       name
       experience
       notes
-      ${isManager ? contacts : ''}
+      
       scale
+      contacts {
+        ${isManager ? 'slack_handle' : ''}
+        ${isManager ? 'email' : ''}
+        is_valid_email
+      }
     }
     equipments {
       brand

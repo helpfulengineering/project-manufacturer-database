@@ -10,6 +10,9 @@ export const ROLES = {
   USER_MANAGER: 'user-manager',
 };
 
+// Contact Form API
+export const CONTACT_USER_API_URL = 'https://he-local-manufacturer-functions.netlify.app/.netlify/functions/send-mail';
+
 // API key is for production use only.
 export const GRAPHQL_ENDPOINT = 'https://he-manufacturers-db-hasura.herokuapp.com/v1/graphql';
 

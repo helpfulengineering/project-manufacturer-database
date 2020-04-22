@@ -30,6 +30,8 @@ MAILGUN_API_KEY=<private key>
 
 Note the `.env` file will not work in production (by design).
 
+If you don't want to actually send emails set the var: `MOCK_EMAIL`.
+
 ## Run
 
 To test Netlify functions:

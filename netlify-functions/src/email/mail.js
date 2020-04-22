@@ -12,7 +12,7 @@ const composeMail = ({ fromName, toName, message }) => {
     
     To you respond you can simply reply to this email. Doing so will make your email visible to that person.
     
-    This email is send from the site: https://he-local-manufacturer-search.netlify.app/
+    This email is send from the site: https://manucor.helpfulengineering.org/
   `;
   return {
     subject: `Volunteer contact request by ${fromName} - Manucor`,

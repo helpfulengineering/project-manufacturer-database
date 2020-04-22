@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import {
+  Button,
   TableContainer,
   Table,
   TableCell,
@@ -14,6 +15,8 @@ import "./DataTable.scss";
 import {ADDITIONAL_AUTHORIZATION_LABEL } from "../../labels";
 import {MAX_QUERY_SIZE} from "../../config";
 import {LimitReachedAlert} from "../Alerts";
+import ContactFormModal from '../ContactFormModal';
+import {useAuth0} from "../../auth/react-auth0-spa";
 
 const NO_RESULTS_LABEL = 'No results match your search criteria.';
 const DERIVED_FIELD_LABEL = 'This field has been derived from other fields. (Not provided by user directly)';
@@ -31,8 +34,11 @@ const breakUpString = (string, delimiter=';') => {
 };
 
 const DataTable = ({ rows }) => {
+  const { isAuthenticated } = useAuth0();
   const [page, setPage] = useState(0);
   const [isEndOfQuery, setIsEndOfQuery] = useState(false);
+  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+  const [selectedEntityId, setSelectedEntityId] = useState(0);
   const [rowsToDisplay, setRowsToDisplay] = useState([]);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -50,6 +56,23 @@ const DataTable = ({ rows }) => {
   const handleChangeRowsPerPage = event => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
+  };
+
+  const openContactForm = (selectedEntityId) => {
+    setSelectedEntityId(selectedEntityId);
+    setIsContactFormOpen(true)
+  };
+
+  const getContactButtonText = (isAuthenticated, isValidEmail) => {
+    if (isValidEmail) {
+      if (isAuthenticated) {
+        return 'send email';
+      } else {
+        return 'login required';
+      }
+    } else {
+        return 'no email for volunteer';
+    }
   };
 
   return (
@@ -73,6 +96,7 @@ const DataTable = ({ rows }) => {
               <TableCell align="left">Notes</TableCell>
               <TableCell align="left" title={ADDITIONAL_AUTHORIZATION_LABEL}>Slack*</TableCell>
               <TableCell align="left" title={ADDITIONAL_AUTHORIZATION_LABEL}>Email*</TableCell>
+              <TableCell align="left" title={ADDITIONAL_AUTHORIZATION_LABEL}>Contact*</TableCell>
             </TableRow>
           </TableHead>
           {rowsToDisplay.length > 0
@@ -93,6 +117,17 @@ const DataTable = ({ rows }) => {
                     <TableCell align="left">{breakUpString(row.notes)}</TableCell>
                     <TableCell align="left">{row.slack_handle}</TableCell>
                     <TableCell align="left">{row.email}</TableCell>
+                    <TableCell align="left">
+                      <Button
+                        disabled={!row.is_valid_email || !isAuthenticated}
+                        title={getContactButtonText(isAuthenticated, row.is_valid_email)}
+                        variant="outlined"
+                        color="primary"
+                        size="small"
+                        onClick={() => openContactForm(row.entity_pk)}>
+                          Contact
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))
               }
@@ -117,6 +152,9 @@ const DataTable = ({ rows }) => {
         onChangePage={handleChangePage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
+      <ContactFormModal open={isContactFormOpen}
+        onClose={() => setIsContactFormOpen(false)}
+        selectedEntityId={selectedEntityId} />
     </>
   );
 };
