@@ -2,3 +2,8 @@
   command = "npm run build"
   functions = "build" # netlify-lambda output dir
   publish = "build"
+
+[[headers]]
+  for = "/*"
+    [headers.values]
+    Access-Control-Allow-Origin = "*"
