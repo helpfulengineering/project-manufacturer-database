@@ -13,9 +13,8 @@ export default class ContactVolunteerApi {
     const body = {
       from_name: userName,
       from_email: userEmail,
-      message,
       to_entity_pk: entityUserId,
-      do_not_fill: null, // I don't think this will be very effective even with hidden input, perhaps silent recaptcha instead?
+      message
     };
     return fetch(CONTACT_USER_API_URL,{
       method: 'POST',
