@@ -1,3 +1,5 @@
+import {SITE_URL} from "../config";
+
 const composeMail = ({ fromName, toName, message }) => {
   const body = `
     Hello ${toName},
@@ -12,7 +14,7 @@ const composeMail = ({ fromName, toName, message }) => {
     
     To you respond you can simply reply to this email. Doing so will make your email visible to that person.
     
-    This email is send from the site: https://manucor.helpfulengineering.org/
+    This email is send from the site: ${SITE_URL}
   `;
   return {
     subject: `Volunteer contact request by ${fromName} - Manucor`,

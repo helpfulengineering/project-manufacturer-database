@@ -12,7 +12,7 @@ if (process.env.NODE_ENV !== 'production') {
 
 const GRAPHQL_ENDPOINT = 'https://he-manufacturers-db-hasura.herokuapp.com/v1/graphql';
 
-const SITE_URL = 'https://he-local-manufacturer-search.netlify.app/';
+const SITE_URL = 'https://manucor.helpfulengineering.org';
 
 const EMAIL_RATE_LIMIT = {
   DEFAULT: 3 // PER_USER_PER_24H
