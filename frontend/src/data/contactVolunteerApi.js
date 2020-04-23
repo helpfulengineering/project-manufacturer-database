@@ -20,6 +20,7 @@ export default class ContactVolunteerApi {
       to_entity_pk: entityUserId,
       message
     };
+    trackEvent('mail-send-start', { fromUserId: this.userId, toEntityPk: entityUserId });
     return fetch(CONTACT_USER_API_URL,{
       method: 'POST',
       headers: {
@@ -31,10 +32,10 @@ export default class ContactVolunteerApi {
       const status = response.status;
       if (status === 200) {
 
-        trackEvent('mail-sent', { fromUserId: this.userId, toEntityPk: entityUserId });
+        trackEvent('mail-send-success', { fromUserId: this.userId, toEntityPk: entityUserId });
         return response.json();
       }
-      trackEvent('mail-error', { fromUserId: this.userId, toEntityPk: entityUserId, status });
+      trackEvent('mail-send-error', { fromUserId: this.userId, toEntityPk: entityUserId, status });
       return response.text().then(text => Promise.reject(text));
     });
   }
