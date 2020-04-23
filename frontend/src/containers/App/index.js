@@ -9,7 +9,8 @@ import {GRAPHQL_ENDPOINT, ROLES} from "../../config";
 import {useAuth0} from "../../auth/react-auth0-spa";
 import NavBar from "../../components/NavBar";
 import {Container, Paper} from "@material-ui/core";
-import HELogo from "../../assets/helpfulengineering_transparent.png";
+import HELogo from "../../assets/helpfulengineering_transparent-cropped.png";
+import ManucorLogo from "../../assets/manucor_logo-saturated-transparent.png";
 import Typography from "@material-ui/core/Typography";
 
 const createUrqlClient = (role, token) => {
@@ -66,12 +67,20 @@ function App() {
           <Container maxWidth="xl">
             <Paper className="app__body">
               <header className="app__header">
-                <a href="https://helpfulengineering.odoo.com/" title="Project by Helpful Engineering" className="app__HE-logo">
-                  <img src={HELogo} width="177" height="75" alt="Helpful Engineering Logo"/>
+                <a href="https://helpfulengineering.odoo.com/" title="Project by Helpful Engineering" className="app__logo app__HE-logo">
+                  <img src={HELogo} width="396" height="154" alt="Helpful Engineering Logo"/>
                 </a>
-                <Typography variant="h3" component="h1" className="app__title">
-                  Manufacturing volunteer search
-                </Typography>
+
+                <div className="app__logo app__Manucor-logo">
+                  <div className="app__Manucor-logo-container">
+                    <img src={ManucorLogo} width="424" height="424" alt="Manucor app logo" />
+                  </div>
+                  <div className="app__Manucor-logo-text">
+                    <Typography variant="h4" component="h1" className="app__Manucor-title">Manucor</Typography>
+                    <div className="app__Manucor-subtitle">Manufacturing against COVID-19</div>
+                  </div>
+                </div>
+
                 <NavBar className="app__nav"/>
               </header>
               <DataPage />

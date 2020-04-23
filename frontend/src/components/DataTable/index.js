@@ -17,6 +17,7 @@ import {MAX_QUERY_SIZE} from "../../config";
 import {LimitReachedAlert} from "../Alerts";
 import ContactFormModal from '../ContactFormModal';
 import {useAuth0} from "../../auth/react-auth0-spa";
+import {ROWS} from "../../data/proptypes";
 
 const NO_RESULTS_LABEL = 'No results match your search criteria.';
 const DERIVED_FIELD_LABEL = 'This field has been derived from other fields. (Not provided by user directly)';
@@ -136,13 +137,14 @@ const DataTable = ({ rows }) => {
             <TableBody>
               {
                 <TableRow>
-                  <TableCell align="center" colSpan="8">{NO_RESULTS_LABEL}</TableCell>
+                  <TableCell align="center" colSpan="13">{NO_RESULTS_LABEL}</TableCell>
                 </TableRow>
               }
             </TableBody>
         }
         </Table>
       </TableContainer>
+
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
@@ -160,19 +162,7 @@ const DataTable = ({ rows }) => {
 };
 
 DataTable.propTypes = {
-  rows: PropTypes.arrayOf(PropTypes.shape({
-    pk: PropTypes.number.isRequired,
-    country: PropTypes.string,
-    city: PropTypes.string,
-    hasLocation: PropTypes.bool,
-    lat: PropTypes.number,
-    lng: PropTypes.number,
-    name: PropTypes.string,
-    notes: PropTypes.string,
-    brand: PropTypes.string,
-    model: PropTypes.string,
-    quantity: PropTypes.number,
-  }))
+  rows: ROWS
 };
 
 export default DataTable;

@@ -29,7 +29,7 @@ function makeReverseGeocodingRequest(lat, lng) {
     .then(response => response.json());
 }
 
-const SearchBar = ({ coords, setCoords, radius, setRadius, scaleFilter, setScaleFilter, textQuery, setTextQuery }) => {
+const SearchBar = ({ coords, setCoords, radius, setRadius, scaleFilter, setScaleFilter, textQuery, setTextQuery, children }) => {
   const scaleFilterValues = getScaleFilterValues();
   const [address, setAddress] = useState();
   const [usingLocation, setUseLocation] = useState(false);
@@ -133,6 +133,8 @@ const SearchBar = ({ coords, setCoords, radius, setRadius, scaleFilter, setScale
         handler={handleScaleFilterChange}
         listOfValues={scaleFilterValues}
       />
+
+      {children}
     </form>
   );
 };

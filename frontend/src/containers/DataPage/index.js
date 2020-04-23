@@ -72,29 +72,35 @@ const DataPage = () => {
 
   return (
     <div className="data-page">
-      <Box width="80ch" maxWidth="100%">
-        <Typography paragraph={true}>
-          Search through pandemic volunteers who have offered their service for 3D printing, laser cutting and more.
+      <div className="intro">
+        <Typography variant="h5" component="h2">
+          Manufacturing volunteer search
         </Typography>
-        <Typography paragraph={true}>
-          If you want to volunteer you fabrication equipment please fill in <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzXLp4cvlgBFh1OR81-Kek6SAGnNC8jJQcHyBUJbPSIvXgA/viewform">this form</a>.
-        </Typography>
-        <Typography paragraph={true}>
-          If you end up using this please let us know in the <em>#project-manufacturer-database</em> slack channel (<a href="https://www.helpfulengineering.org/slack">slack workspace</a>).
-        </Typography>
-      </Box>
+        <Box width="80ch" maxWidth="100%">
+          <Typography paragraph={true}>
+            Search through pandemic volunteers who have offered their service for 3D printing, laser cutting and more.
+          </Typography>
+          <Typography paragraph={true}>
+            If you want to volunteer you fabrication equipment please fill in <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzXLp4cvlgBFh1OR81-Kek6SAGnNC8jJQcHyBUJbPSIvXgA/viewform">this form</a>.
+          </Typography>
+          <Typography paragraph={true}>
+            If you end up using this please let us know in the <em>#project-manufacturer-database</em> slack channel (<a href="https://www.helpfulengineering.org/slack">slack workspace</a>).
+          </Typography>
+        </Box>
 
-      <SearchBar
-        coords={searchCoords}
-        setCoords={setSearchCoords}
-        radius={searchRadius}
-        setRadius={setSearchRadius}
-        scaleFilter={scaleFilter}
-        setScaleFilter={setScaleFilter}
-        textQuery={textQuery}
-        setTextQuery={setTextQuery}
-      />
-      <ExportControl rows={rowsData} />
+        <SearchBar
+          coords={searchCoords}
+          setCoords={setSearchCoords}
+          radius={searchRadius}
+          setRadius={setSearchRadius}
+          scaleFilter={scaleFilter}
+          setScaleFilter={setScaleFilter}
+          textQuery={textQuery}
+          setTextQuery={setTextQuery}
+        >
+          <ExportControl rows={rowsData} className="export-button" />
+        </SearchBar>
+      </div>
 
       <Tabs
         value={tabIdx}
