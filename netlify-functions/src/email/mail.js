@@ -1,4 +1,4 @@
-import {SITE_URL} from "../config";
+const {SITE_URL} = require("../config");
 
 const composeMail = ({ fromName, toName, message }) => {
   const body = `
