@@ -67,7 +67,7 @@ function App() {
           <Container maxWidth="xl">
             <Paper className="app__body">
               <header className="app__header">
-                <a href="https://helpfulengineering.odoo.com/" title="Project by Helpful Engineering" className="app__logo app__HE-logo">
+                <a href="https://www.helpfulengineering.org/" title="Project by Helpful Engineering" className="app__logo app__HE-logo">
                   <img src={HELogo} width="396" height="154" alt="Helpful Engineering Logo"/>
                 </a>
 
