@@ -15,11 +15,11 @@ const main = async () => {
   const toEmail = process.argv[2];
   console.log(`toEmail: `, toEmail);
 
-  const mg = createMailgun(config.MAILGUN_API_KEY, config.MAILGUN_DOMAIN);
+  const mg = createMailgun(config.MAILGUN_HOST, config.MAILGUN_API_KEY, config.MAILGUN_DOMAIN, config.MOCK_EMAIL);
   await sendEmail(mg, {
     fromName: 'John Doe',
     fromEmail: 'john@example.com',
-    toName: 'Kate',
+    toName: 'Kate 3',
     message: 'Hi, we would like to use your 3D printer for printing PPE for our hospital. Please let me know if you can help',
     toEmail,
   });
