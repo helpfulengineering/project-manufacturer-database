@@ -26,6 +26,7 @@ AUTH0_API_IDENTIFIER=<key>
 AUTH0_PEM="raw text from https://${AUTH0_DOMAIN}/pem" (note the quotes!)
 MAILGUN_DOMAIN=<domain, the p.s.: sandbox one is for testing only>
 MAILGUN_API_KEY=<private key>
+MAILGUN_HOST=api.eu.mailgun.net or api.mailgun.net
 ```
 
 Note the `.env` file will not work in production (by design).

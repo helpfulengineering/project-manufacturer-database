@@ -3,10 +3,19 @@ const mailgun = require('mailgun-js');
 const {MailError} = require("../errors");
 const {composeMail} = require("./mail");
 
-const createMailgun = (apiKey, domain) => mailgun({
-  apiKey,
-  domain
-});
+const createMailgun = (host, apiKey, domain, mock = false) => {
+  let testMode = false;
+  if (mock) {
+    log.info('not actually sending email because mock is set');
+    testMode = true;
+  }
+  return mailgun({
+    host,
+    apiKey,
+    domain,
+    testMode
+  });
+};
 
 const sendEmail = (mg, { fromEmail, fromName, toEmail, toName, message }) => {
   const { body, subject } = composeMail({fromName, toName, message});

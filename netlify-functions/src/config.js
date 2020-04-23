@@ -28,6 +28,7 @@ module.exports = {
   AUTH0_CLIENT_SECRET: process.env.AUTH0_CLIENT_SECRET,
   AUTH0_API_IDENTIFIER: process.env.AUTH0_API_IDENTIFIER,
   AUTH0_PEM: process.env.AUTH0_PEM.replace(/\\n/g, '\n'), // https://stackoverflow.com/a/36439803
+  MAILGUN_HOST: process.env.MAILGUN_HOST || 'api.mailgun.net', // Needs to be set for EU region, see https://www.npmjs.com/package/mailgun-js#options
   MAILGUN_DOMAIN: process.env.MAILGUN_DOMAIN,
   MAILGUN_API_KEY: process.env.MAILGUN_API_KEY,
 };
