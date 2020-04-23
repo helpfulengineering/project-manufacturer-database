@@ -77,6 +77,9 @@ const DataPage = () => {
           Search through pandemic volunteers who have offered their service for 3D printing, laser cutting and more.
         </Typography>
         <Typography paragraph={true}>
+          If you want to volunteer you fabrication equipment please fill in <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzXLp4cvlgBFh1OR81-Kek6SAGnNC8jJQcHyBUJbPSIvXgA/viewform">this form</a>.
+        </Typography>
+        <Typography paragraph={true}>
           If you end up using this please let us know in the <em>#project-manufacturer-database</em> slack channel (<a href="https://www.helpfulengineering.org/slack">slack workspace</a>).
         </Typography>
       </Box>
