@@ -7,6 +7,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import { Input, InputAdornment } from '@material-ui/core';
 import {PROJECT_SLACK_CHANNEL} from "../../config";
 import './AutoCompleteField.scss'
+import InputLabel from "@material-ui/core/InputLabel";
 
 const LightTooltip = withStyles((theme) => ({
   tooltip: {
@@ -28,7 +29,7 @@ const formatError = (errorKey) => {
   return errorKey;
 };
 
-const AutocompleteField = ({ geoLocatedAddress, handleSelect }) => {
+const AutocompleteField = ({ className, geoLocatedAddress, handleSelect }) => {
   const [address, setAddress] = useState('');
   const [errors, setErrors] = useState([]);
 
@@ -50,7 +51,7 @@ const AutocompleteField = ({ geoLocatedAddress, handleSelect }) => {
 
   const debounceMs = 1000;
   return (
-    <div className='field-container'>
+    <div className={`autocomplete-field field-container ${className}`}>
       <LightTooltip open={errors.length > 0} title={<div>{errors.map(message => <div key={message}>{formatError(message)}</div>)}</div>}>
         <PlacesAutocomplete
           value={address}
@@ -62,6 +63,7 @@ const AutocompleteField = ({ geoLocatedAddress, handleSelect }) => {
         >
           {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
             <div>
+              <InputLabel id="range-input-label">Location</InputLabel>
               <Input
                 {...getInputProps({
                   placeholder: 'Search address ...',

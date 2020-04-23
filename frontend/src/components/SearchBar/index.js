@@ -91,8 +91,11 @@ const SearchBar = ({ coords, setCoords, radius, setRadius, scaleFilter, setScale
         className="search-bar__text-search"
       />
 
-      <FormGroup row>
-        <AutocompleteField geoLocatedAddress={address} handleSelect={handleSelectAddress} />
+      <FormGroup className="search-bar__location-search" row>
+        <AutocompleteField
+          geoLocatedAddress={address}
+          handleSelect={handleSelectAddress}
+          className="search-bar__location-autocomplete"/>
         {geolocationSupported && (
 
           <IconButton

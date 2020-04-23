@@ -87,20 +87,20 @@ const DataPage = () => {
             If you end up using this please let us know in the <em>#project-manufacturer-database</em> slack channel (<a href="https://www.helpfulengineering.org/slack">slack workspace</a>).
           </Typography>
         </Box>
-
-        <SearchBar
-          coords={searchCoords}
-          setCoords={setSearchCoords}
-          radius={searchRadius}
-          setRadius={setSearchRadius}
-          scaleFilter={scaleFilter}
-          setScaleFilter={setScaleFilter}
-          textQuery={textQuery}
-          setTextQuery={setTextQuery}
-        >
-          <ExportControl rows={rowsData} className="export-button" />
-        </SearchBar>
       </div>
+
+      <SearchBar
+        coords={searchCoords}
+        setCoords={setSearchCoords}
+        radius={searchRadius}
+        setRadius={setSearchRadius}
+        scaleFilter={scaleFilter}
+        setScaleFilter={setScaleFilter}
+        textQuery={textQuery}
+        setTextQuery={setTextQuery}
+      >
+        <ExportControl rows={rowsData} className="export-button" />
+      </SearchBar>
 
       <Tabs
         value={tabIdx}
