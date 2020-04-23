@@ -1,16 +1,21 @@
-.field-container {
-  padding-top: 1rem;
-}
+.autocomplete-field {
+  &.field-container {
+  }
 
-.autocomplete-dropdown-container {
-  border: solid 1px #D3D3D3;;
-}
+  .location-search-input {
+    width: 100%;
+  }
 
-.suggestion-item {
-  line-height: 1.2em;
-  padding: 0.2em;
+  .autocomplete-dropdown-container {
+    border: solid 1px #D3D3D3;;
+  }
 
-  &--active {
-    background-color: #f4f4f4;
+  .suggestion-item {
+    line-height: 1.2em;
+    padding: 0.2em;
+
+    &--active {
+      background-color: #f4f4f4;
+    }
   }
 }

@@ -15,7 +15,7 @@ const NavBar = ({className}) => {
       )}
 
       {isAuthenticated &&
-        <Button onClick={() => logout()} variant="contained" color="primary">{role}, log out</Button>
+        <Button onClick={() => logout()} variant="contained" color="primary">{role}<br />log out</Button>
       }
     </div>
   );

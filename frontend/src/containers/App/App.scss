@@ -8,31 +8,78 @@
   max-width: 100%;
 }
 
-.app__title {
-  flex-grow: 1;
-  text-align: center;
+.app__nav {
+  align-self: center;
 }
 
-.app__nav-bar {
-
+.app__logo {
+  height: 4.75rem;
 }
 
 .app__HE-logo {
-  height: 4.75rem;
   & > img {
-    min-width: 100px;
-    max-width: 100%;
-    height: auto;
+    width: auto;
+    height: 100%;
   }
-  margin-bottom: -.5rem;
 }
 
-@media(max-width: 750px) {
-  .app__title {
-    font-size: 2rem;
-    text-align: left;
+.app__Manucor-logo {
+  flex-grow: 1;
+  justify-content: center;
+
+  display: flex;
+  flex-direction: row;
+
+  padding-top: .5rem;
+  padding-right: 1rem;
+}
+
+.app__Manucor-logo-container {
+  height: 95%;
+  & > img {
+    height: 100%;
+    width: auto;
   }
+}
+
+.app__Manucor-logo-text {
+  align-self: center;
+  text-transform: uppercase;
+  padding-left: .5rem;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+.app__Manucor-title {
+  font-weight: bold;
+}
+
+@media(max-width: 850px) {
   .app__HE-logo {
+    display: none;
+  }
+  .app__Manucor-logo {
+    flex-grow: 1;
+    justify-content: left;
+  }
+
+}
+
+@media(max-width: 600px) {
+  .app__header {
+    .MuiButton-root {
+      padding: .2em;
+    }
+    .app__Manucor-title {
+      font-size: 1.5rem !important;
+    }
+    .app__Manucor-subtitle {
+      display: none;
+    }
+  }
+}
+
+@media(max-width: 360px) {
+  .app__Manucor-title {
     display: none;
   }
 }

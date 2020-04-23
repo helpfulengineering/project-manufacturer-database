@@ -1,11 +1,12 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Papa from 'papaparse';
 
 import Button from '@material-ui/core/Button';
-import DataTable from "../DataTable";
 import {trackEvent} from "../../analytics";
+import {ROWS} from "../../data/proptypes";
 
-const ExportControl = ({rows}) => {
+const ExportControl = ({rows, className}) => {
   function createCSV() {
     const csvString = Papa.unparse(rows);
     const csvBlob = new Blob([csvString], { type: 'text/csv' });
@@ -23,15 +24,18 @@ const ExportControl = ({rows}) => {
   return (
     <Button variant="outlined"
       onClick={createCSV}
+      color="primary"
       size="small"
-      disabled={!(rows && rows.length > 0)}>
+      disabled={!(rows && rows.length > 0)}
+      className={className}>
       Export Records
     </Button>
   );
 };
 
 ExportControl.propTypes = {
-  ...DataTable.propTypes, // NOTE, extension of inputs used by table
+  rows: ROWS,
+  className: PropTypes.string,
 };
 
 export default ExportControl;

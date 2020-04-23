@@ -1,5 +1,5 @@
 .data-page {
-  margin-top: 2rem;
+  margin-top: 1rem;
 
   &__content {
   }
@@ -14,6 +14,24 @@
   .custom-tab-label {
     padding-left: 0.5em;
   }
+
+  .map-button {
+    height: 36px;
+    margin-top: 12px;
+  }
+
+  .export-button {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+@media (min-width: 1000px) {
+  .data-page {
+    & > .intro {
+      padding-left: 4.7rem;
+    }
+  }
 }
 
 @media (max-width: 600px) {
@@ -26,7 +44,3 @@
   }
 }
 
-.map-button {
-  height: 36px;
-  margin-top: 12px;
-}

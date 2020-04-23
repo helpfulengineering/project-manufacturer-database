@@ -1,15 +1,29 @@
 .search-bar {
   display: flex;
   justify-content: left;
+  flex-wrap: wrap;
+
   padding-top: 1rem;
   margin-bottom: 1rem;
 
-  & > *:not(:first-child) {
-    margin-left: 1.0em;
+  & > * {
+    margin-left: .5em !important;
+    margin-right: .5em !important;
+    margin-bottom: 1.0rem !important;
   }
 
   &__gps-icon {
     padding-bottom: 0.1em;
+  }
+
+  .search-bar__text-search, .search-bar__location-search {
+    flex-grow: 1;
+  }
+
+  .search-bar__location-search {
+    .search-bar__location-autocomplete {
+      flex-grow: 1;
+    }
   }
 }
 

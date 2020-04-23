@@ -29,7 +29,7 @@ function makeReverseGeocodingRequest(lat, lng) {
     .then(response => response.json());
 }
 
-const SearchBar = ({ coords, setCoords, radius, setRadius, scaleFilter, setScaleFilter, textQuery, setTextQuery }) => {
+const SearchBar = ({ coords, setCoords, radius, setRadius, scaleFilter, setScaleFilter, textQuery, setTextQuery, children }) => {
   const scaleFilterValues = getScaleFilterValues();
   const [address, setAddress] = useState();
   const [usingLocation, setUseLocation] = useState(false);
@@ -91,8 +91,11 @@ const SearchBar = ({ coords, setCoords, radius, setRadius, scaleFilter, setScale
         className="search-bar__text-search"
       />
 
-      <FormGroup row>
-        <AutocompleteField geoLocatedAddress={address} handleSelect={handleSelectAddress} />
+      <FormGroup className="search-bar__location-search" row>
+        <AutocompleteField
+          geoLocatedAddress={address}
+          handleSelect={handleSelectAddress}
+          className="search-bar__location-autocomplete"/>
         {geolocationSupported && (
 
           <IconButton
@@ -133,6 +136,8 @@ const SearchBar = ({ coords, setCoords, radius, setRadius, scaleFilter, setScale
         handler={handleScaleFilterChange}
         listOfValues={scaleFilterValues}
       />
+
+      {children}
     </form>
   );
 };
