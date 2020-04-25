@@ -7,7 +7,8 @@ import {
   TableRow,
   TableHead,
   TableBody,
-  TablePagination
+  TablePagination,
+  Tooltip
 } from "@material-ui/core";
 
 import "./DataTable.scss";
@@ -33,7 +34,10 @@ const breakUpString = (string, delimiter=';') => {
   return '';
 };
 
+
+
 const DataTable = ({ rows }) => {
+  
   const { isAuthenticated } = useAuth0();
   const [page, setPage] = useState(0);
   const [isEndOfQuery, setIsEndOfQuery] = useState(false);
@@ -74,6 +78,20 @@ const DataTable = ({ rows }) => {
         return 'no email for volunteer';
     }
   };
+
+  function ContactButton({row, isAuthenticated}){
+      return(
+        <Button
+        disabled={!row.is_valid_email || !isAuthenticated}
+        title={getContactButtonText(isAuthenticated, row.is_valid_email)}
+        variant="outlined"
+        color="primary"
+        size="small"
+        onClick={() => openContactForm(row.entity_pk)}>
+          Contact
+      </Button>
+      )
+    }
 
   return (
     <>
@@ -118,15 +136,15 @@ const DataTable = ({ rows }) => {
                     <TableCell align="left">{row.slack_handle}</TableCell>
                     <TableCell align="left">{row.email}</TableCell>
                     <TableCell align="left">
-                      <Button
-                        disabled={!row.is_valid_email || !isAuthenticated}
-                        title={getContactButtonText(isAuthenticated, row.is_valid_email)}
-                        variant="outlined"
-                        color="primary"
-                        size="small"
-                        onClick={() => openContactForm(row.entity_pk)}>
-                          Contact
-                      </Button>
+                    {(row.is_valid_email || !isAuthenticated) ? 
+                      <Tooltip title='To be able to contact volunteers you must log in first.' className='tooltip'>
+                        <span>
+                          <ContactButton row={row} isAuthenticated={isAuthenticated} />
+                        </span>
+                      </Tooltip>
+                    :  
+                    <ContactButton row={row} isAuthenticated={isAuthenticated} />
+                    }
                     </TableCell>
                   </TableRow>
                 ))
