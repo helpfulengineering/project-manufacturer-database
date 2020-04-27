@@ -78,7 +78,7 @@ const DataPage = () => {
         </Typography>
         <Box width="80ch" maxWidth="100%">
           <Typography paragraph={true}>
-            Search through pandemic volunteers who have offered their service for 3D printing, laser cutting and more.
+            Search through pandemic volunteers who have offered their service for 3D printing, laser cutting and more. In order to access volunteers' contacts and to be able to contact them, you must log in first.
           </Typography>
           <Typography paragraph={true}>
             If you want to volunteer you fabrication equipment please fill in <a href="https://docs.google.com/forms/d/e/1FAIpQLSfCzXLp4cvlgBFh1OR81-Kek6SAGnNC8jJQcHyBUJbPSIvXgA/viewform">this form</a>.
