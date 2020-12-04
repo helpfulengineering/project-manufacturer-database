@@ -76,6 +76,28 @@ const DataPage = () => {
         <Typography variant="h5" component="h2">
           Manufacturing volunteer search
         </Typography>
+
+        <div className='funding-note'>
+          <h1>Call for maintainers/funding (Shutting down)</h1>
+
+          <p>
+            Note, this site will be shutting down on January 1st 2021.
+          </p>
+
+          <p>
+            We ran out of the Covid funding provided by Heroku. And keeping up hosting will cost $25/month now.
+          </p>
+
+          <p>
+            There are only a few individuals using the site these days. If that is you. You can help us out by getting
+            the funding / new free credit.
+          </p>
+
+          <p>
+            You can find us on slack: <em>#project-manufacturer-database</em> slack channel (<a href="https://www.helpfulengineering.org/slack">slack workspace</a>)
+          </p>
+        </div>
+
         <Box width="80ch" maxWidth="100%">
           <Typography paragraph={true}>
             Search through pandemic volunteers who have offered their service for 3D printing, laser cutting and more. In order to access volunteers' contacts and to be able to contact them, you must log in first.
