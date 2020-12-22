@@ -80,8 +80,8 @@ const DataPage = () => {
         <div className='funding-note'>
           <h1>Call for maintainers </h1>
           <p>
-            The site is running mostly on it's own nowadays.
-            But we get the occasional request and could use maintainers.
+            The site is running mostly on its own nowadays.
+            Though we get the occasional request and could use maintainers.
           </p>
 
           <p>
