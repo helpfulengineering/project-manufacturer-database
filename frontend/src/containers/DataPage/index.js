@@ -78,23 +78,15 @@ const DataPage = () => {
         </Typography>
 
         <div className='funding-note'>
-          <h1>Call for maintainers/funding (Shutting down)</h1>
-
+          <h1>Call for maintainers </h1>
           <p>
-            Note, this site will be shutting down on January 1st 2021.
+            The site is running mostly on it's own nowadays.
+            But we get the occasional request and could use maintainers.
           </p>
 
           <p>
-            We ran out of the Covid funding provided by Heroku. And keeping up hosting will cost $25/month now.
-          </p>
-
-          <p>
-            There are only a few individuals using the site these days. If that is you. You can help us out by getting
-            the funding / new free credit.
-          </p>
-
-          <p>
-            You can find us on slack: <em>#project-manufacturer-database</em> slack channel (<a href="https://www.helpfulengineering.org/slack">slack workspace</a>)
+            If you would like to help, please reach out to use on Slack.
+            You can find us on the <em>#project-manufacturer-database</em> slack channel (<a href="https://www.helpfulengineering.org/slack">slack workspace</a>)
           </p>
         </div>
 
