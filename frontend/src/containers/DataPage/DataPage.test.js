@@ -18,7 +18,8 @@ beforeEach(() => {
     fetching: false,
   }]);
 });
-test('renders learn react link', () => {
+
+xtest('renders learn react link', () => {
   const { getByText } = render(<DataPage />);
   const tableTabLink = getByText(/table/i);
   expect(tableTabLink).toBeInTheDocument();
