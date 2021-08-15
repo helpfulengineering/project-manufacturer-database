@@ -3,12 +3,11 @@
 The aim of this project is to provide an easily accessible database of local manufacturers that can be contacted to
 build critical equipment in the context of #COVID19".
 
-# Call for maintainers
+# End of lie
 
-The site is running mostly on its own nowadays.
-Though we get the occasional request and could use maintainers.
+The site has been **shutdown** because of hosting cost.
 
-If you would like to help, please reach out to use on Slack.
+If you would like to help get it back up, please reach out to use on Slack.
 You can find us on the #project-manufacturer-database slack channel (https://www.helpfulengineering.org/slack)
 
 ### What you're getting
