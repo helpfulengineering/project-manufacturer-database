@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from "react";
-import {createClient, Provider} from 'urql';
+import React from "react";
+// import {createClient, Provider} from 'urql';
 // import jwt_decode from 'jwt-decode';
 
-import TokenContext from '../../auth/tokenContext';
+// import TokenContext from '../../auth/tokenContext';
 import DataPage from "../DataPage";
 import "./App.scss";
-import {GRAPHQL_ENDPOINT, ROLES} from "../../config";
+// import {GRAPHQL_ENDPOINT, ROLES} from "../../config";
 // import {useAuth0} from "../../auth/react-auth0-spa";
 // import NavBar from "../../components/NavBar";
 import {Container, Paper} from "@material-ui/core";

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 
 // import MapIcon from '@material-ui/icons/Map';/*
 // import TocIcon from '@material-ui/icons/Toc';
@@ -6,25 +6,25 @@ import React, {useContext, useEffect, useState} from 'react';
 // import Tabs from '@material-ui/core/Tabs';*/
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import { useQuery } from 'urql';
+// import { useQuery } from 'urql';
 
 // import DataTable from '../../components/DataTable';
 // import DataMap from '../../components/DataMap';
 // import SearchBar from '../../components/SearchBar';
 // import ExportControl from '../../components/ExportControl';
-import * as queries from '../../data/queries';
+// import * as queries from '../../data/queries';
 
 import './DataPage.scss';
-import {useAuth0} from '../../auth/react-auth0-spa';
-import {RoleContext} from '../App';
-import {
-  ROLES,
-  MAX_QUERY_SIZE
-} from '../../config';
-import searchQueryDataDisplayAdapter from '../../data/searchQueryDataDisplayAdapter';
+// import {useAuth0} from '../../auth/react-auth0-spa';
+// import {RoleContext} from '../App';
+// import {
+//   ROLES,
+//   MAX_QUERY_SIZE
+// } from '../../config';
+// import searchQueryDataDisplayAdapter from '../../data/searchQueryDataDisplayAdapter';
 // import TabPanel from './TabPanel';
-import {trackEvent} from "../../analytics";
-import {SCALE_FILTERS} from "../../data/queries";
+// import {trackEvent} from "../../analytics";
+// import {SCALE_FILTERS} from "../../data/queries";
 
 const DataPage = () => {
   // const { isAuthenticated } = useAuth0();
