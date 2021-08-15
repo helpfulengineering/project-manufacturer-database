@@ -16,7 +16,7 @@
     "history": "^4.10.1",
     "jwt-decode": "^2.2.0",
     "leaflet": "^1.6.0",
-    "lodash": "4.17.19",
+    "lodash": "4.17.21",
     "node-sass": "^4.13.1",
     "papaparse": "5.2.0",
     "posthog-js": "^1.0.4",
