@@ -3,7 +3,9 @@
 The aim of this project is to provide an easily accessible database of local manufacturers that can be contacted to
 build critical equipment in the context of #COVID19".
 
-# End of lie
+[Project blog post](https://helpfulengineering.org/projects-news/project-spotlight-manufacturer-database/)
+
+# End of life
 
 The site has been **shutdown** because of hosting cost.
 

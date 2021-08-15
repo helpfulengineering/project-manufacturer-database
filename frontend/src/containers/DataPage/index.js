@@ -86,6 +86,9 @@ const DataPage = () => {
           <p>
             The Helpful organization still has the underlying data,
             please reach out to us on <a href="https://www.helpfulengineering.org/slack">slack </a> if you need it.
+
+            Or you can help us out with resources through
+            <a href="https://helpfulengineering.org/projects-news/project-spotlight-manufacturer-database/">our site</a>.
           </p>
         </div>
 
